@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="page-header">
+        <h1>{{board.title}}</h1>
+    </div>
+
+    <div class="row" >
+        <div ng-repeat="panel in board.panels" class="col-sm-4" >
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{panel.title}}</h3>
+                </div>
+                <div class="panel-body" >
+                        <p ng-repeat="content in panel.contents"><a  href="{{content.href}}">{{content.item_name}}</a></p>
+                </div> <!--/.panel-body-->
+            </div> <!--/.panel panel-primary"-->
+        </div><!-- /.col-sm-4 -->
+    </div> <!-- /.row -->
+
+</div> <!-- /.ng-controller -->

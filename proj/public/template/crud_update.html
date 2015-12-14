@@ -1,0 +1,27 @@
+<div class="container-fluid theme-showcase">
+
+    <div class="page-header">
+        <h1>{{crud_update.title}}</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            
+            <button type="button" class="btn btn-sm btn-success" ng-click="on_confirm(crud_update)">Confirm Change</button>
+            <button type="button" class="btn btn-sm btn-default" ng-click="on_reset(crud_update)">Reset</button>
+            <button type="button" class="btn btn-sm btn-danger" ng-click="on_cancel(crud_update)">Cancel Change</button>
+
+            <table class="table table-bordered">
+                <tbody >
+                    <tr ng-repeat="item in crud_update.content">
+                        <td align="right" > <span class="label label-default">{{item[0].key}}</span>    </td>
+                        <td >               <input type="{{item[1].type}}" ng-model="item[1].key"/>    </td>
+                        <td align="right">  <span class="label label-default">{{item[2].key}}</span>    </td>
+                        <td >               <input type="{{item[3].type}}" ng-model="item[3].key"/>    </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div> <!--/.col-md-8-->
+    </div> <!--/.row -->
+</div>
