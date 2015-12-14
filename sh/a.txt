@@ -1,0 +1,285 @@
+[
+  {
+    "cols": [
+      "area_id", 
+      "name", 
+      "parent_id", 
+      "remark", 
+      "user_id", 
+      "crt_dt", 
+      "upd_dt", 
+      "is_del"
+    ], 
+    "pk": "area_id", 
+    "sql": {
+      "delete": "update area set is_del = 1 where area_id = '{area_id}'", 
+      "insert": "insert into area set name = '{name}', parent_id = '{parent_id}', remark = '{remark}', user_id = '{user_id}', crt_dt = now(), is_del = 0;", 
+      "recover": "update area set is_del = 0 where area_id = '{area_id}'", 
+      "select": "select name, parent_id, remark from area where is_del = 0 limit {start}, {cnt}", 
+      "select_pk": "select name, parent_id, remark from area where area_id = '{area_id}' and is_del = 0", 
+      "update": "update area set name = '{name}', parent_id = '{parent_id}', remark = '{remark}', user_id = '{user_id}', upd_dt = now() where area_id = '{area_id}' and is_del = 0"
+    }, 
+    "tab_name": "area"
+  }, 
+  {
+    "cols": [
+      "class_id", 
+      "name", 
+      "remark", 
+      "user_id", 
+      "crt_dt", 
+      "upd_dt", 
+      "is_del"
+    ], 
+    "pk": "class_id", 
+    "sql": {
+      "delete": "update class set is_del = 1 where class_id = '{class_id}'", 
+      "insert": "insert into class set name = '{name}', remark = '{remark}', user_id = '{user_id}', crt_dt = now(), is_del = 0;", 
+      "recover": "update class set is_del = 0 where class_id = '{class_id}'", 
+      "select": "select name, remark from class where is_del = 0 limit {start}, {cnt}", 
+      "select_pk": "select name, remark from class where class_id = '{class_id}' and is_del = 0", 
+      "update": "update class set name = '{name}', remark = '{remark}', user_id = '{user_id}', upd_dt = now() where class_id = '{class_id}' and is_del = 0"
+    }, 
+    "tab_name": "class"
+  }, 
+  {
+    "cols": [
+      "cq_id", 
+      "question_id", 
+      "class_id", 
+      "remark", 
+      "user_id", 
+      "crt_dt", 
+      "upd_dt", 
+      "is_del"
+    ], 
+    "pk": "cq_id", 
+    "sql": {
+      "delete": "update class__question set is_del = 1 where cq_id = '{cq_id}'", 
+      "insert": "insert into class__question set question_id = '{question_id}', class_id = '{class_id}', remark = '{remark}', user_id = '{user_id}', crt_dt = now(), is_del = 0;", 
+      "recover": "update class__question set is_del = 0 where cq_id = '{cq_id}'", 
+      "select": "select question_id, class_id, remark from class__question where is_del = 0 limit {start}, {cnt}", 
+      "select_pk": "select question_id, class_id, remark from class__question where cq_id = '{cq_id}' and is_del = 0", 
+      "update": "update class__question set question_id = '{question_id}', class_id = '{class_id}', remark = '{remark}', user_id = '{user_id}', upd_dt = now() where cq_id = '{cq_id}' and is_del = 0"
+    }, 
+    "tab_name": "class__question"
+  }, 
+  {
+    "cols": [
+      "knowledge_id", 
+      "class_id", 
+      "name", 
+      "content", 
+      "level", 
+      "remark", 
+      "user_id", 
+      "crt_dt", 
+      "upd_dt", 
+      "is_del"
+    ], 
+    "pk": "knowledge_id", 
+    "sql": {
+      "delete": "update knowledge set is_del = 1 where knowledge_id = '{knowledge_id}'", 
+      "insert": "insert into knowledge set class_id = '{class_id}', name = '{name}', content = '{content}', level = '{level}', remark = '{remark}', user_id = '{user_id}', crt_dt = now(), is_del = 0;", 
+      "recover": "update knowledge set is_del = 0 where knowledge_id = '{knowledge_id}'", 
+      "select": "select class_id, name, content, level, remark from knowledge where is_del = 0 limit {start}, {cnt}", 
+      "select_pk": "select class_id, name, content, level, remark from knowledge where knowledge_id = '{knowledge_id}' and is_del = 0", 
+      "update": "update knowledge set class_id = '{class_id}', name = '{name}', content = '{content}', level = '{level}', remark = '{remark}', user_id = '{user_id}', upd_dt = now() where knowledge_id = '{knowledge_id}' and is_del = 0"
+    }, 
+    "tab_name": "knowledge"
+  }, 
+  {
+    "cols": [
+      "question_id", 
+      "question_type_id", 
+      "area_id", 
+      "name", 
+      "origin_mark", 
+      "level", 
+      "weight", 
+      "title", 
+      "answer", 
+      "option_1", 
+      "option_2", 
+      "option_3", 
+      "option_4", 
+      "option_5", 
+      "option_6", 
+      "option_7", 
+      "option_9", 
+      "option_8", 
+      "option_10", 
+      "remark", 
+      "user_id", 
+      "crt_dt", 
+      "upd_dt", 
+      "is_del"
+    ], 
+    "pk": "question_id", 
+    "sql": {
+      "delete": "update question set is_del = 1 where question_id = '{question_id}'", 
+      "insert": "insert into question set question_type_id = '{question_type_id}', area_id = '{area_id}', name = '{name}', origin_mark = '{origin_mark}', level = '{level}', weight = '{weight}', title = '{title}', answer = '{answer}', option_1 = '{option_1}', option_2 = '{option_2}', option_3 = '{option_3}', option_4 = '{option_4}', option_5 = '{option_5}', option_6 = '{option_6}', option_7 = '{option_7}', option_9 = '{option_9}', option_8 = '{option_8}', option_10 = '{option_10}', remark = '{remark}', user_id = '{user_id}', crt_dt = now(), is_del = 0;", 
+      "recover": "update question set is_del = 0 where question_id = '{question_id}'", 
+      "select": "select question_type_id, area_id, name, origin_mark, level, weight, title, answer, option_1, option_2, option_3, option_4, option_5, option_6, option_7, option_9, option_8, option_10, remark from question where is_del = 0 limit {start}, {cnt}", 
+      "select_pk": "select question_type_id, area_id, name, origin_mark, level, weight, title, answer, option_1, option_2, option_3, option_4, option_5, option_6, option_7, option_9, option_8, option_10, remark from question where question_id = '{question_id}' and is_del = 0", 
+      "update": "update question set question_type_id = '{question_type_id}', area_id = '{area_id}', name = '{name}', origin_mark = '{origin_mark}', level = '{level}', weight = '{weight}', title = '{title}', answer = '{answer}', option_1 = '{option_1}', option_2 = '{option_2}', option_3 = '{option_3}', option_4 = '{option_4}', option_5 = '{option_5}', option_6 = '{option_6}', option_7 = '{option_7}', option_9 = '{option_9}', option_8 = '{option_8}', option_10 = '{option_10}', remark = '{remark}', user_id = '{user_id}', upd_dt = now() where question_id = '{question_id}' and is_del = 0"
+    }, 
+    "tab_name": "question"
+  }, 
+  {
+    "cols": [
+      "qk_id", 
+      "question_id", 
+      "knowledge_id", 
+      "relevance", 
+      "remark", 
+      "user_id", 
+      "crt_dt", 
+      "upd_dt", 
+      "is_del"
+    ], 
+    "pk": "qk_id", 
+    "sql": {
+      "delete": "update question__knowledge set is_del = 1 where qk_id = '{qk_id}'", 
+      "insert": "insert into question__knowledge set question_id = '{question_id}', knowledge_id = '{knowledge_id}', relevance = '{relevance}', remark = '{remark}', user_id = '{user_id}', crt_dt = now(), is_del = 0;", 
+      "recover": "update question__knowledge set is_del = 0 where qk_id = '{qk_id}'", 
+      "select": "select question_id, knowledge_id, relevance, remark from question__knowledge where is_del = 0 limit {start}, {cnt}", 
+      "select_pk": "select question_id, knowledge_id, relevance, remark from question__knowledge where qk_id = '{qk_id}' and is_del = 0", 
+      "update": "update question__knowledge set question_id = '{question_id}', knowledge_id = '{knowledge_id}', relevance = '{relevance}', remark = '{remark}', user_id = '{user_id}', upd_dt = now() where qk_id = '{qk_id}' and is_del = 0"
+    }, 
+    "tab_name": "question__knowledge"
+  }, 
+  {
+    "cols": [
+      "question_solution_id", 
+      "question_id", 
+      "solution_id", 
+      "remark", 
+      "user_id", 
+      "crt_dt", 
+      "upd_dt", 
+      "is_del"
+    ], 
+    "pk": "question_solution_id", 
+    "sql": {
+      "delete": "update question__solution set is_del = 1 where question_solution_id = '{question_solution_id}'", 
+      "insert": "insert into question__solution set question_id = '{question_id}', solution_id = '{solution_id}', remark = '{remark}', user_id = '{user_id}', crt_dt = now(), is_del = 0;", 
+      "recover": "update question__solution set is_del = 0 where question_solution_id = '{question_solution_id}'", 
+      "select": "select question_id, solution_id, remark from question__solution where is_del = 0 limit {start}, {cnt}", 
+      "select_pk": "select question_id, solution_id, remark from question__solution where question_solution_id = '{question_solution_id}' and is_del = 0", 
+      "update": "update question__solution set question_id = '{question_id}', solution_id = '{solution_id}', remark = '{remark}', user_id = '{user_id}', upd_dt = now() where question_solution_id = '{question_solution_id}' and is_del = 0"
+    }, 
+    "tab_name": "question__solution"
+  }, 
+  {
+    "cols": [
+      "question_type_id", 
+      "name", 
+      "remark", 
+      "user_id", 
+      "crt_dt", 
+      "upd_dt", 
+      "is_del"
+    ], 
+    "pk": "question_type_id", 
+    "sql": {
+      "delete": "update question_type set is_del = 1 where question_type_id = '{question_type_id}'", 
+      "insert": "insert into question_type set name = '{name}', remark = '{remark}', user_id = '{user_id}', crt_dt = now(), is_del = 0;", 
+      "recover": "update question_type set is_del = 0 where question_type_id = '{question_type_id}'", 
+      "select": "select name, remark from question_type where is_del = 0 limit {start}, {cnt}", 
+      "select_pk": "select name, remark from question_type where question_type_id = '{question_type_id}' and is_del = 0", 
+      "update": "update question_type set name = '{name}', remark = '{remark}', user_id = '{user_id}', upd_dt = now() where question_type_id = '{question_type_id}' and is_del = 0"
+    }, 
+    "tab_name": "question_type"
+  }, 
+  {
+    "cols": [
+      "solution_id", 
+      "name", 
+      "content", 
+      "level", 
+      "remark", 
+      "user_id", 
+      "crt_dt", 
+      "upd_dt", 
+      "is_del"
+    ], 
+    "pk": "solution_id", 
+    "sql": {
+      "delete": "update solution set is_del = 1 where solution_id = '{solution_id}'", 
+      "insert": "insert into solution set name = '{name}', content = '{content}', level = '{level}', remark = '{remark}', user_id = '{user_id}', crt_dt = now(), is_del = 0;", 
+      "recover": "update solution set is_del = 0 where solution_id = '{solution_id}'", 
+      "select": "select name, content, level, remark from solution where is_del = 0 limit {start}, {cnt}", 
+      "select_pk": "select name, content, level, remark from solution where solution_id = '{solution_id}' and is_del = 0", 
+      "update": "update solution set name = '{name}', content = '{content}', level = '{level}', remark = '{remark}', user_id = '{user_id}', upd_dt = now() where solution_id = '{solution_id}' and is_del = 0"
+    }, 
+    "tab_name": "solution"
+  }, 
+  {
+    "cols": [
+      "test_paper_id", 
+      "name", 
+      "target_mark", 
+      "remark", 
+      "crt_id", 
+      "crt_dt", 
+      "upd_dt", 
+      "is_del"
+    ], 
+    "pk": "test_paper_id", 
+    "sql": {
+      "delete": "update test_paper set is_del = 1 where test_paper_id = '{test_paper_id}'", 
+      "insert": "insert into test_paper set name = '{name}', target_mark = '{target_mark}', remark = '{remark}', crt_id = '{crt_id}', crt_dt = now(), is_del = 0;", 
+      "recover": "update test_paper set is_del = 0 where test_paper_id = '{test_paper_id}'", 
+      "select": "select name, target_mark, remark, crt_id from test_paper where is_del = 0 limit {start}, {cnt}", 
+      "select_pk": "select name, target_mark, remark, crt_id from test_paper where test_paper_id = '{test_paper_id}' and is_del = 0", 
+      "update": "update test_paper set name = '{name}', target_mark = '{target_mark}', remark = '{remark}', crt_id = '{crt_id}', upd_dt = now() where test_paper_id = '{test_paper_id}' and is_del = 0"
+    }, 
+    "tab_name": "test_paper"
+  }, 
+  {
+    "cols": [
+      "tpq_id", 
+      "question_id", 
+      "test_paper_id", 
+      "real_mark", 
+      "remark", 
+      "user_id", 
+      "crt_dt", 
+      "upd_dt", 
+      "is_del"
+    ], 
+    "pk": "tpq_id", 
+    "sql": {
+      "delete": "update test_paper__question set is_del = 1 where tpq_id = '{tpq_id}'", 
+      "insert": "insert into test_paper__question set question_id = '{question_id}', test_paper_id = '{test_paper_id}', real_mark = '{real_mark}', remark = '{remark}', user_id = '{user_id}', crt_dt = now(), is_del = 0;", 
+      "recover": "update test_paper__question set is_del = 0 where tpq_id = '{tpq_id}'", 
+      "select": "select question_id, test_paper_id, real_mark, remark from test_paper__question where is_del = 0 limit {start}, {cnt}", 
+      "select_pk": "select question_id, test_paper_id, real_mark, remark from test_paper__question where tpq_id = '{tpq_id}' and is_del = 0", 
+      "update": "update test_paper__question set question_id = '{question_id}', test_paper_id = '{test_paper_id}', real_mark = '{real_mark}', remark = '{remark}', user_id = '{user_id}', upd_dt = now() where tpq_id = '{tpq_id}' and is_del = 0"
+    }, 
+    "tab_name": "test_paper__question"
+  }, 
+  {
+    "cols": [
+      "user_id", 
+      "name", 
+      "title", 
+      "remark", 
+      "crt_id", 
+      "crt_dt", 
+      "upd_dt", 
+      "is_del"
+    ], 
+    "pk": "user_id", 
+    "sql": {
+      "delete": "update user set is_del = 1 where user_id = '{user_id}'", 
+      "insert": "insert into user set name = '{name}', title = '{title}', remark = '{remark}', crt_id = '{crt_id}', crt_dt = now(), is_del = 0;", 
+      "recover": "update user set is_del = 0 where user_id = '{user_id}'", 
+      "select": "select name, title, remark, crt_id from user where is_del = 0 limit {start}, {cnt}", 
+      "select_pk": "select name, title, remark, crt_id from user where user_id = '{user_id}' and is_del = 0", 
+      "update": "update user set name = '{name}', title = '{title}', remark = '{remark}', crt_id = '{crt_id}', upd_dt = now() where user_id = '{user_id}' and is_del = 0"
+    }, 
+    "tab_name": "user"
+  }
+]

@@ -1,0 +1,171 @@
+1. protocol:
+	1.1 客户端和服务器端通信都是使用 http协议 + json
+	1.2 header选项:
+		method = POST
+		content-type="applicatin/json" ;
+	1.3 body	
+		只有json报文,即请求内容;
+		请求由cmd 域和其他数据域组成, 其他域可以使用基本的key value，也可以使用聚合类型（list, table）
+	e.g.
+	url : /cur_status_info
+	request(body):
+		{
+			"cmd"	: "add",
+			"data" [
+			{
+				"id"	: "0001", 	"imei"		: "I0001",	
+				"line"	: "busA", 	"station"	: "stationA",
+				"vote"	: "1", 		"batch_no"	: "A00001", 
+				"city"	: "sh", 	"refresh_ts": "4444444423333"
+			},
+			{
+				"id"	: "0002", 	"imei"		: "I0001",	
+				"line"	: "busB", 	"station"	: "stationA",
+				"vote"	: "1", 		"batch_no"	: "A00001", 
+				"city"	: "sh", 	"refresh_ts": "4444444423333"
+			},
+			{
+				"id"	: "0003", 	"imei"		: "0001",	
+				"line"	: "busC", 	"station"	: "stationA",
+				"vote"	: "1", 		"batch_no"	: "A00001", 
+				"city"	: "sh", 	"refresh_ts": "4444444423333"
+			},
+			]
+		}
+	Response:
+		{
+			"result"		: 0, 
+			"result_string"	: "OK"
+		}
+
+	Note: Request必须有<cmd> 字段，该字段用于标识
+		Response必须有<result> 和<result_string> 字段，
+		result  类型为整形，0 表示操作成功； 其他值表示错误码
+		result_string 对result的文字描述，服务器段尽量用英文
+	
+	
+	1.4 中文
+		to be decide : (utf-8)? ; 
+		mysql 建表使用utf-8
+	1.5 
+
+
+
+2. 接口：
+2.0. bus信息上传接口 - single 
+	url : /cur_status_info
+	request :  
+		{
+			"cmd":"add",
+			"id":"N0100",
+			"imei":"A0000",
+			"line":"l0001",
+			"station":"s001",
+			"vote":1,
+			"batch_no":"b0001",
+			"city":"shanghai",
+			"refresh_ts":1406537855
+		}
+	Response:
+	{
+		"result"		: 0, 
+		"result_string"	: "OK"
+	}
+
+2.1. bus信息上传接口 --  multi (还没提交到百度云）
+	url : /cur_status_info
+	request(body):
+		{
+			"cmd"	: "add_multi_rows",
+			"data" [
+			{
+				"id"	: "0001", 	"imei"		: "I0001",	
+				"line"	: "busA", 	"station"	: "stationA",
+				"vote"	: "1", 		"batch_no"	: "A00001", 
+				"city"	: "sh", 	"refresh_ts": "4444444423333"
+			},
+			{
+				"id"	: "0002", 	"imei"		: "I0001",	
+				"line"	: "busB", 	"station"	: "stationA",
+				"vote"	: "1", 		"batch_no"	: "A00001", 
+				"city"	: "sh", 	"refresh_ts": "4444444423333"
+			},
+			{
+				"id"	: "0003", 	"imei"		: "0001",	
+				"line"	: "busC", 	"station"	: "stationA",
+				"vote"	: "1", 		"batch_no"	: "A00001", 
+				"city"	: "sh", 	"refresh_ts": "4444444423333"
+			},
+			]
+		}
+	Response:
+		{
+			"result"		: 0, 
+			"result_string"	: "OK"
+		}
+
+2.2 	查询bus信息
+	stations的内容没排序：
+	原因：1. 单笔数据数据量比较小,客户端排序没压力； 
+		  2. 服务器负载跟请求量成正比；即N个不同客户端发送一次请求，客户端排序一次，但是，服务器要排序N次；
+e.g:
+	url:  /cur_status_info
+	request : {
+		"cmd":"select",
+		"line":"l0001"
+	}
+	response 	:	{ 
+		result: 0,
+		result_string: 'OK',
+		obj: { 
+			line: 'l0001',
+			stations: { 
+				#s001 -> 站点名称，  
+				s001: { 
+					count: 5,  #该line的该站点在三分钟内出现次数
+					info: {
+						id: 'N0090',
+						imei: 'A0000',
+						line: 'l0001',
+						station: 's001',
+						vote: 1,
+						batch_no: 'b0001',
+						city: 'shanghai',
+						refresh_ts: 1406537776,
+						crt_ts: '2014-07-28T08:56:03.000Z',
+						upd_ts: '0000-00-00 00:00:00' 
+					  } 
+				},
+				s002: { 
+					count: 1,
+					info: { id: 'N0101',
+						imei: 'A0001',
+						line: 'l0001',
+						station: 's002',
+						vote: 1,
+						batch_no: 'b0001',
+						city: 'shanghai',
+						refresh_ts: 1406537855,
+						crt_ts: '2014-07-28T08:57:22.000Z',
+						upd_ts: '0000-00-00 00:00:00' 
+					}
+				},
+				s003: { 
+					count: 1,
+					info: {
+						id: 'N0102',
+						imei: 'A0002',
+						line: 'l0001',
+						station: 's003',
+						vote: 1,
+						batch_no: 'b0001',
+						city: 'shanghai',
+						refresh_ts: 1406537855,
+						crt_ts: '2014-07-28T08:57:22.000Z',
+						upd_ts: '0000-00-00 00:00:00' 
+					} 
+				} 
+			}
+		}
+	}
+
