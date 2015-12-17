@@ -3,6 +3,9 @@ var cfg = require("./config");
 var express = require('express');
 var app = express();
 
+
+app.use(express.static(__dirname + '/public'))
+
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
