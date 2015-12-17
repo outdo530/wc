@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2015/12/11 15:53:40                          */
+/* Created on:     2015/12/17 21:02:00                          */
 /*==============================================================*/
 
 
@@ -66,7 +66,7 @@ create table tbl_user
    enter_date           date,
    left_date            date,
    user_type            int,
-   user_id              varchar(64) not null,
+   sign_id              varchar(64),
    nick_nm              varchar(32),
    password             varchar(128),
    remark               varchar(256),
