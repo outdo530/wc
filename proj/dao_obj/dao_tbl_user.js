@@ -10,7 +10,7 @@ var util = require("util");
 var ErrorCode = require("../error_code")
 var tools = require("../tools");
 
-Tbl_user.prototype.login = function(req, resp, ctx){
+Tbl_user.prototype.signin = function(req, resp, ctx){
     if(this.check_field(req, ctx, "name",      true, 1,256) == false) return false;
     if(this.check_field(req, ctx, "pwd",     true, 1,256) == false) return false;
 
