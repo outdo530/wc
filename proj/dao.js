@@ -17,18 +17,18 @@ function Dao(){
     this._tab["recover"] = this.recover;
     this._tab["select_with_name"] = this.select_with_name;
     this._tab["select_with_key"] = this.select_with_key;
+    this._tab["signup"] = this.signup;
     this._tab["signin"] = this.signin;
-    this._tab["login"] = this.login;
 }
 inherits(Dao, HandleBase)
 
-Dao.prototype.signin = function(req, resp, ctx){
-    console.log( "dao: signin:no_action");
+Dao.prototype.signup = function(req, resp, ctx){
+    console.log( "dao: signup:no_action");
 	this.easy_render_resp(ErrorCode.cmd_not_implement, "the req[cmd] is not implement", ctx);
     return true;
 }
-Dao.prototype.login = function(req, resp, ctx){
-    console.log( "dao: login:no_action");
+Dao.prototype.signin = function(req, resp, ctx){
+    console.log( "dao: signin:no_action");
 	this.easy_render_resp(ErrorCode.cmd_not_implement, "the req[cmd] is not implement", ctx);
     return true;
 }

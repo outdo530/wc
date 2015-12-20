@@ -138,6 +138,6 @@ def main(path):
 #end def
 
 if __name__ == "__main__":
-	sql_file_path = "./qs_database.sql"
+	sql_file_path = "../data/wc_database.sql"
 	main(sql_file_path)
 	

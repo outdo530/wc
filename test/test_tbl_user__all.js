@@ -7,19 +7,19 @@ var url = "/dao_tbl_user";
 
 req = [
 	{
-		'cmd':'signin',
-		'name':'ccelee',
-		'pwd':'123456',
+		'cmd':'signup',
+		'sign_id':'ccelee',
+		'password':'123456',
 	},
 	{
-		'cmd':'signin',
-		'name':'yunccll',
-		'pwd':'654321',
+		'cmd':'signup',
+		'sign_id':'yunccll',
+		'password':'654321',
 	},
 	{
 		'cmd':'add',
-		'name':'hahaha',
-		'pwd':'888888',
+		'sign_id':'hahaha',
+		'password':'888888',
 	},
 	{
 		'cmd':'select',
@@ -28,52 +28,52 @@ req = [
 	},
 	{
 		'cmd':'is_exist',
-		'name':'ccelee',
-		'pwd':'123456',
+		'sign_id':'ccelee',
+		'password':'123456',
 	},
 	{
 		'cmd':'is_exist',
-		'name':'ccelee',
-		'pwd':'666666',
+		'sign_id':'ccelee',
+		'password':'666666',
 	},
 	{
-		'cmd':'login',
-		'name':'ccelee',
-		'pwd':'123456',
+		'cmd':'signin',
+		'sign_id':'ccelee',
+		'password':'123456',
 	},
 	{
 		'cmd':'update',
-		'pwd':'666666',
+		'password':'666666',
 	},
 	{
 		'cmd':'is_exist',
-		'name':'ccelee',
-		'pwd':'123456',
+		'sign_id':'ccelee',
+		'password':'123456',
 	},
 	{
 		'cmd':'is_exist',
-		'name':'ccelee',
-		'pwd':'666666',
+		'sign_id':'ccelee',
+		'password':'666666',
 	},
 	{
 		'cmd':'select_with_name',
-		'name':'hahaha',
+		'sign_id':'hahaha',
 	},
 	{
 		'cmd':'select_with_key',
 	},
 	{
 		'cmd':'is_exist',
-		'name':'hahaha',
-		'pwd':'888888',
+		'sign_id':'hahaha',
+		'password':'888888',
 	},
 	{
 		'cmd':'remove',
 	},
 	{
 		'cmd':'is_exist',
-		'name':'hahaha',
-		'pwd':'888888',
+		'sign_id':'hahaha',
+		'password':'888888',
 	},
 ];
 
@@ -92,8 +92,8 @@ function test(){
 		 || req[i].cmd == 'select_with_key'
 		)
 		{
-			req[i].user_id = key;
-			req[i].name = name;
+			req[i].id = key;
+			req[i].sign_id = name;
 		}
 		client.call(host, port, url, req[i], function(res, msg){
 			if( req[i].cmd == 'select_with_name'
@@ -102,8 +102,8 @@ function test(){
 			{
 				if(msg.obj != null &&  msg.obj.length > 0 )
 				{
-					key = msg.obj[0].user_id;
-					name = msg.obj[0].name;
+					key = msg.obj[0].id;
+					name = msg.obj[0].sign_id;
 				}
 			}
 			console.log(msg);

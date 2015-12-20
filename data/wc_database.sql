@@ -55,7 +55,7 @@ create table tbl_func
 /*==============================================================*/
 create table tbl_user
 (
-   id                   int not null,
+   id                   int not null auto_increment,
    emp_no               varchar(32),
    real_nm              varchar(64),
    gender               int,
