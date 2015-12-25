@@ -26,6 +26,24 @@ function __reset_input_box(content){
     }
 }
 
+myapp
+.controller('loginCtrl', ['$scope', '$http', '$location', function($scope, $http, $location){
+    debug(fn_pre , "loginCtrl--OK");
+
+    $scope.login = {
+        err_msg : "Error User Name",
+        user_nm : "Chenglun",
+        password : "12345678",
+    }
+
+    $scope.on_login = function(login){
+        //OK-->
+        var dest_url = "/boards"
+        $location.path(dest_url);
+        debug(fn_pre, "path dest_url : " + dest_url);
+    }
+
+}])//--.controller(loginCtrl
 
 myapp
 .controller('boardCtrl', ['$scope', '$http', function($scope, $http){
