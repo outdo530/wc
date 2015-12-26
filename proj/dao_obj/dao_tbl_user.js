@@ -7,7 +7,7 @@ inherits(Tbl_user, Dao);
 
 
 var util = require("util");
-var ErrorCode = require("../error_code")
+var ErrorCode = require("../error_code");
 var tools = require("../tools");
 
 Tbl_user.prototype.signin = function(req, resp, ctx){
