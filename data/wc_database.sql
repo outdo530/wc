@@ -22,6 +22,8 @@ drop table if exists tbl_user__customer;
 
 drop table if exists tbl_user__func;
 
+drop table if exists tbl_area;
+
 /*==============================================================*/
 /* Table: tbl_buyer                                             */
 /*==============================================================*/
@@ -92,8 +94,11 @@ create table tbl_func
    url                  varchar(128),
    templateurl          varchar(128),
    controller           varchar(64),
+   item_name		varchar(64),
+   is_navy		int default 0,
    remark               varchar(256),
    crt_ts               timestamp default current_timestamp on update current_timestamp,
+ 
    upd_ts               timestamp,
    is_del               int default 0,
    primary key (id)
@@ -210,5 +215,21 @@ create table tbl_user__func
    upd_ts               timestamp,
    is_del               int default 0,
    primary key (id)
+);
+
+
+/*==============================================================*/
+/* Table: tbl_area                                              */
+/*==============================================================*/
+create table tbl_area
+(
+   seq                  int not null auto_increment,
+   user_id              int,
+   func_id              int,
+   remark               varchar(256),
+   crt_ts               timestamp default current_timestamp,
+   upd_ts               timestamp,
+   is_del               int default 0,
+   primary key (seq)
 );
 

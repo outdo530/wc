@@ -16,6 +16,7 @@ function insert_mapping(url, path){
 insert_mapping("/handle_c", "./dao_obj/handle_c.js");
 
 insert_mapping("/dao_tbl_user", "./dao_obj/dao_tbl_user.js");
+insert_mapping("/dao_tbl_func", "./dao_obj/dao_tbl_func.js");
 
 console.log(mapping)
 exports.Route = mapping

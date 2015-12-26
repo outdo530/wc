@@ -1,7 +1,12 @@
+var util = require("util");
+var inherits = require("util").inherits;
+
+
 function call(rip, rport, rpath, req_str, cb_res){
 
     var request_string = JSON.stringify(req_str);
-    console.log("req_str : ", request_string, " url:" , rpath )
+    console.log("");
+    console.log("req_str : ", request_string, " url:" , rpath );
 
     var options = {
         host: rip,
@@ -28,6 +33,7 @@ function call(rip, rport, rpath, req_str, cb_res){
                     var ret= eval('(' + message + ')');
                     if(cb_res != null){
                         cb_res(res,ret);
+			//console.log( util.inspect(ret, {showHidden: true, depth: 3, colors: true}));
                     }
                     else{
                         console.log('resp_str: ' ,ret);
