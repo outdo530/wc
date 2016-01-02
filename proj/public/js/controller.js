@@ -26,30 +26,80 @@ function __reset_input_box(content){
     }
 }
 
+
+function __login_get_func_list($http, user_info, $location, cb ){
+    if(is_mock_test_mode  == false){
+        console.log(" login http request!");
+    }
+    else{
+    }
+    cb($location);
+}
+
 myapp
 .controller('loginCtrl', ['$scope', '$http', '$location', function($scope, $http, $location){
     debug(fn_pre , "loginCtrl--OK");
 
-    $scope.login = {
-        err_msg : "Error User Name",
-        user_nm : "Chenglun",
-        password : "12345678",
-    }
+    if(is_mock_test_mode  == false){
+        $scope.login = {
+            //TODO: get cookie
+            err_msg : "Error User Name",
+            user_nm : "Chenglun",
+            password : "12345678",
+        }
 
-    $scope.on_login = function(login){
-        //OK-->
-        var dest_url = "/boards"
-        $location.path(dest_url);
-        debug(fn_pre, "path dest_url : " + dest_url);
+        $scope.on_login = function(login){
+            __login_get_func_list($http, $scope.login, $location, function($location){
+                var dest_url = "/boards"
+                $location.path(dest_url);
+                debug(fn_pre, "path dest_url : " + dest_url);
+            });
+        }
+    }
+    else{
+        $scope.login = {
+            err_msg : "Error User Name",
+            user_nm : "Chenglun",
+            password : "12345678",
+        }
+        $scope.on_login = function(login){
+            var dest_url = "/boards"
+            $location.path(dest_url);
+            debug(fn_pre, "path dest_url : " + dest_url);
+        }
     }
 
 }])//--.controller(loginCtrl
+
+function __get_board($scope, $http){
+    var req = {
+        cmd : 'cmd_get_board',
+        start : 0,
+        cnt : 10000,
+    }
+    $http.post(base_url + "/dao_tbl_func", req)
+    .success( function(data, status, headers, config){
+        $scope.board = data.data;
+        console.log(data.data);
+    })
+    .error( function(data, status, headers, config){
+        console.log(String.format("status {0}, headers {1}, config {2}", status, headers, config));
+        //TODO:direct to error page??????
+    })
+    ; //--$http
+}
 
 myapp
 .controller('boardCtrl', ['$scope', '$http', function($scope, $http){
     debug(fn_pre , "BoardCtrl--OK");
 
-    $scope.board = m_board;
+    if(is_mock_test_mode  == false){
+        __get_board($scope, $http);        
+    }
+    else{
+        $scope.board = m_board;
+    }
+    
 
 }])//--.controller(boardCtrl
 .controller('crudListCtrl', ['$scope', '$http', '$location', '$routeParams', function($scope, $http, $location, $routeParams){
