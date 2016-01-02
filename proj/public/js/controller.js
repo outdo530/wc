@@ -43,30 +43,37 @@ myapp
     if(is_mock_test_mode  == false){
         $scope.login = {
             //TODO: get cookie
+            show_if_error : false,
             err_msg : "Error User Name",
             user_nm : "Chenglun",
             password : "12345678",
-        }
+        };
 
         $scope.on_login = function(login){
             __login_get_func_list($http, $scope.login, $location, function($location){
+                //$scope.login.show_if_error = true;
+                //$scope.login.err_msg = "login password error";
                 var dest_url = "/boards"
                 $location.path(dest_url);
                 debug(fn_pre, "path dest_url : " + dest_url);
             });
-        }
+        };
     }
     else{
         $scope.login = {
+            show_if_error : false,
             err_msg : "Error User Name",
             user_nm : "Chenglun",
             password : "12345678",
-        }
+        };
         $scope.on_login = function(login){
+            //$scope.login.show_if_error = true;
+            //$scope.login.err_msg = "login password error";
+
             var dest_url = "/boards"
             $location.path(dest_url);
             debug(fn_pre, "path dest_url : " + dest_url);
-        }
+        };
     }
 
 }])//--.controller(loginCtrl
