@@ -28,11 +28,6 @@ function __reset_input_box(content){
 
 
 function __login_get_func_list($http, user_info, $location, cb ){
-    if(is_mock_test_mode  == false){
-        console.log(" login http request!");
-    }
-    else{
-    }
     cb($location);
 }
 
@@ -40,41 +35,23 @@ myapp
 .controller('loginCtrl', ['$scope', '$http', '$location', function($scope, $http, $location){
     debug(fn_pre , "loginCtrl--OK");
 
-    if(is_mock_test_mode  == false){
-        $scope.login = {
-            //TODO: get cookie
-            show_if_error : false,
-            err_msg : "Error User Name",
-            user_nm : "Chenglun",
-            password : "12345678",
-        };
+    $scope.login = {
+        //TODO: get cookie
+        show_if_error : false,
+        err_msg : "Error User Name",
+        user_nm : "Chenglun",
+        password : "12345678",
+    };
 
-        $scope.on_login = function(login){
-            __login_get_func_list($http, $scope.login, $location, function($location){
-                //$scope.login.show_if_error = true;
-                //$scope.login.err_msg = "login password error";
-                var dest_url = "/boards"
-                $location.path(dest_url);
-                debug(fn_pre, "path dest_url : " + dest_url);
-            });
-        };
-    }
-    else{
-        $scope.login = {
-            show_if_error : false,
-            err_msg : "Error User Name",
-            user_nm : "Chenglun",
-            password : "12345678",
-        };
-        $scope.on_login = function(login){
+    $scope.on_login = function(login){
+        __login_get_func_list($http, $scope.login, $location, function($location){
             //$scope.login.show_if_error = true;
             //$scope.login.err_msg = "login password error";
-
             var dest_url = "/boards"
             $location.path(dest_url);
             debug(fn_pre, "path dest_url : " + dest_url);
-        };
-    }
+        });
+    };
 
 }])//--.controller(loginCtrl
 
@@ -96,70 +73,177 @@ function __get_board($scope, $http){
     ; //--$http
 }
 
-myapp
-.controller('boardCtrl', ['$scope', '$http', function($scope, $http){
+myapp.controller('boardCtrl', ['$scope', '$http', function($scope, $http){
     debug(fn_pre , "BoardCtrl--OK");
-
-    if(is_mock_test_mode  == false){
-        __get_board($scope, $http);        
-    }
-    else{
-        $scope.board = m_board;
-    }
-    
-
+    __get_board($scope, $http);        
 }])//--.controller(boardCtrl
-.controller('crudListCtrl', ['$scope', '$http', '$location', '$routeParams', function($scope, $http, $location, $routeParams){
+
+function __get_list_search($scope, $http, cur, cb){
+    var req = {
+        cmd : 'cmd_search',
+            page : {
+                'cur' : cur,
+            },
+            search : $scope.search,
+    }
+    var search = $scope.search;
+    $http.post(base_url + "/dao_tbl_area", req)
+    .success( function(data, status, headers, config){
+        $scope.cruds = data.data;
+        $scope.page_str = __format_page_info($scope.cruds.page);
+        $scope.search = search;
+        console.log(data.data);
+        if(cb != null) cb();
+    })
+    .error( function(data, status, headers, config){
+        console.log(String.format("status {0}, headers {1}, config {2}", status, headers, config));
+        //TODO:direct to error page??????
+    })
+    ; //--$http
+}
+
+function __get_list($scope, $http, cur, cb){
+    var req = {
+        cmd : 'cmd_list',
+            page : {
+                'cur' : cur,
+            },
+    }
+    $http.post(base_url + "/dao_tbl_area", req)
+    .success( function(data, status, headers, config){
+        $scope.cruds = data.data;
+        $scope.page_str = __format_page_info($scope.cruds.page);
+        console.log(data.data);
+        if(cb != null) cb();
+    })
+    .error( function(data, status, headers, config){
+        console.log(String.format("status {0}, headers {1}, config {2}", status, headers, config));
+        //TODO:direct to error page??????
+    })
+    ; //--$http
+}
+
+function __delete_seq_list(vid, $http){
+    var req = {
+        cmd : 'remove',
+        id : vid,
+    }
+    $http.post(base_url + "/dao_tbl_area", req)
+    .success( function(data, status, headers, config){
+        if(data.result == 0){
+            console.log("delete the seq OK");
+        }
+        else{
+            //TODO: delete failed
+            console.log("delete the seq failed");
+        }
+    })
+    .error( function(data, status, headers, config){
+        console.log(String.format("status {0}, headers {1}, config {2}", status, headers, config));
+        //TODO:direct to error page??????
+    })
+    ; //--$http
+}
+myapp.controller('crudListCtrl', ['$scope', '$http', '$location', '$routeParams', function($scope, $http, $location, $routeParams){
     debug(fn_pre , "crudListCtrl--OK");
     debug_obj($routeParams);
 
     if("search" in $routeParams){
-        $scope.cruds = m_search_areas;
+       $scope.search = $routeParams["search"] 
+        __get_list_search($scope, $http, 1, function(){
+
+            $scope.on_delete_seq = function(crud){
+                debug(fn_pre , "delete the crud: " + crud.seq);
+                alert(fn_pre + "delete the crud: " + crud.seq);
+                //TODO: delete code -- req
+                __delete_seq_list(crud.seq, $http);
+            }
+            $scope.on_search = function(search){
+                debug(fn_pre, "on search :" + search);
+                if(search != undefined){
+                    var dest_url = $scope.cruds.url.list + "/" + search;
+                    debug(fn_pre, "dest_url : " + dest_url);
+                    $location.path(dest_url);
+                }else{
+                    var dest_url = $scope.cruds.url.list;
+                    debug(fn_pre, "dest_url : " + dest_url);
+                    $location.path(dest_url);
+                }
+            }
+            $scope.on_prepage = function(crud){
+                if(crud.page.cur > 1){
+                    crud.page.cur--;
+                    //$scope.page_str = __format_page_info(crud.page);
+                    //TODO: Refresh the cruds  -- req
+                    __get_list_search($scope, $http, crud.page.cur, null);
+                }
+                else{
+                    debug(fn_pre, "Reached the first page!");
+                    alert("到达第一页了");
+                }
+            }
+            $scope.on_nextpage = function(crud){
+                if(crud.page.cur < crud.page.total){
+                    crud.page.cur++;
+                    //$scope.page_str = __format_page_info(crud.page);
+                    //TODO: Refresh the cruds  -- req
+                    __get_list_search($scope, $http, crud.page.cur, null);
+                }
+                else{
+                    debug(fn_pre, "Reached the last page!");
+                    alert("到达最后一页了");
+                }
+            }
+        });
     }
     else{
-        $scope.cruds = m_list_areas;
+        __get_list($scope, $http, 1, function(){
+
+            $scope.on_delete_seq = function(crud){
+                debug(fn_pre , "delete the crud: " + crud.seq);
+                alert(fn_pre + "delete the crud: " + crud.seq);
+                //TODO: delete code -- req
+                __delete_seq_list(crud.seq, $http);
+            }
+            $scope.on_search = function(search){
+                debug(fn_pre, "on search :" + search);
+                if(search != undefined){
+                    var dest_url = $scope.cruds.url.list + "/" + search;
+                    debug(fn_pre, "dest_url : " + dest_url);
+                    $location.path(dest_url);
+                }else{
+                    var dest_url = $scope.cruds.url.list;
+                    debug(fn_pre, "dest_url : " + dest_url);
+                    $location.path(dest_url);
+                }
+            }
+            $scope.on_prepage = function(crud){
+                if(crud.page.cur > 1){
+                    crud.page.cur--;
+                    //$scope.page_str = __format_page_info(crud.page);
+                    //TODO: Refresh the cruds  -- req
+                    __get_list($scope, $http, crud.page.cur, null);
+                }
+                else{
+                    debug(fn_pre, "Reached the first page!");
+                    alert("到达第一页了");
+                }
+            }
+            $scope.on_nextpage = function(crud){
+                if(crud.page.cur < crud.page.total){
+                    crud.page.cur++;
+                    //$scope.page_str = __format_page_info(crud.page);
+                    //TODO: Refresh the cruds  -- req
+                    __get_list($scope, $http, crud.page.cur, null);
+                }
+                else{
+                    debug(fn_pre, "Reached the last page!");
+                    alert("到达最后一页了");
+                }
+            }
+        });
     }
 
-    $scope.page_str = __format_page_info($scope.cruds.page);
-    $scope.on_delete_seq = function(crud){
-        debug(fn_pre , "delete the crud: " + crud.seq);
-        alert(fn_pre + "delete the crud: " + crud.seq);
-        //TODO: delete code -- req
-    }
-    $scope.on_search = function(search){
-        debug(fn_pre, "on search :" + search);
-        if(search != undefined){
-            var dest_url = $scope.cruds.url.list + "/" + search;
-            debug(fn_pre, "dest_url : " + dest_url);
-            $location.path(dest_url);
-        }else{
-            var dest_url = $scope.cruds.url.list;
-            debug(fn_pre, "dest_url : " + dest_url);
-            $location.path(dest_url);
-        }
-    }
-    $scope.on_prepage = function(crud){
-        if(crud.page.cur > 1){
-            crud.page.cur--;
-            $scope.page_str = __format_page_info(crud.page);
-            //TODO: Refresh the cruds  -- req
-        }
-        else{
-            debug(fn_pre, "Reached the first page!");
-            alert("到达第一页了");
-        }
-    }
-    $scope.on_nextpage = function(crud){
-        if(crud.page.cur < crud.page.total){
-            crud.page.cur++;
-            $scope.page_str = __format_page_info(crud.page);
-            //TODO: Refresh the cruds  -- req
-        }
-        else{
-            debug(fn_pre, "Reached the last page!");
-            alert("到达最后一页了");
-        }
-    }
 }])//--.controller(crudListCtrl
 
 .controller('crudDetailCtrl', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http){
