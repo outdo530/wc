@@ -50,7 +50,7 @@ HandleBase.prototype.render_resp = function (resp, ctx){
     if(resp != null && ctx.hres != null){
         ctx.hres.jsonp(resp);
 		ctx.hres.end();
-        console.log( "Response:", util.inspect(resp,{ depth: 3/*, colors: true*/}));
+        console.log( "Response:", util.inspect(resp,{ depth: 5/*, colors: true*/}));
     }
     else if (resp == null){
         console.error("maybe code error, the response is not set!"); 
