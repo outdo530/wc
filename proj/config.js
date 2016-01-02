@@ -12,6 +12,7 @@ var  bae_cfg = {
         port :18080,
     },
     print_req_debug_info : false,
+    cros_support : true,
 }
 
 var cfg = {
@@ -24,10 +25,11 @@ var cfg = {
         multipleStatements: true,
     },
     server : {
-        ip : '127.0.0.1',
-        port :3000,
+        ip : '0.0.0.0',
+        port :30000,
     },
     print_req_debug_info : false,
+    cros_support : true,
 }
 
 var is_local_deploy = true

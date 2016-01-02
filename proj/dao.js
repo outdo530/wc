@@ -188,7 +188,7 @@ Dao.prototype._dbop_select_with_name = function(sql_fmt, req, resp, ctx){
                 resp.result = 0;
                 resp.result_string = "OK";
             }
-            resp.obj = results;
+            resp.data = results;
             mysql_conn.end();
             dao_obj.render_resp(resp, ctx);
         }
@@ -211,7 +211,7 @@ Dao.prototype._dbop_select_with_key = function(sql_fmt, req, resp, ctx){
                 resp.result = 0;
                 resp.result_string = "OK";
             }
-            resp.obj = results;
+            resp.data = results;
             mysql_conn.end();
             dao_obj.render_resp(resp, ctx);
         }
@@ -234,7 +234,7 @@ Dao.prototype._dbop_select = function(sql_fmt, req, resp, ctx){
                 resp.result = 0;
                 resp.result_string = "OK";
             }
-            resp.obj = results;
+            resp.data = results;
             mysql_conn.end();
             dao_obj.render_resp(resp, ctx);
         }
@@ -242,31 +242,7 @@ Dao.prototype._dbop_select = function(sql_fmt, req, resp, ctx){
     return  true;
 }
 
-Dao.prototype._dbop_select_navy = function(sql_fmt, req, resp, ctx){
-    var dao_obj = this;
-    var mysql_conn = require("./mysql_conn").create_short();
-    mysql_conn.query(
-        tools.format_object(sql_fmt, req),
-        function (err, results, fields){
-            if(err) {
-                console.log("err: ", err);
-                resp.result = ErrorCode.db_sel_failed;
-                resp.result_string = "Select failed: " + err;
-            }
-            else{
-                resp.result = 0;
-                resp.result_string = "OK";
-		resp.data = {};
-		resp.data.default_url = "/login";
-		resp.data.sub_func = results;
-            }
-            resp.obj = results;
-            mysql_conn.end();
-            dao_obj.render_resp(resp, ctx);
-        }
-    );
-    return  true;
-}
+
 
 
 Dao.prototype._dbop_is_exist = function(sql_fmt, req, resp, ctx){
