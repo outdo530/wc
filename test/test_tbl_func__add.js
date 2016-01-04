@@ -9,28 +9,7 @@ var port = 3000;
 var url = "/dao_tbl_func";
 
 req = [
-	// 增
-	{
-		cmd:'add',
-		title:'test',
-		url:'888888',
-	},
-	// 选
-	{
-		'cmd':'select_with_name',
-		'title':'test',
-	},
-	// 改
-	{
-		'cmd':'update',
-		'url':'666666',
-	},
-	// 删
-	{
-		'cmd':'remove',
-	},
-
-	// 增
+	// and route 
 	{'cmd':'add','title':'login',	'url':'/login',		'templateUrl':'template/login.html',		'controller':'loginCtrl', 'is_navy':'1'},
 	{'cmd':'add','title':'boards',	'url':'/boards',	'templateUrl':'template/boards.html',		'controller':'boardCtrl', 'is_navy':'1'},
 	{'cmd':'add','title':'area_list','url':'/area_list',	'templateUrl':'template/crud_list.html',	'controller':'crudListCtrl', 'is_navy':'1'	},
@@ -38,12 +17,20 @@ req = [
 	{'cmd':'add','title':'area_update','url':'/area_update/:crud_id','templateUrl':'template/crud_update.html','controller':'crudUpdateCtrl', 'is_navy':'1'	},
 	{'cmd':'add','title':'area_create','url':'/area_create',	'templateUrl':'template/crud_create.html','controller':'crudCreateCtrl', 'is_navy':'1'	},
 	{'cmd':'add','title':'area_list','url':'/area_list/:search',	'templateUrl':'template/crud_list.html','controller':'crudListCtrl', 'is_navy':'1'	},
-	// 查
+
+	// and board
+	{'cmd':'add','title':'Area111111111',	'url':'#/area_list',		'item_name':'Area List',	'is_navy':'0'},
+	{'cmd':'add','title':'Area111111111',	'url':'#/area_create',		'item_name':'Area Create',	'is_navy':'0'},
+	{'cmd':'add','title':'Area',	'url':'#/area_list',		'item_name':'Area List',	'is_navy':'0'},
+	{'cmd':'add','title':'Area',	'url':'#/area_create',		'item_name':'Area Create',	'is_navy':'0'},
+
+	// select
 	{
 		'cmd':'select',
-		'start':'0',
-		'cnt':'10'
+		'start':0,
+		'cnt':100,
 	},
+	
 ];
 
 
@@ -75,7 +62,7 @@ function test(){
 					name = msg.obj[0].title;
 				}
 			}
-			console.log( util.inspect(msg, {showHidden: true, depth: 3, colors: true}));
+			//console.log( util.inspect(msg, {showHidden: true, depth: 3, colors: true}));
 			i++;
 			test();
 		});

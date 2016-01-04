@@ -32,8 +32,8 @@ function call(rip, rport, rpath, req_str, cb_res){
                 function (message) {
                     var ret= eval('(' + message + ')');
                     if(cb_res != null){
+			console.log( util.inspect(ret, {depth: 5, colors: true}));
                         cb_res(res,ret);
-			//console.log( util.inspect(ret, {showHidden: true, depth: 3, colors: true}));
                     }
                     else{
                         console.log('resp_str: ' ,ret);

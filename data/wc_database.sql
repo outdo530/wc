@@ -224,8 +224,9 @@ create table tbl_user__func
 create table tbl_area
 (
    seq                  int not null auto_increment,
-   user_id              int,
-   func_id              int,
+   first_name           varchar(64),
+   last_name            varchar(64),
+   user_name            varchar(64),
    remark               varchar(256),
    crt_ts               timestamp default current_timestamp,
    upd_ts               timestamp,

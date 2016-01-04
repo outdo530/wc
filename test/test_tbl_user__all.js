@@ -106,7 +106,7 @@ function test(){
 					name = msg.obj[0].sign_id;
 				}
 			}
-			console.log(msg);
+			//console.log(msg);
 			i++;
 			test();
 		});
