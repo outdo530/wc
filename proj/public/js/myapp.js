@@ -4,7 +4,7 @@
 var is_mock_test_mode = false;  // test with models.js
 
 // app cfg ====> 
-var base_url = "http://192.168.0.101:30000"
+var base_url = "http://127.0.0.1:30000"
 
 var fn_pre = 'myapp.js-->'
 

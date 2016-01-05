@@ -7,24 +7,6 @@ function __format_page_info(page){
     return String.format("第{0}页，共{1}页，{2}条/页", page.cur, page.total, page.size);
 }
 
-function __reset_input_box(content){
-    var content_len = content.length;
-    for(var i = 0;  i < content_len; i++){
-        var len = content[i].length;
-        for(var v =0;  v < len; v++){
-            var tp = content[i][v].type;
-            if(tp == "number"){
-                content[i][v].key = 0;
-            }
-            else if(tp == "text"){
-                content[i][v].key = "";
-            }
-            else{
-                error(fn_pre, "ERROR:can not find the type of the input box!!!!, type:" + tp);
-            }
-        }
-    }
-}
 
 
 function __login_get_func_list($http, user_info, $location, cb ){
@@ -144,6 +126,7 @@ function __delete_seq_list(vid, $http){
     })
     ; //--$http
 }
+
 myapp.controller('crudListCtrl', ['$scope', '$http', '$location', '$routeParams', function($scope, $http, $location, $routeParams){
     debug(fn_pre , "crudListCtrl--OK");
     debug_obj($routeParams);
@@ -155,8 +138,8 @@ myapp.controller('crudListCtrl', ['$scope', '$http', '$location', '$routeParams'
             $scope.on_delete_seq = function(crud){
                 debug(fn_pre , "delete the crud: " + crud.seq);
                 alert(fn_pre + "delete the crud: " + crud.seq);
-                //TODO: delete code -- req
                 __delete_seq_list(crud.seq, $http);
+                //TODO: delete code with callback --> del $scope.cruds.seq == curd.seq
             }
             $scope.on_search = function(search){
                 debug(fn_pre, "on search :" + search);
@@ -245,55 +228,138 @@ myapp.controller('crudListCtrl', ['$scope', '$http', '$location', '$routeParams'
     }
 
 }])//--.controller(crudListCtrl
+;
 
-.controller('crudDetailCtrl', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http){
+function __get_detail($http, in_seq, cb){
+    var req = {
+        cmd : 'cmd_get_detail',
+        id : in_seq
+    }
+    $http.post(base_url + "/dao_tbl_area", req)
+    .success( function(data, status, headers, config){
+        if(cb != null) cb(data);
+    })
+    .error( function(data, status, headers, config){
+        console.log(String.format("status {0}, headers {1}, config {2}", status, headers, config));
+        //TODO:direct to error page??????
+    })
+    ; //--$http
+}
+
+myapp.controller('crudDetailCtrl', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http){
     debug(fn_pre , "crudDetailCtrl--OK");
 
-    $scope.crud_detail = m_area_detail;
+    //$scope.crud_detail = m_area_detail;
     var crud_id =  $routeParams["crud_id"];
     debug(fn_pre , "detail --> crud id is : " + crud_id);
-
-    //TODO: detail return -- req
-
+    __get_detail($http, crud_id, function(rsp){
+        //TODO: ???error check 
+        $scope.crud_detail = rsp.data;
+        console.log(rsp.data);
+    });
 }])//--.controller(crudDetailCtrl
+;
 
 
-.controller('crudUpdateCtrl', ['$scope', '$routeParams', '$http', 
+function __reset_input_box(content){
+    var content_len = content.length;
+    for(var i = 0;  i < content_len; i++){
+        var len = content[i].length;
+        for(var v =0;  v < len; v++){
+            var tp = content[i][v].type;
+            if(tp == "number"){
+                content[i][v].key = 0;
+            }
+            else if(tp == "text"){
+                content[i][v].key = "";
+            }
+            else if(tp == "label"){
+                // silence
+            }
+            else{
+                error(fn_pre, "ERROR:can not find the type of the input box!!!!, type:" + tp);
+            }
+        }
+    }
+}
+//TODO:
+function __update_commit($http, req_data, cb){
+    var req = {
+        cmd : 'update',
+        data : req_data
+    }
+    $http.post(base_url + "/dao_tbl_area", req)
+    .success( function(data, status, headers, config){
+        if(cb != null) cb(data);
+    })
+    .error( function(data, status, headers, config){
+        console.log(String.format("status {0}, headers {1}, config {2}", status, headers, config));
+        //TODO:direct to error page??????
+    })
+    ; //--$http
+}
+myapp.controller('crudUpdateCtrl', ['$scope', '$routeParams', '$http', 
     function($scope, $routeParams, $http){
     debug(fn_pre , "crudUpdateCtrl--OK");
 
-    $scope.crud_update = m_area_update;
-
     var crud_id =  $routeParams["crud_id"];
     debug(fn_pre , "update-->crud id is : " + crud_id);
+    __get_detail($http, crud_id, function(rsp){
+        //TODO: ???error check 
+        $scope.crud_update = rsp.data; 
+        console.log(rsp.data);
 
-    $scope.on_confirm = function(crud){
-        debug(fn_pre, "on_confirm");
-        //TODO: update confirm  -- req
-    }
-    $scope.on_cancel = function(crud){
-         window.history.back();
-    }
-    $scope.on_reset = function(crud){
-        __reset_input_box(crud.content);
-    }
+        $scope.on_confirm = function(crud){
+            debug(fn_pre, "on_confirm");
+            //TODO:  commit ??????
+            /*__update_commit($http, $scope.crud_update, function(rsp){
+                alert("Update OK");
+            });*/
+        }
+        $scope.on_cancel = function(crud){
+             window.history.back();
+        }
+        $scope.on_reset = function(crud){
+            __reset_input_box(crud.content);
+        }
+    });
 
 }])//--.controller(crudUpdateCtrl
+;
 
+function __get_create_info($http, cb){
+    var req = {
+        cmd : 'cmd_get_create_info',
+    }
+    $http.post(base_url + "/dao_tbl_area", req)
+    .success( function(data, status, headers, config){
+        if(cb != null) cb(data);
+    })
+    .error( function(data, status, headers, config){
+        console.log(String.format("status {0}, headers {1}, config {2}", status, headers, config));
+        //TODO:direct to error page??????
+    })
+    ; //--$http
+}
 
-.controller('crudCreateCtrl', ['$scope', '$http', function($scope, $http){
+myapp.controller('crudCreateCtrl', ['$scope', '$http', function($scope, $http){
     debug(fn_pre , "crudCreateCtrl--OK");
-    $scope.crud_create = m_area_create;
-    $scope.on_confirm = function(crud){
-        debug(fn_pre, "on_confirm");
-        //TODO: create confirm  -- req
-    }
-    $scope.on_cancel = function(crud){
-         window.history.back();
-    }
-    $scope.on_reset = function(crud){
-        __reset_input_box(crud.content);
-    }
+
+    __get_create_info($http, function(rsp){
+        $scope.crud_create = rsp.data;
+
+        $scope.on_create = function(crud){
+            debug(fn_pre, "on_confirm");
+            //TODO: create confirm  -- req   
+            
+        }
+        $scope.on_cancel = function(crud){
+             window.history.back();
+        }
+        $scope.on_reset = function(crud){
+            __reset_input_box(crud.content);
+        }
+    });
 }])//--.controller(crudCreateCtrl
 
 ; //--controller.js
