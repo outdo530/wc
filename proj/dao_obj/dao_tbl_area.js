@@ -87,6 +87,7 @@ function Tbl_area(){
     this._tab["cmd_list"]    = this.cmd_list;
     this._tab["cmd_search"]    = this.cmd_search;
     this._tab["cmd_get_detail"]    = this.cmd_get_detail;
+    this._tab["cmd_get_create_info"]    = this.cmd_get_create_info;
  
  
 }
@@ -322,6 +323,44 @@ Tbl_area.prototype.cmd_get_detail = function(req, resp, ctx){
     var sql_fmt = "select * from tbl_area where seq = '{seq}' and is_del = 0"
     return this._dbop_cmd_get_detail(sql_fmt, req, resp, ctx);
 }
+
+// create info
+Tbl_area.prototype._dbop_cmd_get_create_info = function(sql_fmt, req, resp, ctx){
+    var dao_obj = this;
+    var mysql_conn = require("../mysql_conn").create_short();
+    mysql_conn.query(
+        tools.format_object(sql_fmt, req),
+        function (err, results, fields){
+            if(err) {
+                console.log("err: ", err);
+                resp.result = ErrorCode.db_sel_failed;
+                resp.result_string = "Select failed: " + err;
+            }
+            else{
+                resp.result = 0;
+                resp.result_string = "OK";
+                resp.data = {
+                    seq : 0,
+                    title : "create",
+                    content : Tbl_area.content,
+                };
+            }
+            mysql_conn.end();
+            dao_obj.render_resp(resp, ctx);
+        }
+    );
+    return  true;
+}
+
+
+// create info
+Tbl_area.prototype.cmd_get_create_info = function(req, resp, ctx){
+    console.log( "Tbl_area: cmd_get_create_info");
+
+    var sql_fmt = 'select * from tbl_area where seq = 0';
+    return this._dbop_cmd_get_create_info(sql_fmt, req, resp, ctx);
+}
+
 
 
 
