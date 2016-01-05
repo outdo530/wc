@@ -296,7 +296,7 @@ Dao.prototype._dbop_add_multi_rows  = function(sql_fmt, req, resp, ctx){
     }
     return  true;
 }
-Dao.prototype._dbop_insert_unique = function(sql_fmt_is_exist, sql_fmt, req, resp, ctx){
+Dao.prototype._dbop_insert_unique= function(sql_fmt_is_exist, sql_fmt, req, resp, ctx){
     var dao_obj = this;
     var mysql_conn = require("./mysql_conn").create_short();
     mysql_conn.query(
@@ -346,5 +346,4 @@ Dao.prototype._dbop_insert_unique = function(sql_fmt_is_exist, sql_fmt, req, res
     );
     return  true;
 }
-
 module.exports = Dao
