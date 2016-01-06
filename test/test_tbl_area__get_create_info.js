@@ -21,8 +21,8 @@ req = [
 console.log('Starting test tbl_area:');
 
 i = 0;
-key = 0;
-name='';
+//key = 0;
+//name='';
 function test(){
 	if( i < req.length )
 	{
@@ -32,8 +32,8 @@ function test(){
 		 || req[i].cmd == 'select_with_key'
 		)
 		{
-			req[i].id = key;
-			req[i].title = name;
+			//req[i].id = key;
+			//req[i].title = name;
 		}
 		client.call(host, port, url, req[i], function(res, msg){
 			if( req[i].cmd == 'select_with_name'
@@ -42,8 +42,8 @@ function test(){
 			{
 				if(msg.obj != null &&  msg.obj.length > 0 )
 				{
-					key = msg.obj[0].id;
-					name = msg.obj[0].title;
+					//key = msg.obj[0].id;
+					//name = msg.obj[0].title;
 				}
 			}
 			//console.log( util.inspect(msg, {showHidden: true, depth: 3, colors: true}));

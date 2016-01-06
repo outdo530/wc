@@ -4,15 +4,23 @@ function Tbl_area(){
     Dao.call(this);
 
     // title in Chinese
-    Tbl_area.list_title = [  "#", "First Name",       "Last Name",         "UserName",     "Update?",    "Delete?", ];
+    Tbl_area.list_title = [
+        "#", 
+        "First Name",       
+        "Last Name",         
+        "UserName",     
+        "Update?",    
+        "Delete?",
+    ];
+
     //page size cfg for all app
     Tbl_area.m_page_cfg = { size : 6, };
 
     Tbl_area.url = {
-        list:   '/area_list',
-        create: '#/area_create',
-        update: '#/area_update',
-        detail: '#/area_detail',
+        list :   '/area_list',
+        create : '#/area_create',
+        update : '#/area_update',
+        detail : '#/area_detail',
     };
 
     Tbl_area.detail = [
@@ -48,14 +56,14 @@ function Tbl_area(){
             key : 'update',
             key_text : Tbl_area.list_title[4], 
             key_type: 'label',
-            value : 'OK?',
+            value : '',
             value_type : 'text',
         },
         {
             key : 'delete',
             key_text : Tbl_area.list_title[5], 
             key_type: 'label',
-            value : 'NO?',
+            value : '',
             value_type : 'text',
         },
   
@@ -88,8 +96,8 @@ function Tbl_area(){
     this._tab["cmd_search"]    = this.cmd_search;
     this._tab["cmd_get_detail"]    = this.cmd_get_detail;
     this._tab["cmd_get_create_info"]    = this.cmd_get_create_info;
- 
- 
+
+
 }
 inherits(Tbl_area, Dao);
 
@@ -339,10 +347,15 @@ Tbl_area.prototype._dbop_cmd_get_create_info = function(sql_fmt, req, resp, ctx)
             else{
                 resp.result = 0;
                 resp.result_string = "OK";
+                var data = Tbl_area.content;
+                data[0][1].key = null;
+                data[0][3].key = '';
+                data[1][1].key = '';
+                data[1][3].key = '';
                 resp.data = {
-                    seq : 0,
+                    seq : null,
                     title : "create",
-                    content : Tbl_area.content,
+                    content : data,
                 };
             }
             mysql_conn.end();
