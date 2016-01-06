@@ -1,6 +1,6 @@
 'use strict'
 
-var base_url = "http://192.168.163.128:3000"
+var base_url = "http://inchsky.gicp.net:3000"
 
 angular.module('myApp',[])
 .controller('PhoneListCtrl', ['$scope', '$http', function($scope, $http){
