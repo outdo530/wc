@@ -117,16 +117,16 @@ var m_area_update = {
     content : [
         [
             {key: "seq",        type : 'label'},         
-            {key: 1,            type : 'number', min:0, max:100000000},      
+            {key: 1,            type : 'number', min:0, max:100000000, col_nm:"seq"},
             {key: "First Name", type : 'label'},
-            {key: 'Cheng',      type : "text"},
+            {key: 'Cheng',      type : "text",  col_nm:"first_name"},
         ],
 
         [
             {key: "Last Name",  type: 'label'},
-            {key: "Lun",        type: 'text'},
+            {key: "Lun",        type: 'text', col_nm:"last_name"},
             {key: "User Name",  type: 'label'},
-            {key: "haha",       type: 'text'},
+            {key: "haha",       type: 'text', col_nm:"user_name"},
         ],
         [
             {key: "Update ?",   type: 'label'}, 
@@ -143,16 +143,16 @@ var m_area_create = {
     content : [
         [
             {key: "seq",        type : 'label'},         
-            {key: "",           type : 'number', min:0, max:100000000},      
+            {key: "",           type : 'number', min:0, max:100000000, col_nm:"seq"},      
             {key: "First Name", type : 'label'},
-            {key: "",           type : "text"},
+            {key: "",           type : "text",  col_nm:"first_name"},
         ],
 
         [
             {key: "Last Name",  type: 'label'},
-            {key: "",           type: 'text'},
+            {key: "",           type: 'text', col_nm:"last_name"},
             {key: "User Name",  type: 'label'},
-            {key: "",           type: 'text'},
+            {key: "",           type: 'text', col_nm:"user_name"},
         ],
         [
             {key: "Update ?",   type: 'label'}, 
