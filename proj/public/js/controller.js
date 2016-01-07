@@ -5,6 +5,7 @@
  * 2. Error Page 
  * 3. dialog confirm
  * 4. Cookie login 
+ * 5. change the seq to id in the tbl-area
  */
 'use strict'
 //#include models.js
@@ -126,6 +127,7 @@ function __gen_req_from_info(op_cmd, crud){
             }
         }
     }
+    req.id = (req.id == undefined || req.id == null) ? req.seq  : null;//TODO: to be removed
     return req;
 }
 
