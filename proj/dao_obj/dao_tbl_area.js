@@ -72,22 +72,22 @@ function Tbl_area(){
     Tbl_area.content = [
         [
             {key : Tbl_area.detail[0].key_text, type : Tbl_area.detail[0].key_type},
-            {key : Tbl_area.detail[0].value, type : Tbl_area.detail[0].value_type},
+            {key : Tbl_area.detail[0].value, type : Tbl_area.detail[0].value_type, min:0, max:100000000, col_nm:Tbl_area.detail[0].key},
             {key : Tbl_area.detail[1].key_text, type : Tbl_area.detail[1].key_type},
-            {key : Tbl_area.detail[1].value, type : Tbl_area.detail[1].value_type},
+            {key : Tbl_area.detail[1].value, type : Tbl_area.detail[1].value_type, col_nm:Tbl_area.detail[1].key},
         ],
         [
             {key : Tbl_area.detail[2].key_text, type : Tbl_area.detail[2].key_type},
-            {key : Tbl_area.detail[2].value, type : Tbl_area.detail[2].value_type},
+            {key : Tbl_area.detail[2].value, type : Tbl_area.detail[2].value_type, col_nm:Tbl_area.detail[2].key},
             {key : Tbl_area.detail[3].key_text, type : Tbl_area.detail[3].key_type},
-            {key : Tbl_area.detail[3].value, type : Tbl_area.detail[3].value_type},
+            {key : Tbl_area.detail[3].value, type : Tbl_area.detail[3].value_type, col_nm:Tbl_area.detail[3].key},
  
         ],
         [
             {key : Tbl_area.detail[4].key_text, type : Tbl_area.detail[4].key_type},
-            {key : Tbl_area.detail[4].value, type : Tbl_area.detail[4].value_type},
+            {key : Tbl_area.detail[4].value, type : Tbl_area.detail[4].value_type, col_nm:Tbl_area.detail[4].key},
             {key : Tbl_area.detail[5].key_text, type : Tbl_area.detail[5].key_type},
-            {key : Tbl_area.detail[5].value, type : Tbl_area.detail[5].value_type},
+            {key : Tbl_area.detail[5].value, type : Tbl_area.detail[5].value_type, col_nm:Tbl_area.detail[5].key},
  
         ],
     ];
@@ -95,6 +95,7 @@ function Tbl_area(){
     this._tab["cmd_list"]    = this.cmd_list;
     this._tab["cmd_search"]    = this.cmd_search;
     this._tab["cmd_get_detail"]    = this.cmd_get_detail;
+    this._tab["cmd_get_update_info"]    = this.cmd_get_update_info;
     this._tab["cmd_get_create_info"]    = this.cmd_get_create_info;
 
 
@@ -283,8 +284,7 @@ Tbl_area.prototype.cmd_search = function(req, resp, ctx){
 	return this._dbop_cmd_list(sql_fmt, req, resp, ctx);
 }
 
-
-// list / search
+// detail
 Tbl_area.prototype._dbop_cmd_get_detail = function(sql_fmt, req, resp, ctx){
     var dao_obj = this;
     var mysql_conn = require("../mysql_conn").create_short();
@@ -308,7 +308,7 @@ Tbl_area.prototype._dbop_cmd_get_detail = function(sql_fmt, req, resp, ctx){
                 }
                 resp.data = {
                     seq : results[0].seq,
-                    title : "detail",
+                    title : "Area Detail",
                     content : data,
                 };
             }
@@ -329,6 +329,54 @@ Tbl_area.prototype.cmd_get_detail = function(req, resp, ctx){
 
     req.seq = req.id;
     var sql_fmt = "select * from tbl_area where seq = '{seq}' and is_del = 0"
+    return this._dbop_cmd_get_detail(sql_fmt, req, resp, ctx);
+}
+
+
+// update info
+Tbl_area.prototype._dbop_cmd_get_update_info = function(sql_fmt, req, resp, ctx){
+    var dao_obj = this;
+    var mysql_conn = require("../mysql_conn").create_short();
+    mysql_conn.query(
+        tools.format_object(sql_fmt, req),
+        function (err, results, fields){
+            if(err) {
+                console.log("err: ", err);
+                resp.result = ErrorCode.db_sel_failed;
+                resp.result_string = "Select failed: " + err;
+            }
+            else{
+                resp.result = 0;
+                resp.result_string = "OK";
+                var data = Tbl_area.content;
+                if(results.length == 1){
+                    data[0][1].key = results[0].seq;
+                    data[0][3].key = results[0].first_name;
+                    data[1][1].key = results[0].last_name;
+                    data[1][3].key = results[0].user_name;
+                }
+                resp.data = {
+                    seq : results[0].seq,
+                    title : "Area Update",
+                    content : data,
+                };
+            }
+            mysql_conn.end();
+            dao_obj.render_resp(resp, ctx);
+        }
+    );
+    return  true;
+}
+
+
+
+
+// update info
+Tbl_area.prototype.cmd_get_update_info = function(req, resp, ctx){
+    console.log( "Tbl_area: cmd_get_update_info");
+    if(this.check_field(req, ctx, "id",        true, 1) == false) return false;
+
+    var sql_fmt = "select * from tbl_area where seq = '{id}' and is_del = 0"
     return this._dbop_cmd_get_detail(sql_fmt, req, resp, ctx);
 }
 
@@ -354,7 +402,7 @@ Tbl_area.prototype._dbop_cmd_get_create_info = function(sql_fmt, req, resp, ctx)
                 data[1][3].key = '';
                 resp.data = {
                     seq : null,
-                    title : "create",
+                    title : "Area Create",
                     content : data,
                 };
             }
