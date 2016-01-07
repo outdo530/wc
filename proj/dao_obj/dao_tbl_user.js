@@ -2,6 +2,8 @@ var inherits = require("util").inherits;
 var Dao = require("../dao");
 function Tbl_user(){
     Dao.call(this);
+    this._tab["signup"] = this.signup;
+    this._tab["signin"] = this.signin;
 }
 inherits(Tbl_user, Dao);
 
@@ -112,6 +114,58 @@ Tbl_user.prototype.select = function(req, resp, ctx){
 
     var sql_fmt = "select id, sign_id, password, remark, crt_ts, upd_ts, is_del from tbl_user where is_del = 0 limit {start}, {cnt}";
     return this._dbop_select(sql_fmt, req, resp, ctx);
+}
+
+// insert unique
+Tbl_user.prototype._dbop_insert_unique= function(sql_fmt_is_exist, sql_fmt, req, resp, ctx){
+    var dao_obj = this;
+    var mysql_conn = require("./mysql_conn").create_short();
+    mysql_conn.query(
+        tools.format_object(sql_fmt_is_exist, req),
+        function(err, results,fields){
+            if(err) { 
+                console.log("err: ", err);
+                resp.result = ErrorCode.db_ins_failed;
+                resp.result_string = "Judge failed: " + err;
+	        mysql_conn.end();
+	        dao_obj.render_resp(resp, ctx);
+            }
+            else{
+		console.log("length: ", results.length );
+		if( results.length == 0){
+		    mysql_conn.query(
+		       	tools.format_object(sql_fmt, req),
+ 		        function(err, results, fields){
+ 		            if(err) { 
+		                console.log("err: ", err);
+		                resp.result = ErrorCode.db_ins_failed;
+		                resp.result_string = "Insert failed: " + err;
+			    }
+			    else{
+                		console.log( "new record row id : " +  results.insertId);
+                		console.log( "affectedRows " +  results.affectedRows + ' rows');
+
+                		resp.insertId = results.insertId;
+                		resp.affectedRows = results.affectedRows;
+                		resp.result = 0;
+                		resp.result_string = "OK";
+			    }
+	        	    mysql_conn.end();
+	       	            dao_obj.render_resp(resp, ctx);
+			    
+			}
+		    );
+		}
+		else{
+	            resp.result = 0;
+                    resp.result_string = "Insert failed: already exist";
+	            mysql_conn.end();
+	            dao_obj.render_resp(resp, ctx);
+		}
+            }
+        }
+    );
+    return  true;
 }
 
 var cur = new Tbl_user;

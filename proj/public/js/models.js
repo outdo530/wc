@@ -91,7 +91,7 @@ var m_area_detail = {
     content : [
         [
             {key: "seq",        type : 'label'},         
-            {key: 1,            type : 'number',    col_nm:"seq"},      
+            {key: 1,            type : 'number', min:0, max:100000000,    col_nm:"seq"},      
             {key: "First Name", type : 'label'},
             {key: 'Cheng',      type : "text",      col_nm:"first_name"},
         ],

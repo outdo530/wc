@@ -17,21 +17,9 @@ function Dao(){
     this._tab["recover"] = this.recover;
     this._tab["select_with_name"] = this.select_with_name;
     this._tab["select_with_key"] = this.select_with_key;
-    this._tab["signup"] = this.signup;
-    this._tab["signin"] = this.signin;
 }
 inherits(Dao, HandleBase)
 
-Dao.prototype.signup = function(req, resp, ctx){
-    console.log( "dao: signup:no_action");
-	this.easy_render_resp(ErrorCode.cmd_not_implement, "the req[cmd] is not implement", ctx);
-    return true;
-}
-Dao.prototype.signin = function(req, resp, ctx){
-    console.log( "dao: signin:no_action");
-	this.easy_render_resp(ErrorCode.cmd_not_implement, "the req[cmd] is not implement", ctx);
-    return true;
-}
 Dao.prototype.add = function(req, resp, ctx){
     console.log( "dao: add:no_action");
 	this.easy_render_resp(ErrorCode.cmd_not_implement, "the req[cmd] is not implement", ctx);
@@ -296,54 +284,5 @@ Dao.prototype._dbop_add_multi_rows  = function(sql_fmt, req, resp, ctx){
     }
     return  true;
 }
-Dao.prototype._dbop_insert_unique= function(sql_fmt_is_exist, sql_fmt, req, resp, ctx){
-    var dao_obj = this;
-    var mysql_conn = require("./mysql_conn").create_short();
-    mysql_conn.query(
-        tools.format_object(sql_fmt_is_exist, req),
-        function(err, results,fields){
-            if(err) { 
-                console.log("err: ", err);
-                resp.result = ErrorCode.db_ins_failed;
-                resp.result_string = "Judge failed: " + err;
-	        mysql_conn.end();
-	        dao_obj.render_resp(resp, ctx);
-            }
-            else{
-		console.log("length: ", results.length );
-		if( results.length == 0){
-		    mysql_conn.query(
-		       	tools.format_object(sql_fmt, req),
- 		        function(err, results, fields){
- 		            if(err) { 
-		                console.log("err: ", err);
-		                resp.result = ErrorCode.db_ins_failed;
-		                resp.result_string = "Insert failed: " + err;
-			    }
-			    else{
-                		console.log( "new record row id : " +  results.insertId);
-                		console.log( "affectedRows " +  results.affectedRows + ' rows');
 
-                		resp.insertId = results.insertId;
-                		resp.affectedRows = results.affectedRows;
-                		resp.result = 0;
-                		resp.result_string = "OK";
-			    }
-	        	    mysql_conn.end();
-	       	            dao_obj.render_resp(resp, ctx);
-			    
-			}
-		    );
-		}
-		else{
-	            resp.result = 0;
-                    resp.result_string = "Insert failed: already exist";
-	            mysql_conn.end();
-	            dao_obj.render_resp(resp, ctx);
-		}
-            }
-        }
-    );
-    return  true;
-}
 module.exports = Dao
