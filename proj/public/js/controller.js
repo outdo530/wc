@@ -278,7 +278,7 @@ function ctrl_update(sub_url, $scope, $routeParams, $http){
     debug(fn_pre , "update-->crud id is : " + crud_id);
 
     var req = {
-        cmd : 'cmd_get_detail',
+        cmd : 'cmd_get_update_info',
         id :crud_id,
     };
     __http_req($http, sub_url, req
