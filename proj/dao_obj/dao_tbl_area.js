@@ -380,7 +380,7 @@ Tbl_area.prototype.cmd_get_update_info = function(req, resp, ctx){
     if(this.check_field(req, ctx, "id",        true, 1) == false) return false;
 
     var sql_fmt = "select * from tbl_area where seq = '{id}' and is_del = 0"
-    return this._dbop_cmd_get_detail(sql_fmt, req, resp, ctx);
+    return this._dbop_cmd_get_update_info(sql_fmt, req, resp, ctx);
 }
 
 // create info
