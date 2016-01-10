@@ -11,7 +11,7 @@ var fn_pre = 'myapp.js-->'
 
 debug(fn_pre , " start");
 
-var myapp = angular.module('myRouteApp',['ngRoute',])
+var myapp = angular.module('myRouteApp',['ngRoute', 'ngDialog'])
 
 debug(fn_pre , " end");
 

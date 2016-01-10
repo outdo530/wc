@@ -1,7 +1,8 @@
 <div class="container-fluid theme-showcase">
 
     <div class="page-header">
-        <h1>{{crud_update.title}}</h1>
+        <h1>&nbsp;<a ng-href='{{crud_update.parent_url}}'>Area</a>&gt;&nbsp;{{crud_update.title}}</h1>
+        
     </div>
 
     <div class="row">
@@ -15,7 +16,10 @@
                 <tbody >
                     <tr ng-repeat="item in crud_update.content">
                         <td align="right" > <span class="label label-default">{{item[0].key}}</span>    </td>
-                        <td >               <input type="{{item[1].type}}" ng-model="item[1].key"/>    </td>
+                        <td >               
+                            <input type="{{item[1].type}}" ng-model="item[1].key"/>    
+                            <button type="button" class="btn btn-sm btn-default" ng-click="click_to_open(crud_update)">Select</button>
+                        </td>
                         <td align="right">  <span class="label label-default">{{item[2].key}}</span>    </td>
                         <td >               <input type="{{item[3].type}}" ng-model="item[3].key"/>    </td>
                     </tr>

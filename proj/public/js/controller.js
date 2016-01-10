@@ -1,11 +1,12 @@
 /*
  * todo-list:
- * OK 2016.01.07 - 5. split the controls and functions
- * 1. title navy
- * 2. Error Page 
- * 3. dialog confirm
- * 4. Cookie login 
- * 5. change the seq to id in the tbl-area
+ * OK 2016.01.07 - 1. split the controls and functions
+ * OK 2016.01.09 - 2. title navy :   create,detail,update -> add : parent_url = "#" + Tbl_area.url.list
+ * 3. prompt some op-success msg after creating or updating data
+ * 4. Error Page 
+ * 5. dialog confirm
+ * 6. Cookie login 
+ * 7. change the seq to id in the tbl-area
  */
 'use strict'
 //#include models.js
@@ -271,7 +272,7 @@ function ctrl_detail(sub_url, $scope, $routeParams, $http){
 }
 
 
-function ctrl_update(sub_url, $scope, $routeParams, $http){
+function ctrl_update(sub_url, $scope, $routeParams, $http, ngDialog){
     debug(fn_pre , "crudUpdateCtrl--OK");
 
     var crud_id =  $routeParams["crud_id"];
@@ -296,6 +297,22 @@ function ctrl_update(sub_url, $scope, $routeParams, $http){
         }
         $scope.on_reset = function(crud){
             __reset_input_box(crud.content);
+        }
+        $scope.click_to_open = function(crud){
+            $scope.dialog_val = "nihao";
+            ngDialog.openConfirm(  { 
+                template: 'template/dialog.html',
+                scope : $scope,
+                }
+            )
+            .then(
+               function (val){
+                console.log(" confirm value : " + val);
+               },
+               function (reason){
+                console.log(" cancel reason : " + reason);
+               }
+            );
         }
     });
 
@@ -327,6 +344,97 @@ function ctrl_create(sub_url, $scope, $http){
     });
 }
 
+function ctrl_select(sub_url, $scope, $http, $location, $routeParams){
+    debug(fn_pre , "crudSelectCtrl--OK");
+    debug_obj($routeParams);
+
+    if("search" in $routeParams){
+       $scope.search = $routeParams["search"] 
+        ____get_list_search(sub_url, $scope, $http, 1, function(cruds){
+
+            $scope.on_delete_seq = function(crud){
+                debug(fn_pre , "delete the crud: " + crud.seq);
+                alert(fn_pre + "delete the crud: " + crud.seq);
+                __delete_seq_list(sub_url, cruds, crud.seq, $http);
+            }
+            $scope.on_search = function(search){
+                debug(fn_pre, "on search :" + search);
+                if(search != undefined){
+                    var dest_url = $scope.cruds.url.list + "/" + search;
+                    debug(fn_pre, "dest_url : " + dest_url);
+                    $location.path(dest_url);
+                }else{ //TODO: maybe have some bug
+                    var dest_url = $scope.cruds.url.list;
+                    debug(fn_pre, "dest_url : " + dest_url);
+                    $location.path(dest_url);
+                }
+            }
+            $scope.on_prepage = function(crud){
+                if(crud.page.cur > 1){
+                    crud.page.cur--;
+                    ____get_list_search(sub_url, $scope, $http, crud.page.cur, null);
+                }
+                else{
+                    debug(fn_pre, "Reached the first page!");
+                    alert("到达第一页了");
+                }
+            }
+            $scope.on_nextpage = function(crud){
+                if(crud.page.cur < crud.page.total){
+                    crud.page.cur++;
+                    ____get_list_search(sub_url, $scope, $http, crud.page.cur, null);
+                }
+                else{
+                    debug(fn_pre, "Reached the last page!");
+                    alert("到达最后一页了");
+                }
+            }
+        });
+    }
+    else{
+        ____get_list(sub_url, $scope, $http, 1, function(cruds){
+
+            $scope.on_delete_seq = function(crud){
+                debug(fn_pre , "delete the crud: " + crud.seq);
+                var ret = confirm('Are you sure to delete it!'); //TODO: to a diaglog
+                if(ret)
+                    ____delete_seq_list(sub_url, cruds, crud.seq, $http);
+            }
+            $scope.on_search = function(search){
+                debug(fn_pre, "on search :" + search);
+                if(search != undefined){
+                    var dest_url = $scope.cruds.url.list + "/" + search;
+                    debug(fn_pre, "dest_url : " + dest_url);
+                    $location.path(dest_url);
+                }else{
+                    var dest_url = $scope.cruds.url.list;
+                    debug(fn_pre, "dest_url : " + dest_url);
+                    $location.path(dest_url);
+                }
+            }
+            $scope.on_prepage = function(crud){
+                if(crud.page.cur > 1){
+                    crud.page.cur--;
+                    ____get_list(sub_url, $scope, $http, crud.page.cur, null);
+                }
+                else{
+                    debug(fn_pre, "Reached the first page!");
+                    alert("到达第一页了");
+                }
+            }
+            $scope.on_nextpage = function(crud){
+                if(crud.page.cur < crud.page.total){
+                    crud.page.cur++;
+                    ____get_list(sub_url, $scope, $http, crud.page.cur, null);
+                }
+                else{
+                    debug(fn_pre, "Reached the last page!");
+                    alert("到达最后一页了");
+                }
+            }
+        });
+    }
+}
 
 
 /*********** controls   end ********************************/
@@ -344,12 +452,15 @@ myapp.controller('crudDetailCtrl_area', ['$scope', '$routeParams', '$http',
 function($scope, $routeParams, $http){
     ctrl_detail("/dao_tbl_area", $scope, $routeParams, $http);
 }]);
-myapp.controller('crudUpdateCtrl_area', ['$scope', '$routeParams', '$http',
-function($scope, $routeParams, $http){
-     ctrl_update("/dao_tbl_area", $scope, $routeParams, $http);
+myapp.controller('crudUpdateCtrl_area', ['$scope', '$routeParams', '$http', 'ngDialog', 
+function($scope, $routeParams, $http, ngDialog){
+     ctrl_update("/dao_tbl_area", $scope, $routeParams, $http, ngDialog);
 }]);
 myapp.controller('crudCreateCtrl_area', ['$scope', '$http',
 function ($scope, $http){
     ctrl_create("/dao_tbl_area", $scope, $http);
 }]);
-
+myapp.controller('crudSelectCtrl_area', ['$scope', '$http', '$location', '$routeParams',
+function ($scope, $http, $location, $routeParams){
+    ctrl_select("/dao_tbl_area", $scope, $http, $location, $routeParams);
+}]);

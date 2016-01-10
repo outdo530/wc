@@ -10,7 +10,8 @@ var m_route = {
         {id: 3, url: '/area_detail/:crud_id',   templateUrl: 'template/crud_detail.html',   controller:'crudDetailCtrl_area' },
         {id: 4, url: '/area_update/:crud_id',   templateUrl: 'template/crud_update.html',   controller:'crudUpdateCtrl_area' },
         {id: 5, url: '/area_create',            templateUrl: 'template/crud_create.html',   controller:'crudCreateCtrl_area' },
-        {id: 6, url: '/area_list/:search',      templateUrl: 'template/crud_list.html',   controller:'crudListCtrl_area' },
+        {id: 6, url: '/area_list/:search',      templateUrl: 'template/crud_list.html',     controller:'crudListCtrl_area' },
+        {id: 7, url: '/area_select',            templateUrl: 'template/crud_select.html',   controller:'crudSelectCtrl_area' },
     ],
 };
 
@@ -61,6 +62,7 @@ var m_list_areas = {
         create: '#/area_create',
         update: '#/area_update',
         detail: '#/area_detail',
+        select_seq: '#/area_select',
     },
 };
 
@@ -117,7 +119,7 @@ var m_area_update = {
     content : [
         [
             {key: "seq",        type : 'label'},         
-            {key: 1,            type : 'number', min:0, max:100000000, col_nm:"seq"},
+            {key: 1,            type : 'number', min:0, max:100000000, col_nm:"seq",},
             {key: "First Name", type : 'label'},
             {key: 'Cheng',      type : "text",  col_nm:"first_name"},
         ],
@@ -143,7 +145,7 @@ var m_area_create = {
     content : [
         [
             {key: "seq",        type : 'label'},         
-            {key: "",           type : 'number', min:0, max:100000000, col_nm:"seq"},      
+            {key: "",           type : 'number', min:0, max:100000000, col_nm:"seq", select_url:'#/area_select'},      
             {key: "First Name", type : 'label'},
             {key: "",           type : "text",  col_nm:"first_name"},
         ],
