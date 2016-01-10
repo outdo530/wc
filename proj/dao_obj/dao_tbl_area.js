@@ -22,6 +22,7 @@ function Tbl_area(){
         update : '#/area_update',
         detail : '#/area_detail',
     };
+    Tbl_area.url.parent_list= "#" + Tbl_area.url.list;
 
     Tbl_area.detail = [
         {
@@ -310,6 +311,7 @@ Tbl_area.prototype._dbop_cmd_get_detail = function(sql_fmt, req, resp, ctx){
                     seq : results[0].seq,
                     title : "Area Detail",
                     content : data,
+                    parent_url: Tbl_area.url.parent_list,
                 };
             }
             mysql_conn.end();
@@ -359,6 +361,7 @@ Tbl_area.prototype._dbop_cmd_get_update_info = function(sql_fmt, req, resp, ctx)
                     seq : results[0].seq,
                     title : "Area Update",
                     content : data,
+                    parent_url: "#"+Tbl_area.url.parent_list,
                 };
             }
             mysql_conn.end();
@@ -404,6 +407,7 @@ Tbl_area.prototype._dbop_cmd_get_create_info = function(sql_fmt, req, resp, ctx)
                     seq : null,
                     title : "Area Create",
                     content : data,
+                    parent_url: "#"+Tbl_area.url.parent_list,
                 };
             }
             mysql_conn.end();
