@@ -178,11 +178,11 @@ function ctrl_list(sub_url, $scope, $http, $location, $routeParams){
             $scope.on_search = function(search){
                 debug(fn_pre, "on search :" + search);
                 if(search != undefined){
-                    var dest_url = $scope.cruds.url.list + "/" + search;
+                    var dest_url = $scope.cruds.url.list.substr(1) + "/" + search;
                     debug(fn_pre, "dest_url : " + dest_url);
                     $location.path(dest_url);
                 }else{ //TODO: maybe have some bug
-                    var dest_url = $scope.cruds.url.list;
+                    var dest_url = $scope.cruds.url.list.substr(1);
                     debug(fn_pre, "dest_url : " + dest_url);
                     $location.path(dest_url);
                 }
@@ -221,11 +221,11 @@ function ctrl_list(sub_url, $scope, $http, $location, $routeParams){
             $scope.on_search = function(search){
                 debug(fn_pre, "on search :" + search);
                 if(search != undefined){
-                    var dest_url = $scope.cruds.url.list + "/" + search;
+                    var dest_url = $scope.cruds.url.list.substr(1) + "/" + search;
                     debug(fn_pre, "dest_url : " + dest_url);
                     $location.path(dest_url);
                 }else{
-                    var dest_url = $scope.cruds.url.list;
+                    var dest_url = $scope.cruds.url.list.substr(1);
                     debug(fn_pre, "dest_url : " + dest_url);
                     $location.path(dest_url);
                 }
@@ -290,6 +290,7 @@ function ctrl_update(sub_url, $scope, $routeParams, $http, ngDialog){
             __http_req($http, sub_url, __gen_req_from_info('update', crud)
             , function(rsp){
                 console.log("update OK");
+                alert("update OK!");
             });
         }
         $scope.on_cancel = function(crud){
@@ -333,6 +334,7 @@ function ctrl_create(sub_url, $scope, $http){
             __http_req($http, sub_url, __gen_req_from_info('add', crud)
             , function(rsp){
                 console.log("create OK");
+                alert("create OK!");
             });
         }
         $scope.on_cancel = function(crud){
@@ -360,11 +362,11 @@ function ctrl_select(sub_url, $scope, $http, $location, $routeParams){
             $scope.on_search = function(search){
                 debug(fn_pre, "on search :" + search);
                 if(search != undefined){
-                    var dest_url = $scope.cruds.url.list + "/" + search;
+                    var dest_url = $scope.cruds.url.list.substr(1) + "/" + search;
                     debug(fn_pre, "dest_url : " + dest_url);
                     $location.path(dest_url);
                 }else{ //TODO: maybe have some bug
-                    var dest_url = $scope.cruds.url.list;
+                    var dest_url = $scope.cruds.url.list.substr(1);
                     debug(fn_pre, "dest_url : " + dest_url);
                     $location.path(dest_url);
                 }
