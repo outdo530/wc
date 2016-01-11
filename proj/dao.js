@@ -67,6 +67,8 @@ Dao.prototype.select_with_key = function(req, resp, ctx){
 }
 //protected function
 Dao.prototype._dbop_insert = function(sql_fmt, req, resp, ctx){
+    console.log("sql: ", tools.format_object(sql_fmt, req));
+
     var dao_obj = this;
     var mysql_conn = require("./mysql_conn").create_short();
     mysql_conn.query(
@@ -93,6 +95,8 @@ Dao.prototype._dbop_insert = function(sql_fmt, req, resp, ctx){
     return  true;
 }
 Dao.prototype._dbop_update = function(sql_fmt, req, resp, ctx){
+    console.log("sql: ", tools.format_object(sql_fmt, req));
+
     var dao_obj = this;
     var mysql_conn = require("./mysql_conn").create_short();
     mysql_conn.query(
@@ -116,6 +120,8 @@ Dao.prototype._dbop_update = function(sql_fmt, req, resp, ctx){
     return true;
 }
 Dao.prototype._dbop_remove = function( sql_fmt, req, resp, ctx){
+    console.log("sql: ", tools.format_object(sql_fmt, req));
+
     var dao_obj = this;
     var mysql_conn = require("./mysql_conn").create_short();
     mysql_conn.query(
@@ -139,6 +145,8 @@ Dao.prototype._dbop_remove = function( sql_fmt, req, resp, ctx){
     return true;
 }
 Dao.prototype._dbop_recover = function(sql_fmt, req, resp, ctx){
+    console.log("sql: ", tools.format_object(sql_fmt, req));
+
     var dao_obj = this;
     var mysql_conn = require("./mysql_conn").create_short();
     mysql_conn.query(
@@ -162,6 +170,8 @@ Dao.prototype._dbop_recover = function(sql_fmt, req, resp, ctx){
     return true;
 }
 Dao.prototype._dbop_select_with_name = function(sql_fmt, req, resp, ctx){
+    console.log("sql: ", tools.format_object(sql_fmt, req));
+
     var dao_obj = this;
     var mysql_conn = require("./mysql_conn").create_short();
     mysql_conn.query(
@@ -185,6 +195,8 @@ Dao.prototype._dbop_select_with_name = function(sql_fmt, req, resp, ctx){
 }
 
 Dao.prototype._dbop_select_with_key = function(sql_fmt, req, resp, ctx){
+    console.log("sql: ", tools.format_object(sql_fmt, req));
+
     var dao_obj = this;
     var mysql_conn = require("./mysql_conn").create_short();
     mysql_conn.query(
@@ -208,6 +220,8 @@ Dao.prototype._dbop_select_with_key = function(sql_fmt, req, resp, ctx){
 }
 
 Dao.prototype._dbop_select = function(sql_fmt, req, resp, ctx){
+    console.log("sql: ", tools.format_object(sql_fmt, req));
+
     var dao_obj = this;
     var mysql_conn = require("./mysql_conn").create_short();
     mysql_conn.query(
@@ -234,6 +248,8 @@ Dao.prototype._dbop_select = function(sql_fmt, req, resp, ctx){
 
 
 Dao.prototype._dbop_is_exist = function(sql_fmt, req, resp, ctx){
+    console.log("sql: ", tools.format_object(sql_fmt, req));
+
     var dao_obj = this;
     var mysql_conn = require("./mysql_conn").create_short();
     mysql_conn.query(
@@ -257,6 +273,8 @@ Dao.prototype._dbop_is_exist = function(sql_fmt, req, resp, ctx){
 }
 
 Dao.prototype._dbop_add_multi_rows  = function(sql_fmt, req, resp, ctx){
+    console.log("sql: ", tools.format_object(sql_fmt, req));
+
     var dao_obj = this;
     var mysql_conn = require("./mysql_conn").create_short();
     var inserted_count = 0;

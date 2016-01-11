@@ -54,7 +54,7 @@ create table tbl_const
 (
    id                   int not null auto_increment,
    type                 varchar(64),
-   "desc"               varchar(128),
+   _desc                 varchar(128),
    primary key (id)
 );
 
@@ -94,10 +94,11 @@ create table tbl_func
    url                  varchar(128),
    templateurl          varchar(128),
    controller           varchar(64),
-   item_name		    varchar(64),
-   is_navy              int default 0,
+   item_name		varchar(64),
+   is_navy		int default 0,
    remark               varchar(256),
    crt_ts               timestamp default current_timestamp on update current_timestamp,
+ 
    upd_ts               timestamp,
    is_del               int default 0,
    primary key (id)

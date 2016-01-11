@@ -3,137 +3,298 @@ var Dao = require("../dao");
 function Tbl_area(){
     Dao.call(this);
 
-    // title in Chinese
-    Tbl_area.list_title = [
-        "#", 
-        "First Name",       
-        "Last Name",         
-        "UserName",     
-        "Update?",    
-        "Delete?",
-    ];
+    // title
+    Tbl_area.title = 'Area';
+
+    // dao table name
+    Tbl_area.tbl_name = 'tbl_'+Tbl_area.title.toLowerCase();
+
+    // view struct
+    Tbl_area.struct = {
+        id: { key: 'seq', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number', is_col: 1, is_view: 1, },
+        first_name: { key: 'first_name',  key_text: '名', key_type: 'label', value_def: '', value_type: 'text', is_col: 1, is_to_set: 1, is_view: 1, },
+        last_name: { key: 'last_name',  key_text: '姓', key_type: 'label', value_def: '', value_type: 'text', is_col: 1, is_to_set: 1, is_view: 1, },
+        user_name: { key: 'user_name',  key_text: '用户名', key_type: 'label', value_def: '', value_type: 'text', is_col: 1, is_to_set: 1,  is_view: 1, is_last_view_col:1},
+        remark: { key: 'remark',  key_text: '备注', key_type: 'label', value_def: '', value_type: 'text', is_col: 1, is_to_set: 1, },
+        crt_ts: { key: 'crt_ts',  key_text: '创建时间', key_type: 'label', value_def: '', value_type: 'text', is_col: 1, },
+        upd_ts: { key: 'upd_ts',  key_text: '修改时间', key_type: 'label', value_def: '', value_type: 'text', is_col: 1, },
+        is_del: { key: 'is_del',  key_text: '已删除?', key_type: 'label', value_def: '', value_type: 'text', is_col: 1, },
+        upd: { key: 'update',  key_text: '更新?', key_type: 'label', value_def: '', value_type: 'text', is_view: 1, },
+        del: { key: 'delete',  key_text: '删除?', key_type: 'label', value_def: '', value_type: 'text', is_view: 1, },
+    };
 
     //page size cfg for all app
     Tbl_area.m_page_cfg = { size : 6, };
 
-    Tbl_area.url = {
-        list :   '/area_list',
-        create : '#/area_create',
-        update : '#/area_update',
-        detail : '#/area_detail',
+    // titles
+    Tbl_area.titles = {
+        list : Tbl_area.title,
+        search: Tbl_area.title,
+        detail: 'Detail',
+        update: 'Update',
+        create: 'Create'
     };
-    Tbl_area.url.parent_list= "#" + Tbl_area.url.list;
 
-    Tbl_area.detail = [
-        {
-            key : 'seq',
-            key_text : Tbl_area.list_title[0], 
-            key_type: 'label',
-            value : null,
-            value_type : 'number',
-        },
-        {
-            key : 'first_name',
-            key_text : Tbl_area.list_title[1], 
-            key_type: 'label',
-            value : '',
-            value_type : 'text',
-        },
-        {
-            key : 'last_name',
-            key_text : Tbl_area.list_title[2], 
-            key_type: 'label',
-            value : '',
-            value_type : 'text',
-        },
-        {
-            key : 'user_name',
-            key_text : Tbl_area.list_title[3], 
-            key_type: 'label',
-            value : '',
-            value_type : 'text',
-        },
-        {
-            key : 'update',
-            key_text : Tbl_area.list_title[4], 
-            key_type: 'label',
-            value : '',
-            value_type : 'text',
-        },
-        {
-            key : 'delete',
-            key_text : Tbl_area.list_title[5], 
-            key_type: 'label',
-            value : '',
-            value_type : 'text',
-        },
-  
-    ];
-
-    Tbl_area.content = [
-        [
-            {key : Tbl_area.detail[0].key_text, type : Tbl_area.detail[0].key_type},
-            {key : Tbl_area.detail[0].value, type : Tbl_area.detail[0].value_type, min:0, max:100000000, col_nm:Tbl_area.detail[0].key},
-            {key : Tbl_area.detail[1].key_text, type : Tbl_area.detail[1].key_type},
-            {key : Tbl_area.detail[1].value, type : Tbl_area.detail[1].value_type, col_nm:Tbl_area.detail[1].key},
-        ],
-        [
-            {key : Tbl_area.detail[2].key_text, type : Tbl_area.detail[2].key_type},
-            {key : Tbl_area.detail[2].value, type : Tbl_area.detail[2].value_type, col_nm:Tbl_area.detail[2].key},
-            {key : Tbl_area.detail[3].key_text, type : Tbl_area.detail[3].key_type},
-            {key : Tbl_area.detail[3].value, type : Tbl_area.detail[3].value_type, col_nm:Tbl_area.detail[3].key},
- 
-        ],
-        [
-            {key : Tbl_area.detail[4].key_text, type : Tbl_area.detail[4].key_type},
-            {key : Tbl_area.detail[4].value, type : Tbl_area.detail[4].value_type, col_nm:Tbl_area.detail[4].key},
-            {key : Tbl_area.detail[5].key_text, type : Tbl_area.detail[5].key_type},
-            {key : Tbl_area.detail[5].value, type : Tbl_area.detail[5].value_type, col_nm:Tbl_area.detail[5].key},
- 
-        ],
-    ];
+    // url
+    Tbl_area.url = {
+        list :   '/'+Tbl_area.title.toLowerCase()+'_list',
+        create : '#/'+Tbl_area.title.toLowerCase()+'_create',
+        update : '#/'+Tbl_area.title.toLowerCase()+'_update',
+        detail : '#/'+Tbl_area.title.toLowerCase()+'_detail',
+    };
 
     this._tab["cmd_list"]    = this.cmd_list;
     this._tab["cmd_search"]    = this.cmd_search;
     this._tab["cmd_get_detail"]    = this.cmd_get_detail;
     this._tab["cmd_get_update_info"]    = this.cmd_get_update_info;
     this._tab["cmd_get_create_info"]    = this.cmd_get_create_info;
-
-
 }
 inherits(Tbl_area, Dao);
-
 
 var util = require("util");
 var ErrorCode = require("../error_code");
 var tools = require("../tools");
 
 
-Tbl_area.prototype.add = function(req, resp, ctx){
-    //if(this.check_field(req, ctx, "title",       true, 0,64) == false) return false;
 
-    var sql_fmt = "insert into tbl_area set first_name = '{first_name}', last_name = '{last_name}', user_name = '{user_name}', remark = '{remark}', crt_ts = now(), is_del = 0;";
+// get sql:
+
+// sql: get_set_sql
+Tbl_area._get_set_sql = function(){
+    var sql_fmt = 'set ';
+    for(var elem in Tbl_area.struct){
+        if(Tbl_area.struct[elem].is_to_set == 1){
+            sql_fmt += Tbl_area.struct[elem].key + ' = "{' + Tbl_area.struct[elem].key + '}", ';
+        }
+    }
+    return sql_fmt;
+}
+
+// sql: get_add_sql
+Tbl_area._get_add_sql = function(){
+    var sql_fmt = 'insert into ' + Tbl_area.tbl_name + ' ' + Tbl_area._get_set_sql();
+    sql_fmt += Tbl_area.struct['crt_ts'].key + ' = now(), ';
+    sql_fmt += Tbl_area.struct['is_del'].key + ' = 0 ';
+    return sql_fmt;
+}
+
+// sql: get_update_sql
+Tbl_area._get_update_sql = function(){
+    var sql_fmt = 'update ' + Tbl_area.tbl_name + ' ' + Tbl_area._get_set_sql();
+    sql_fmt += Tbl_area.struct['upd_ts'].key + ' = now() ';
+    sql_fmt += 'where ' + Tbl_area.struct['is_del'].key + ' = 0 ';
+    sql_fmt += 'and ' + Tbl_area.struct['id'].key + ' = {id} ';
+    return sql_fmt;
+}
+
+// sql: get_remove_sql
+Tbl_area._get_remove_sql = function(){
+    var sql_fmt = 'update ' + Tbl_area.tbl_name + ' set ';
+    sql_fmt += Tbl_area.struct['is_del'].key + ' = 1 ';
+    sql_fmt += 'where ' +Tbl_area.struct['id'].key + ' = {id} ';
+    return sql_fmt;
+}
+
+// sql: get_recover_sql
+Tbl_area._get_recover_sql = function(){
+    var sql_fmt = 'update ' + Tbl_area.tbl_name + ' set ';
+    sql_fmt += Tbl_area.struct['is_del'].key + ' = 0 ';
+    sql_fmt += 'where ' +Tbl_area.struct['id'].key + ' = {id} ';
+    return sql_fmt;
+}
+
+// sql: get_select_sql
+Tbl_area._get_select_sql = function(){
+    var sql_fmt = 'select * from ' + Tbl_area.tbl_name + ' where ';
+    sql_fmt += Tbl_area.struct['is_del'].key + ' = 0 ';
+    sql_fmt += 'limit {start}, {cnt} ';
+    return sql_fmt;
+}
+
+// sql: get_select_with_name_sql
+Tbl_area._get_select_with_name_sql = function(){
+    var sql_fmt = 'select * from ' + Tbl_area.tbl_name + ' where ';
+    sql_fmt += Tbl_area.struct['is_del'].key + ' = 0 ';
+    sql_fmt += 'and ' + ( Tbl_area.struct['name'] == null  ? 'name' : Tbl_area.struct['name'].key ) + ' = {name} ';
+    return sql_fmt;
+}
+
+// sql: get_select_with_key_sql
+Tbl_area._get_select_with_key_sql = function(){
+    var sql_fmt = 'select * from ' + Tbl_area.tbl_name + ' where ';
+    sql_fmt += Tbl_area.struct['is_del'].key + ' = 0 ';
+    sql_fmt += 'and ' + Tbl_area.struct['id'].key  + ' = {id} ';
+    return sql_fmt;
+}
+
+// sql: get_is_exist_sql
+Tbl_area._get_is_exist_sql = function(){
+    var sql_fmt = 'select ' + Tbl_area.struct['id'].key + ' from ' + Tbl_area.tbl_name + ' where ';
+    sql_fmt += Tbl_area.struct['is_del'].key + ' = 0 ';
+    sql_fmt += 'and ' + ( Tbl_area.struct['name'] == null  ? 'name' : Tbl_area.struct['name'].key )  + ' = {name} ';
+    return sql_fmt;
+}
+
+
+// get view select sql 
+Tbl_area._get_view_select_sql = function(){
+    var sql_fmt = 'select ';
+    for(var elem in Tbl_area.struct){
+        if(Tbl_area.struct[elem].is_view == 1 && Tbl_area.struct[elem].is_col == 1){
+            sql_fmt += Tbl_area.struct[elem].key;
+            sql_fmt += Tbl_area.struct[elem].is_last_view_col == 1 ? ' ' : ', ';
+        }
+    }
+    sql_fmt += 'from '+ Tbl_area.tbl_name + ' ';
+    sql_fmt += 'where ' +Tbl_area.struct['is_del'].key + ' = 0 ';
+    return sql_fmt;
+}
+
+// sql: get_list_sql 
+Tbl_area._get_list_sql = function(){
+    return Tbl_area._get_view_select_sql();
+}
+
+// sql: get_search_sql 
+Tbl_area._get_search_sql = function(){
+    var sql_fmt = 'and ( ';
+    for(var elem in Tbl_area.struct){
+        if(Tbl_area.struct[elem].is_view == 1 && Tbl_area.struct[elem].is_col == 1 ){
+            sql_fmt += Tbl_area.struct[elem].key + ' like "%{search}%" ';
+            sql_fmt += Tbl_area.struct[elem].is_last_view_col == 1 ? ') ' : 'or ';
+       }
+    }
+    return Tbl_area._get_view_select_sql() + sql_fmt;
+}
+
+// sql: get_detail_sql 
+Tbl_area._get_detail_sql = function(){
+    return Tbl_area._get_view_select_sql() + 'and ' + Tbl_area.struct['id'].key + '= "{id}" ';
+}
+
+// sql: get_update_info_sql 
+Tbl_area._get_update_info_sql = function(){
+    return Tbl_area._get_view_select_sql() + 'and ' + Tbl_area.struct['id'].key + '= "{id}" ';
+}
+
+// sql: get_create_info_sql 
+Tbl_area._get_create_info_sql = function(){
+    return Tbl_area._get_view_select_sql() + 'limit 0, 1 ';
+}
+
+
+// get custom data:
+
+// data: get_list_title
+Tbl_area._get_list_title = function(){
+    var list_title = [];
+    var i=0;
+    for(var elem in Tbl_area.struct){
+        if(Tbl_area.struct[elem].is_view == 1){
+            list_title[i++] = Tbl_area.struct[elem].key_text;
+        }
+    }
+    return list_title;
+}
+
+
+// data: get_data
+Tbl_area._get_data = function(res){
+    var s = '[ ';
+    var k=0;
+    for(var elem in Tbl_area.struct){
+        if(Tbl_area.struct[elem].is_view==1){
+            if(k==0){
+               s += '[ ';
+            }
+            s += '{ key: "' + Tbl_area.struct[elem].key + '", type: "' + Tbl_area.struct[elem].key_type + '" }, ';
+            s += '{ key: ' + ( Tbl_area.struct[elem].value_type == 'number'
+                             ? (res == null ? 'null' : res[Tbl_area.struct[elem].key])
+                             : (res == null || Tbl_area.struct[elem].is_col!=1 ? '""' : ('"' + res[Tbl_area.struct[elem].key]+ '"')) )
+                + ', type: "' + Tbl_area.struct[elem].value_type + '"';
+            if(Tbl_area.struct[elem].value_type == 'number'){
+                s += ', min: 0, max: 100000000';
+            }
+            if((k%2)==0){
+                s += ', col_nm: "' + Tbl_area.struct[elem].key + '"';
+            }
+            s += ' },';
+
+            k += 2;
+            if( (k % 4) == 0 ){
+                k = 0; 
+                s += ' ],';
+            }
+        }
+    }
+    if(k==2)  s += ' ],';
+    s += ' ]';
+
+    return s;
+}
+
+// data: get_detail_info
+Tbl_area._get_detail = function(res){
+    var s = '{ '
+        + Tbl_area.struct['id'].key + ': ' + res[Tbl_area.struct['id'].key] + ', '
+        + 'title: "' + Tbl_area.titles.detail + '", '
+        + 'content: ' + Tbl_area._get_data(res)
+        + ' }';
+    return eval('('+ s + ')');
+}
+
+// data: get_update_info
+Tbl_area._get_update_info = function(res){
+    var s = '{ '
+        + Tbl_area.struct['id'].key + ': ' + res[Tbl_area.struct['id'].key] + ', '
+        + 'title: "' + Tbl_area.titles.update + '", '
+        + 'content: ' + Tbl_area._get_data(res)
+        + ' }';
+    return eval('('+ s + ')');
+}
+
+// data: get_create_info
+Tbl_area._get_create_info = function(){
+    var s = '{ '
+        + Tbl_area.struct['id'].key + ': null, '
+        + 'title: "' + Tbl_area.titles.create + '", '
+        + 'content: ' + Tbl_area._get_data(null)
+        + ' }';
+    return eval('('+ s + ')');
+}
+
+
+
+// base cmd:
+
+// cmd: add
+Tbl_area.prototype.add = function(req, resp, ctx){
+    console.log( "Tbl_area: add");
+    //if(this.check_field(req, ctx, "name",       true, 0,255) == false) return false;
+
+    var sql_fmt = Tbl_area._get_add_sql();
     return this._dbop_insert(sql_fmt, req, resp, ctx);
 }
 
+// cmd: is_exist
 Tbl_area.prototype.is_exist = function(req, resp, ctx){
     console.log( "Tbl_area: is_exist");
-    if(this.check_field(req, ctx, "title",       true, 0,64) == false) return false;
+    if(this.check_field(req, ctx, "name",       true, 0,255) == false) return false;
 
-    var sql_fmt = "select title from tbl_area where title = '{title}' and is_del = 0"
+    var sql_fmt = Tbl_area._get_is_exist_sql();
     return this._dbop_is_exist(sql_fmt, req, resp, ctx);
 }
 
-
+// cmd: update
 Tbl_area.prototype.update = function(req, resp, ctx){
     console.log( "Tbl_area: update");
     if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
 
-    req.seq = req.id;
-    var sql_fmt = "update tbl_area set first_name = '{first_name}', last_name = '{last_name}', user_name = '{user_name}', remark = '{remark}', upd_ts = now(), is_del = 0 where seq = '{seq}' and is_del = 0;";
-   return this._dbop_update(sql_fmt, req, resp, ctx);
+    var sql_fmt =Tbl_area._get_update_sql();
+    return this._dbop_update(sql_fmt, req, resp, ctx);
 }
 
+// check req array
 Tbl_area.prototype._check_req_data = function (arr_data, ctx){
     if(arr_data == null){
         this.easy_render_resp(ErrorCode.field_absent, "req[data] absent", ctx);
@@ -144,59 +305,133 @@ Tbl_area.prototype._check_req_data = function (arr_data, ctx){
         return false;
     }
     for( var i in arr_data){
-        if(this.check_field(arr_data[i], ctx, "title",       true, 0,64) == false) return false;
+        if(this.check_field(arr_data[i], ctx, "name",       true, 0,64) == false) return false;
         //if(this.check_field(arr_data[i], ctx, "parent_id",  false, 1) == false) return false;
     }
     return true;
 }
 
+// cmd: add_multi_rows
 Tbl_area.prototype.add_multi_rows = function(req, resp, ctx){
-    console.log( "Area:add_multi_rows");
+    console.log( "Tbl_area: add_multi_rows");
     if(this._check_req_data(req.data, ctx) == false){
         console.error("check req failed");
         return false;
     }
 
-    var sql_fmt = "insert into tbl_area set title = '{title}', url = '{url}', templateurl = '{templateurl}', controller = '{controller}', item_name = '{item_name}', is_navy = '{is_navy}', remark = '{remark}', crt_ts = now(), is_del = 0;";
+    var sql_fmt = Tbl_area._get_add_sql();
     return this._dbop_add_multi_rows(sql_fmt, req, resp, ctx);
 }
 
+// cmd: remove
 Tbl_area.prototype.remove = function(req, resp, ctx){
     console.log( "Tbl_area: remove");
     if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
     
-    req.seq = req.id;
-    var sql_fmt = "update tbl_area set is_del = '1' where seq = '{seq}'";
+    var sql_fmt = Tbl_area._get_remove_sql();
     return this._dbop_remove(sql_fmt, req, resp, ctx);
 }
 
+// cmd: recover
 Tbl_area.prototype.recover = function(req, resp, ctx){
     console.log( "Tbl_area: recover");
     if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
 
-    req.seq = req.id;
-    var sql_fmt = "update tbl_area set is_del = '0' where seq = '{seq}'";
+    var sql_fmt = Tbl_area._get_recover_sql();
     return this._dbop_recover(sql_fmt, req, resp, ctx);
 }
 
+// cmd: select_with_name
 Tbl_area.prototype.select_with_name = function(req, resp, ctx){
     console.log( "Tbl_area: select_with_name");
-    if(this.check_field(req, ctx, "title",       true, 0,64) == false) return false;
+    if(this.check_field(req, ctx, "name",       true, 0,255) == false) return false;
 
-    var sql_fmt = "select * from tbl_area where title = '{title}' and is_del = 0";
+    var sql_fmt = Tbl_area._get_select_with_name_sql();
     return this._dbop_select_with_name(sql_fmt, req, resp, ctx);
 }
 
+// cmd: select_with_key
 Tbl_area.prototype.select_with_key = function(req, resp, ctx){
     console.log( "Tbl_area: select_with_key");
-    if(this.check_field(req, ctx, "id",        true, 1) == false) return false;
+    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
 
-    req.seq = req.id;
-    var sql_fmt = "select * from tbl_area where seq = '{seq}' and is_del = 0"
+    var sql_fmt = Tbl_area._get_select_with_key_sql();
     return this._dbop_select_with_key(sql_fmt, req, resp, ctx);
 }
 
-// list / search
+// cmd: select
+Tbl_area.prototype.select = function(req, resp, ctx){
+    console.log( "Tbl_area: select");
+    if(this.check_field(req, ctx, "start",      true, 0) == false) return false;
+    if(this.check_field(req, ctx, "cnt",        true, 1) == false) return false;
+
+	var sql_fmt = Tbl_area._get_select_sql();
+	return this._dbop_select(sql_fmt, req, resp, ctx);
+}
+
+
+
+// custom cmd:
+
+// cmd: list
+Tbl_area.prototype.cmd_list = function(req, resp, ctx){
+    console.log( "Tbl_area: cmd_list");
+    if(this.check_field(req.page, ctx, "cur",      true, 0) == false) return false;
+
+    req["cnt"] = Tbl_area.m_page_cfg.size;
+    req["start"] = ( req.page.cur - 1 ) * Tbl_area.m_page_cfg.size;
+
+    var sql_fmt =  Tbl_area._get_list_sql();
+	return this._dbop_cmd_list(sql_fmt, req, resp, ctx);
+}
+
+// cmd: search
+Tbl_area.prototype.cmd_search = function(req, resp, ctx){
+    console.log( "Tbl_area: cmd_search");
+    if(req.search == null || req.search == "" ){
+        return this.cmd_list(req,resp,ctx);
+    }
+
+    if(this.check_field(req.page, ctx, "cur",      true, 0) == false) return false;
+    if(this.check_field(req, ctx, "search",      true, 0,255) == false) return false;
+    req["start"] = ( req.page.cur - 1 ) * Tbl_area.m_page_cfg.size;
+    req["cnt"] = Tbl_area.m_page_cfg.size;
+   
+ 	var sql_fmt = Tbl_area._get_search_sql();
+	return this._dbop_cmd_list(sql_fmt, req, resp, ctx);
+}
+
+// cmd: get_detail
+Tbl_area.prototype.cmd_get_detail = function(req, resp, ctx){
+    console.log( "Tbl_area: cmd_get_detail");
+    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+
+    var sql_fmt = Tbl_area._get_detail_sql();
+    return this._dbop_cmd_get_detail(sql_fmt, req, resp, ctx);
+}
+
+// cmd: get_update_info
+Tbl_area.prototype.cmd_get_update_info = function(req, resp, ctx){
+    console.log( "Tbl_area: cmd_get_update_info");
+    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+
+    var sql_fmt = Tbl_area._get_update_info_sql();
+    return this._dbop_cmd_get_update_info(sql_fmt, req, resp, ctx);
+}
+
+// cmd: get_create_info
+Tbl_area.prototype.cmd_get_create_info = function(req, resp, ctx){
+    console.log( "Tbl_area: cmd_get_create_info");
+
+    var sql_fmt = Tbl_area._get_create_info_sql();
+    return this._dbop_cmd_get_create_info(sql_fmt, req, resp, ctx);
+}
+
+
+
+// dbop of custom cmd:
+
+// dbop: list / search
 Tbl_area.prototype._dbop_cmd_list = function(sql_fmt, req, resp, ctx){
 
     var sql_fmt_content = sql_fmt + " limit {start}, {cnt};";
@@ -207,6 +442,7 @@ Tbl_area.prototype._dbop_cmd_list = function(sql_fmt, req, resp, ctx){
         tools.format_object(sql_fmt_content, req),
         function (err, results, fields){
             if(err) {
+                console.log("sql: ", tools.format_object(sql_fmt_content, req));
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
                 resp.result_string = "Select failed: " + err;
@@ -220,6 +456,7 @@ Tbl_area.prototype._dbop_cmd_list = function(sql_fmt, req, resp, ctx){
                     tools.format_object(sql_fmt_count, {sql: tools.format_object(sql_fmt, req)}),
                     function (n_err, n_results, n_fields){
                         if(n_err){
+                            console.log("sql: ", tools.format_object(sql_fmt_count, {sql: tools.format_object(sql_fmt, req)}));
                             console.log("err: ", n_err);
                             resp.result = ErrorCode.db_sel_failed;
                             resp.result_string = "Select failed: " + err;
@@ -228,8 +465,8 @@ Tbl_area.prototype._dbop_cmd_list = function(sql_fmt, req, resp, ctx){
                             resp.result = 0;
                             resp.result_string = "OK";
                             resp.data = {
-                                title :  "Area",
-                                list_title : Tbl_area.list_title, 
+                                title :  Tbl_area.titles.list,
+                                list_title : Tbl_area._get_list_title(), 
                                 content : results,
                                 page : {
                                     cur: req.page.cur,
@@ -247,45 +484,7 @@ Tbl_area.prototype._dbop_cmd_list = function(sql_fmt, req, resp, ctx){
     return  true;
 }
 
-
-Tbl_area.prototype.select = function(req, resp, ctx){
-    console.log( "Tbl_area: select");
-    if(this.check_field(req, ctx, "start",      true, 0) == false) return false;
-    if(this.check_field(req, ctx, "cnt",        true, 1) == false) return false;
-
-	var sql_fmt = "select * from tbl_area where is_del = 0 limit {start}, {cnt};";
-	return this._dbop_select(sql_fmt, req, resp, ctx);
-}
-
-Tbl_area.prototype.cmd_list = function(req, resp, ctx){
-    console.log( "Tbl_area: cmd_list");
-    if(this.check_field(req.page, ctx, "cur",      true, 0) == false) return false;
-
-    req["cnt"] = Tbl_area.m_page_cfg.size;
-    req["start"] = ( req.page.cur - 1 ) * Tbl_area.m_page_cfg.size;
-
-    var sql_fmt =  " select seq, first_name, last_name, user_name from tbl_area where is_del = 0 order by seq asc "
-
-	return this._dbop_cmd_list(sql_fmt, req, resp, ctx);
-}
-
-Tbl_area.prototype.cmd_search = function(req, resp, ctx){
-    console.log( "Tbl_area: cmd_search");
-
-    if(req.search == null || req.search == "" ){
-        return this.cmd_list(req,resp,ctx);
-    }
-    if(this.check_field(req.page, ctx, "cur",      true, 0) == false) return false;
-    if(this.check_field(req, ctx, "search",      true, 0,255) == false) return false;
-    req["start"] = ( req.page.cur - 1 ) * Tbl_area.m_page_cfg.size;
-    req["cnt"] = Tbl_area.m_page_cfg.size;
-
-   
- 	var sql_fmt = "select seq, first_name, last_name, user_name from tbl_area where is_del = 0 and ( first_name like '%{search}%' or last_name like '%{search}%' or user_name like '%{search}%' ) order by seq asc ";
-	return this._dbop_cmd_list(sql_fmt, req, resp, ctx);
-}
-
-// detail
+// dbop: get_detail
 Tbl_area.prototype._dbop_cmd_get_detail = function(sql_fmt, req, resp, ctx){
     var dao_obj = this;
     var mysql_conn = require("../mysql_conn").create_short();
@@ -293,6 +492,7 @@ Tbl_area.prototype._dbop_cmd_get_detail = function(sql_fmt, req, resp, ctx){
         tools.format_object(sql_fmt, req),
         function (err, results, fields){
             if(err) {
+                console.log("sql: ", tools.format_object(sql_fmt, req));
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
                 resp.result_string = "Select failed: " + err;
@@ -300,20 +500,8 @@ Tbl_area.prototype._dbop_cmd_get_detail = function(sql_fmt, req, resp, ctx){
             else{
                 resp.result = 0;
                 resp.result_string = "OK";
-                var data = Tbl_area.content;
-                if(results.length == 1){
-                    data[0][1].key = results[0].seq;
-                    data[0][3].key = results[0].first_name;
-                    data[1][1].key = results[0].last_name;
-                    data[1][3].key = results[0].user_name;
-                }
-                resp.data = {
-                    seq : results[0].seq,
-                    title : "Area Detail",
-                    content : data,
-                    parent_url: Tbl_area.url.parent_list,
-                };
-            }
+                resp.data = Tbl_area._get_detail(results[0]);
+           }
             mysql_conn.end();
             dao_obj.render_resp(resp, ctx);
         }
@@ -321,21 +509,7 @@ Tbl_area.prototype._dbop_cmd_get_detail = function(sql_fmt, req, resp, ctx){
     return  true;
 }
 
-
-
-
-// detail
-Tbl_area.prototype.cmd_get_detail = function(req, resp, ctx){
-    console.log( "Tbl_area: cmd_get_detail");
-    if(this.check_field(req, ctx, "id",        true, 1) == false) return false;
-
-    req.seq = req.id;
-    var sql_fmt = "select * from tbl_area where seq = '{seq}' and is_del = 0"
-    return this._dbop_cmd_get_detail(sql_fmt, req, resp, ctx);
-}
-
-
-// update info
+// dbop: get_update_info
 Tbl_area.prototype._dbop_cmd_get_update_info = function(sql_fmt, req, resp, ctx){
     var dao_obj = this;
     var mysql_conn = require("../mysql_conn").create_short();
@@ -343,6 +517,7 @@ Tbl_area.prototype._dbop_cmd_get_update_info = function(sql_fmt, req, resp, ctx)
         tools.format_object(sql_fmt, req),
         function (err, results, fields){
             if(err) {
+                console.log("sql: ", tools.format_object(sql_fmt, req));
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
                 resp.result_string = "Select failed: " + err;
@@ -350,19 +525,7 @@ Tbl_area.prototype._dbop_cmd_get_update_info = function(sql_fmt, req, resp, ctx)
             else{
                 resp.result = 0;
                 resp.result_string = "OK";
-                var data = Tbl_area.content;
-                if(results.length == 1){
-                    data[0][1].key = results[0].seq;
-                    data[0][3].key = results[0].first_name;
-                    data[1][1].key = results[0].last_name;
-                    data[1][3].key = results[0].user_name;
-                }
-                resp.data = {
-                    seq : results[0].seq,
-                    title : "Area Update",
-                    content : data,
-                    parent_url: "#"+Tbl_area.url.parent_list,
-                };
+                resp.data = Tbl_area._get_update_info(results[0]);
             }
             mysql_conn.end();
             dao_obj.render_resp(resp, ctx);
@@ -371,19 +534,7 @@ Tbl_area.prototype._dbop_cmd_get_update_info = function(sql_fmt, req, resp, ctx)
     return  true;
 }
 
-
-
-
-// update info
-Tbl_area.prototype.cmd_get_update_info = function(req, resp, ctx){
-    console.log( "Tbl_area: cmd_get_update_info");
-    if(this.check_field(req, ctx, "id",        true, 1) == false) return false;
-
-    var sql_fmt = "select * from tbl_area where seq = '{id}' and is_del = 0"
-    return this._dbop_cmd_get_update_info(sql_fmt, req, resp, ctx);
-}
-
-// create info
+// dbop: get_create_info
 Tbl_area.prototype._dbop_cmd_get_create_info = function(sql_fmt, req, resp, ctx){
     var dao_obj = this;
     var mysql_conn = require("../mysql_conn").create_short();
@@ -391,6 +542,7 @@ Tbl_area.prototype._dbop_cmd_get_create_info = function(sql_fmt, req, resp, ctx)
         tools.format_object(sql_fmt, req),
         function (err, results, fields){
             if(err) {
+                console.log("sql: ", tools.format_object(sql_fmt, req));
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
                 resp.result_string = "Select failed: " + err;
@@ -398,17 +550,7 @@ Tbl_area.prototype._dbop_cmd_get_create_info = function(sql_fmt, req, resp, ctx)
             else{
                 resp.result = 0;
                 resp.result_string = "OK";
-                var data = Tbl_area.content;
-                data[0][1].key = null;
-                data[0][3].key = '';
-                data[1][1].key = '';
-                data[1][3].key = '';
-                resp.data = {
-                    seq : null,
-                    title : "Area Create",
-                    content : data,
-                    parent_url: "#"+Tbl_area.url.parent_list,
-                };
+                resp.data = Tbl_area._get_create_info();
             }
             mysql_conn.end();
             dao_obj.render_resp(resp, ctx);
@@ -418,18 +560,8 @@ Tbl_area.prototype._dbop_cmd_get_create_info = function(sql_fmt, req, resp, ctx)
 }
 
 
-// create info
-Tbl_area.prototype.cmd_get_create_info = function(req, resp, ctx){
-    console.log( "Tbl_area: cmd_get_create_info");
 
-    var sql_fmt = 'select * from tbl_area where seq = 0';
-    return this._dbop_cmd_get_create_info(sql_fmt, req, resp, ctx);
-}
-
-
-
-
-
+// 
 var cur = new Tbl_area;
 module.exports = function (req, res, next){
     cur.handle(req, res, next);

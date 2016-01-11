@@ -18,6 +18,7 @@ insert_mapping("/handle_c", "./dao_obj/handle_c.js");
 insert_mapping("/dao_tbl_user", "./dao_obj/dao_tbl_user.js");
 insert_mapping("/dao_tbl_func", "./dao_obj/dao_tbl_func.js");
 insert_mapping("/dao_tbl_area", "./dao_obj/dao_tbl_area.js");
+insert_mapping("/dao_tbl_custom", "./dao_obj/dao_tbl_custom.js");
 
 
 console.log(mapping)
