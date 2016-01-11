@@ -239,8 +239,9 @@ Tbl_area._get_detail = function(res){
         + Tbl_area.struct['id'].key + ': ' + res[Tbl_area.struct['id'].key] + ', '
         + 'title: "' + Tbl_area.titles.detail + '", '
         + 'content: ' + Tbl_area._get_data(res) + ','
-        + 'parent_url: ' + Tbl_area.url
+        + 'parent_url: "' + Tbl_area.url.list + '" '
         + ' }';
+        console.log("jsonString: ",s)
     return eval('('+ s + ')');
 }
 
@@ -250,8 +251,9 @@ Tbl_area._get_update_info = function(res){
         + Tbl_area.struct['id'].key + ': ' + res[Tbl_area.struct['id'].key] + ', '
         + 'title: "' + Tbl_area.titles.update + '", '
         + 'content: ' + Tbl_area._get_data(res) + ','
-        + 'parent_url: ' + Tbl_area.url
+        + 'parent_url: "' + Tbl_area.url.list +'", '
         + ' }';
+        console.log("jsonString: ",s)
     return eval('('+ s + ')');
 }
 
@@ -261,8 +263,9 @@ Tbl_area._get_create_info = function(){
         + Tbl_area.struct['id'].key + ': null, '
         + 'title: "' + Tbl_area.titles.create + '", '
         + 'content: ' + Tbl_area._get_data(null) + ','
-        + 'parent_url: ' + Tbl_area.url
+        + 'parent_url: "' + Tbl_area.url.list + '", '
         + ' }';
+        console.log("jsonString: ",s)
     return eval('('+ s + ')');
 }
 
