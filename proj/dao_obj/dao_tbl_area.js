@@ -37,7 +37,7 @@ function Tbl_area(){
 
     // url
     Tbl_area.url = {
-        list :   '/'+Tbl_area.title.toLowerCase()+'_list',
+        list :   '#/'+Tbl_area.title.toLowerCase()+'_list',
         create : '#/'+Tbl_area.title.toLowerCase()+'_create',
         update : '#/'+Tbl_area.title.toLowerCase()+'_update',
         detail : '#/'+Tbl_area.title.toLowerCase()+'_detail',
@@ -238,7 +238,8 @@ Tbl_area._get_detail = function(res){
     var s = '{ '
         + Tbl_area.struct['id'].key + ': ' + res[Tbl_area.struct['id'].key] + ', '
         + 'title: "' + Tbl_area.titles.detail + '", '
-        + 'content: ' + Tbl_area._get_data(res)
+        + 'content: ' + Tbl_area._get_data(res) + ','
+        + 'parent_url: ' + Tbl_area.url
         + ' }';
     return eval('('+ s + ')');
 }
@@ -475,6 +476,7 @@ Tbl_area.prototype._dbop_cmd_list = function(sql_fmt, req, resp, ctx){
                                 url : Tbl_area.url,
                             };
                         }
+                        console.log("result: ", results);
                         mysql_conn.end();
                         dao_obj.render_resp(resp, ctx);
                     });
