@@ -19,10 +19,19 @@ req = [
 	{'cmd':'add','title':'area_list','url':'/area_list/:search',	'templateUrl':'template/crud_list.html','controller':'crudListCtrl', 'is_navy':'1'	},
 
 	// and board
-	{'cmd':'add','title':'Area111111111',	'url':'#/area_list',		'item_name':'Area List',	'is_navy':'0'},
-	{'cmd':'add','title':'Area111111111',	'url':'#/area_create',		'item_name':'Area Create',	'is_navy':'0'},
 	{'cmd':'add','title':'Area',	'url':'#/area_list',		'item_name':'Area List',	'is_navy':'0'},
 	{'cmd':'add','title':'Area',	'url':'#/area_create',		'item_name':'Area Create',	'is_navy':'0'},
+	{'cmd':'add','title':'Customer',	'url':'#/customer_list',		'item_name':'Customer List',	'is_navy':'0'},
+	{'cmd':'add','title':'Customer',	'url':'#/customer_create',		'item_name':'Customer Create',	'is_navy':'0'},
+	{'cmd':'add','title':'Seller',	'url':'#/seller_list',		'item_name':'Seller List',	'is_navy':'0'},
+	{'cmd':'add','title':'Seller',	'url':'#/seller_create',		'item_name':'Seller Create',	'is_navy':'0'},
+	{'cmd':'add','title':'Buyer',	'url':'#/buyer_list',		'item_name':'Buyer List',	'is_navy':'0'},
+	{'cmd':'add','title':'Buyer',	'url':'#/buyer_create',		'item_name':'Buyer Create',	'is_navy':'0'},
+    {'cmd':'add','title':'LP',	'url':'#/lp_list',		'item_name':'LP List',	'is_navy':'0'},
+	{'cmd':'add','title':'LP',	'url':'#/lp_create',		'item_name':'LP Create',	'is_navy':'0'},
+	{'cmd':'add','title':'User',	'url':'#/user_list',		'item_name':'User List',	'is_navy':'0'},
+	{'cmd':'add','title':'User',	'url':'#/user_create',		'item_name':'User Create',	'is_navy':'0'},
+ 
 
 	// select
 	{
