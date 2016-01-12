@@ -241,7 +241,6 @@ Tbl_area._get_detail = function(res){
         + 'content: ' + Tbl_area._get_data(res) + ','
         + 'parent_url: "' + Tbl_area.url.list + '" '
         + ' }';
-        console.log("jsonString: ",s)
     return eval('('+ s + ')');
 }
 
@@ -253,7 +252,6 @@ Tbl_area._get_update_info = function(res){
         + 'content: ' + Tbl_area._get_data(res) + ','
         + 'parent_url: "' + Tbl_area.url.list +'", '
         + ' }';
-        console.log("jsonString: ",s)
     return eval('('+ s + ')');
 }
 
@@ -265,7 +263,6 @@ Tbl_area._get_create_info = function(){
         + 'content: ' + Tbl_area._get_data(null) + ','
         + 'parent_url: "' + Tbl_area.url.list + '", '
         + ' }';
-        console.log("jsonString: ",s)
     return eval('('+ s + ')');
 }
 

@@ -13,7 +13,7 @@ var url = '/'+tbl;
 req = [
     { cmd:'add', user_name:'test1'},
     { cmd:'select_with_key', id:0},
-    { cmd:'update', first_name:'first_name_updated', last_name:'last_name_updated', id:0},
+    { cmd:'update', first_name:'阿斯兰雕刻技法', last_name:'last_name_updated', id:0},
     { cmd:'remove', id:0},
     { cmd:'select_with_key', id:0},
     { cmd:'recover', id:0},

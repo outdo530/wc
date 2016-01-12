@@ -445,7 +445,7 @@ myapp.controller('boardCtrl', ['$scope', '$http', ctrl_board]);
 
 
 
-
+// area
 myapp.controller('crudListCtrl_area', ['$scope', '$http', '$location', '$routeParams',
 function ($scope, $http, $location, $routeParams){
     ctrl_list("/dao_tbl_area", $scope, $http, $location, $routeParams);
@@ -466,3 +466,115 @@ myapp.controller('crudSelectCtrl_area', ['$scope', '$http', '$location', '$route
 function ($scope, $http, $location, $routeParams){
     ctrl_select("/dao_tbl_area", $scope, $http, $location, $routeParams);
 }]);
+
+// customer
+myapp.controller('crudListCtrl_customer', ['$scope', '$http', '$location', '$routeParams',
+function ($scope, $http, $location, $routeParams){
+    ctrl_list("/dao_tbl_customer", $scope, $http, $location, $routeParams);
+}]);
+myapp.controller('crudDetailCtrl_customer', ['$scope', '$routeParams', '$http', 
+function($scope, $routeParams, $http){
+    ctrl_detail("/dao_tbl_customer", $scope, $routeParams, $http);
+}]);
+myapp.controller('crudUpdateCtrl_customer', ['$scope', '$routeParams', '$http', 'ngDialog', 
+function($scope, $routeParams, $http, ngDialog){
+     ctrl_update("/dao_tbl_customer", $scope, $routeParams, $http, ngDialog);
+}]);
+myapp.controller('crudCreateCtrl_customer', ['$scope', '$http',
+function ($scope, $http){
+    ctrl_create("/dao_tbl_customer", $scope, $http);
+}]);
+myapp.controller('crudSelectCtrl_customer', ['$scope', '$http', '$location', '$routeParams',
+function ($scope, $http, $location, $routeParams){
+    ctrl_select("/dao_tbl_customer", $scope, $http, $location, $routeParams);
+}]);
+
+// seller
+myapp.controller('crudListCtrl_seller', ['$scope', '$http', '$location', '$routeParams',
+function ($scope, $http, $location, $routeParams){
+    ctrl_list("/dao_tbl_seller", $scope, $http, $location, $routeParams);
+}]);
+myapp.controller('crudDetailCtrl_seller', ['$scope', '$routeParams', '$http', 
+function($scope, $routeParams, $http){
+    ctrl_detail("/dao_tbl_seller", $scope, $routeParams, $http);
+}]);
+myapp.controller('crudUpdateCtrl_seller', ['$scope', '$routeParams', '$http', 'ngDialog', 
+function($scope, $routeParams, $http, ngDialog){
+     ctrl_update("/dao_tbl_seller", $scope, $routeParams, $http, ngDialog);
+}]);
+myapp.controller('crudCreateCtrl_seller', ['$scope', '$http',
+function ($scope, $http){
+    ctrl_create("/dao_tbl_seller", $scope, $http);
+}]);
+myapp.controller('crudSelectCtrl_seller', ['$scope', '$http', '$location', '$routeParams',
+function ($scope, $http, $location, $routeParams){
+    ctrl_select("/dao_tbl_seller", $scope, $http, $location, $routeParams);
+}]);
+
+// buyer
+myapp.controller('crudListCtrl_buyer', ['$scope', '$http', '$location', '$routeParams',
+function ($scope, $http, $location, $routeParams){
+    ctrl_list("/dao_tbl_buyer", $scope, $http, $location, $routeParams);
+}]);
+myapp.controller('crudDetailCtrl_buyer', ['$scope', '$routeParams', '$http', 
+function($scope, $routeParams, $http){
+    ctrl_detail("/dao_tbl_buyer", $scope, $routeParams, $http);
+}]);
+myapp.controller('crudUpdateCtrl_buyer', ['$scope', '$routeParams', '$http', 'ngDialog', 
+function($scope, $routeParams, $http, ngDialog){
+     ctrl_update("/dao_tbl_buyer", $scope, $routeParams, $http, ngDialog);
+}]);
+myapp.controller('crudCreateCtrl_buyer', ['$scope', '$http',
+function ($scope, $http){
+    ctrl_create("/dao_tbl_buyer", $scope, $http);
+}]);
+myapp.controller('crudSelectCtrl_buyer', ['$scope', '$http', '$location', '$routeParams',
+function ($scope, $http, $location, $routeParams){
+    ctrl_select("/dao_tbl_buyer", $scope, $http, $location, $routeParams);
+}]);
+
+// lp
+myapp.controller('crudListCtrl_lp', ['$scope', '$http', '$location', '$routeParams',
+function ($scope, $http, $location, $routeParams){
+    ctrl_list("/dao_tbl_lp", $scope, $http, $location, $routeParams);
+}]);
+myapp.controller('crudDetailCtrl_lp', ['$scope', '$routeParams', '$http', 
+function($scope, $routeParams, $http){
+    ctrl_detail("/dao_tbl_lp", $scope, $routeParams, $http);
+}]);
+myapp.controller('crudUpdateCtrl_lp', ['$scope', '$routeParams', '$http', 'ngDialog', 
+function($scope, $routeParams, $http, ngDialog){
+     ctrl_update("/dao_tbl_lp", $scope, $routeParams, $http, ngDialog);
+}]);
+myapp.controller('crudCreateCtrl_lp', ['$scope', '$http',
+function ($scope, $http){
+    ctrl_create("/dao_tbl_lp", $scope, $http);
+}]);
+myapp.controller('crudSelectCtrl_lp', ['$scope', '$http', '$location', '$routeParams',
+function ($scope, $http, $location, $routeParams){
+    ctrl_select("/dao_tbl_lp", $scope, $http, $location, $routeParams);
+}]);
+
+// user
+myapp.controller('crudListCtrl_user', ['$scope', '$http', '$location', '$routeParams',
+function ($scope, $http, $location, $routeParams){
+    ctrl_list("/dao_tbl_user", $scope, $http, $location, $routeParams);
+}]);
+myapp.controller('crudDetailCtrl_user', ['$scope', '$routeParams', '$http', 
+function($scope, $routeParams, $http){
+    ctrl_detail("/dao_tbl_user", $scope, $routeParams, $http);
+}]);
+myapp.controller('crudUpdateCtrl_user', ['$scope', '$routeParams', '$http', 'ngDialog', 
+function($scope, $routeParams, $http, ngDialog){
+     ctrl_update("/dao_tbl_user", $scope, $routeParams, $http, ngDialog);
+}]);
+myapp.controller('crudCreateCtrl_user', ['$scope', '$http',
+function ($scope, $http){
+    ctrl_create("/dao_tbl_user", $scope, $http);
+}]);
+myapp.controller('crudSelectCtrl_user', ['$scope', '$http', '$location', '$routeParams',
+function ($scope, $http, $location, $routeParams){
+    ctrl_select("/dao_tbl_user", $scope, $http, $location, $routeParams);
+}]);
+
+
