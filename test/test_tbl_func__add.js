@@ -12,13 +12,45 @@ req = [
 	// and route 
 	{'cmd':'add','title':'login',	'url':'/login',		'templateUrl':'template/login.html',		'controller':'loginCtrl', 'is_navy':'1'},
 	{'cmd':'add','title':'boards',	'url':'/boards',	'templateUrl':'template/boards.html',		'controller':'boardCtrl', 'is_navy':'1'},
+
+    // controller: area
 	{'cmd':'add','title':'area_list','url':'/area_list',	'templateUrl':'template/crud_list.html',	'controller':'crudListCtrl', 'is_navy':'1'	},
 	{'cmd':'add','title':'area_detail','url':'/area_detail/:crud_id','templateUrl':'template/crud_detail.html','controller':'crudDetailCtrl', 'is_navy':'1'	},
 	{'cmd':'add','title':'area_update','url':'/area_update/:crud_id','templateUrl':'template/crud_update.html','controller':'crudUpdateCtrl', 'is_navy':'1'	},
 	{'cmd':'add','title':'area_create','url':'/area_create',	'templateUrl':'template/crud_create.html','controller':'crudCreateCtrl', 'is_navy':'1'	},
 	{'cmd':'add','title':'area_list','url':'/area_list/:search',	'templateUrl':'template/crud_list.html','controller':'crudListCtrl', 'is_navy':'1'	},
+    // controller: customer
+	{'cmd':'add','title':'customer_list','url':'/customer_list',	'templateUrl':'template/crud_list.html',	'controller':'crudListCtrl', 'is_navy':'1'	},
+	{'cmd':'add','title':'customer_detail','url':'/customer_detail/:crud_id','templateUrl':'template/crud_detail.html','controller':'crudDetailCtrl', 'is_navy':'1'	},
+	{'cmd':'add','title':'customer_update','url':'/customer_update/:crud_id','templateUrl':'template/crud_update.html','controller':'crudUpdateCtrl', 'is_navy':'1'	},
+	{'cmd':'add','title':'customer_create','url':'/customer_create',	'templateUrl':'template/crud_create.html','controller':'crudCreateCtrl', 'is_navy':'1'	},
+	{'cmd':'add','title':'customer_list','url':'/customer_list/:search',	'templateUrl':'template/crud_list.html','controller':'crudListCtrl', 'is_navy':'1'	},
+    // controller: seller
+	{'cmd':'add','title':'seller_list','url':'/seller_list',	'templateUrl':'template/crud_list.html',	'controller':'crudListCtrl', 'is_navy':'1'	},
+	{'cmd':'add','title':'seller_detail','url':'/seller_detail/:crud_id','templateUrl':'template/crud_detail.html','controller':'crudDetailCtrl', 'is_navy':'1'	},
+	{'cmd':'add','title':'seller_update','url':'/seller_update/:crud_id','templateUrl':'template/crud_update.html','controller':'crudUpdateCtrl', 'is_navy':'1'	},
+	{'cmd':'add','title':'seller_create','url':'/seller_create',	'templateUrl':'template/crud_create.html','controller':'crudCreateCtrl', 'is_navy':'1'	},
+	{'cmd':'add','title':'seller_list','url':'/seller_list/:search',	'templateUrl':'template/crud_list.html','controller':'crudListCtrl', 'is_navy':'1'	},
+    // controller: buyer
+	{'cmd':'add','title':'buyer_list','url':'/buyer_list',	'templateUrl':'template/crud_list.html',	'controller':'crudListCtrl', 'is_navy':'1'	},
+	{'cmd':'add','title':'buyer_detail','url':'/buyer_detail/:crud_id','templateUrl':'template/crud_detail.html','controller':'crudDetailCtrl', 'is_navy':'1'	},
+	{'cmd':'add','title':'buyer_update','url':'/buyer_update/:crud_id','templateUrl':'template/crud_update.html','controller':'crudUpdateCtrl', 'is_navy':'1'	},
+	{'cmd':'add','title':'buyer_create','url':'/buyer_create',	'templateUrl':'template/crud_create.html','controller':'crudCreateCtrl', 'is_navy':'1'	},
+	{'cmd':'add','title':'buyer_list','url':'/buyer_list/:search',	'templateUrl':'template/crud_list.html','controller':'crudListCtrl', 'is_navy':'1'	},
+    // controller: lp
+	{'cmd':'add','title':'lp_list','url':'/lp_list',	'templateUrl':'template/crud_list.html',	'controller':'crudListCtrl', 'is_navy':'1'	},
+	{'cmd':'add','title':'lp_detail','url':'/lp_detail/:crud_id','templateUrl':'template/crud_detail.html','controller':'crudDetailCtrl', 'is_navy':'1'	},
+	{'cmd':'add','title':'lp_update','url':'/lp_update/:crud_id','templateUrl':'template/crud_update.html','controller':'crudUpdateCtrl', 'is_navy':'1'	},
+	{'cmd':'add','title':'lp_create','url':'/lp_create',	'templateUrl':'template/crud_create.html','controller':'crudCreateCtrl', 'is_navy':'1'	},
+	{'cmd':'add','title':'lp_list','url':'/lp_list/:search',	'templateUrl':'template/crud_list.html','controller':'crudListCtrl', 'is_navy':'1'	},
+    // controller: user
+	{'cmd':'add','title':'user_list','url':'/user_list',	'templateUrl':'template/crud_list.html',	'controller':'crudListCtrl', 'is_navy':'1'	},
+	{'cmd':'add','title':'user_detail','url':'/user_detail/:crud_id','templateUrl':'template/crud_detail.html','controller':'crudDetailCtrl', 'is_navy':'1'	},
+	{'cmd':'add','title':'user_update','url':'/user_update/:crud_id','templateUrl':'template/crud_update.html','controller':'crudUpdateCtrl', 'is_navy':'1'	},
+	{'cmd':'add','title':'user_create','url':'/user_create',	'templateUrl':'template/crud_create.html','controller':'crudCreateCtrl', 'is_navy':'1'	},
+	{'cmd':'add','title':'user_list','url':'/user_list/:search',	'templateUrl':'template/crud_list.html','controller':'crudListCtrl', 'is_navy':'1'	},
 
-	// and board
+	// boards:
 	{'cmd':'add','title':'Area',	'url':'#/area_list',		'item_name':'Area List',	'is_navy':'0'},
 	{'cmd':'add','title':'Area',	'url':'#/area_create',		'item_name':'Area Create',	'is_navy':'0'},
 	{'cmd':'add','title':'Customer',	'url':'#/customer_list',		'item_name':'Customer List',	'is_navy':'0'},
