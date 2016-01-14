@@ -85,7 +85,7 @@ function ____delete_seq_list(sub_url, cruds, vid, $http){
         console.log("delete the seq OK");
         console.log(cruds);
         for(var con in cruds.content){
-            if( cruds.content[con].seq = vid){
+            if( cruds.content[con].id = vid){
                 cruds.content.splice(con, 1);
                 break;
             }
@@ -128,7 +128,6 @@ function __gen_req_from_info(op_cmd, crud){
             }
         }
     }
-    req.id = (req.id == undefined || req.id == null) ? req.seq  : null;//TODO: to be removed
     return req;
 }
 
@@ -171,9 +170,9 @@ function ctrl_list(sub_url, $scope, $http, $location, $routeParams){
         ____get_list_search(sub_url, $scope, $http, 1, function(cruds){
 
             $scope.on_delete_seq = function(crud){
-                debug(fn_pre , "delete the crud: " + crud.seq);
-                alert(fn_pre + "delete the crud: " + crud.seq);
-                __delete_seq_list(sub_url, cruds, crud.seq, $http);
+                debug(fn_pre , "delete the crud: " + crud.id);
+                alert(fn_pre + "delete the crud: " + crud.id);
+                __delete_seq_list(sub_url, cruds, crud.id, $http);
             }
             $scope.on_search = function(search){
                 debug(fn_pre, "on search :" + search);
@@ -213,10 +212,10 @@ function ctrl_list(sub_url, $scope, $http, $location, $routeParams){
         ____get_list(sub_url, $scope, $http, 1, function(cruds){
 
             $scope.on_delete_seq = function(crud){
-                debug(fn_pre , "delete the crud: " + crud.seq);
+                debug(fn_pre , "delete the crud: " + crud.id);
                 var ret = confirm('Are you sure to delete it!'); //TODO: to a diaglog
                 if(ret)
-                    ____delete_seq_list(sub_url, cruds, crud.seq, $http);
+                    ____delete_seq_list(sub_url, cruds, crud.id, $http);
             }
             $scope.on_search = function(search){
                 debug(fn_pre, "on search :" + search);
@@ -355,9 +354,9 @@ function ctrl_select(sub_url, $scope, $http, $location, $routeParams){
         ____get_list_search(sub_url, $scope, $http, 1, function(cruds){
 
             $scope.on_delete_seq = function(crud){
-                debug(fn_pre , "delete the crud: " + crud.seq);
-                alert(fn_pre + "delete the crud: " + crud.seq);
-                __delete_seq_list(sub_url, cruds, crud.seq, $http);
+                debug(fn_pre , "delete the crud: " + crud.id);
+                alert(fn_pre + "delete the crud: " + crud.id);
+                __delete_seq_list(sub_url, cruds, crud.id, $http);
             }
             $scope.on_search = function(search){
                 debug(fn_pre, "on search :" + search);
@@ -397,10 +396,10 @@ function ctrl_select(sub_url, $scope, $http, $location, $routeParams){
         ____get_list(sub_url, $scope, $http, 1, function(cruds){
 
             $scope.on_delete_seq = function(crud){
-                debug(fn_pre , "delete the crud: " + crud.seq);
+                debug(fn_pre , "delete the crud: " + crud.id);
                 var ret = confirm('Are you sure to delete it!'); //TODO: to a diaglog
                 if(ret)
-                    ____delete_seq_list(sub_url, cruds, crud.seq, $http);
+                    ____delete_seq_list(sub_url, cruds, crud.id, $http);
             }
             $scope.on_search = function(search){
                 debug(fn_pre, "on search :" + search);
