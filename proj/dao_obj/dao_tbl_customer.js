@@ -41,7 +41,7 @@ function Tbl_customer(){
 
     // url
     Tbl_customer.url = {
-        list :   '/'+Tbl_customer.title.toLowerCase()+'_list',
+        list :   '#'+Tbl_customer.title.toLowerCase()+'_list',
         create : '#/'+Tbl_customer.title.toLowerCase()+'_create',
         update : '#/'+Tbl_customer.title.toLowerCase()+'_update',
         detail : '#/'+Tbl_customer.title.toLowerCase()+'_detail',
@@ -242,7 +242,8 @@ Tbl_customer._get_detail = function(res){
     var s = '{ '
         + Tbl_customer.struct['id'].key + ': ' + res[Tbl_customer.struct['id'].key] + ', '
         + 'title: "' + Tbl_customer.titles.detail + '", '
-        + 'content: ' + Tbl_customer._get_data(res)
+        + 'content: ' + Tbl_customer._get_data(res) + ','
+        + 'parent_url: "' + Tbl_customer.url.list + '" '
         + ' }';
     return eval('('+ s + ')');
 }
@@ -252,7 +253,8 @@ Tbl_customer._get_update_info = function(res){
     var s = '{ '
         + Tbl_customer.struct['id'].key + ': ' + res[Tbl_customer.struct['id'].key] + ', '
         + 'title: "' + Tbl_customer.titles.update + '", '
-        + 'content: ' + Tbl_customer._get_data(res)
+        + 'content: ' + Tbl_customer._get_data(res) + ','
+        + 'parent_url: "' + Tbl_customer.url.list + '" '
         + ' }';
     return eval('('+ s + ')');
 }
@@ -262,7 +264,8 @@ Tbl_customer._get_create_info = function(){
     var s = '{ '
         + Tbl_customer.struct['id'].key + ': null, '
         + 'title: "' + Tbl_customer.titles.create + '", '
-        + 'content: ' + Tbl_customer._get_data(null)
+        + 'content: ' + Tbl_customer._get_data(null) + ','
+        + 'parent_url: "' + Tbl_customer.url.list + '" '
         + ' }';
     return eval('('+ s + ')');
 }
