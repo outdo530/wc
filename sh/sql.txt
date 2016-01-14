@@ -1,0 +1,150 @@
+[
+  {
+    "cols": [
+      "id", 
+      "nm", 
+      "contact_nm", 
+      "fix_phone", 
+      "mobile", 
+      "addr", 
+      "type", 
+      "remark", 
+      "crt_ts", 
+      "upd_ts", 
+      "is_del"
+    ], 
+    "pk": "id", 
+    "sql": {
+      "delete": "update tbl_customer set is_del = 1 where id = '{id}'", 
+      "insert": "insert into tbl_customer set nm = '{nm}', contact_nm = '{contact_nm}', fix_phone = '{fix_phone}', mobile = '{mobile}', addr = '{addr}', type = '{type}', remark = '{remark}', crt_ts = '{crt_ts}', upd_ts = '{upd_ts}', is_del = 0;", 
+      "recover": "update tbl_customer set is_del = 0 where id = '{id}'", 
+      "select": "select nm, contact_nm, fix_phone, mobile, addr, type, remark, crt_ts, upd_ts from tbl_customer where is_del = 0 limit {start}, {cnt}", 
+      "select_pk": "select nm, contact_nm, fix_phone, mobile, addr, type, remark, crt_ts, upd_ts from tbl_customer where id = '{id}' and is_del = 0", 
+      "update": "update tbl_customer set nm = '{nm}', contact_nm = '{contact_nm}', fix_phone = '{fix_phone}', mobile = '{mobile}', addr = '{addr}', type = '{type}', remark = '{remark}', crt_ts = '{crt_ts}', upd_ts = '{upd_ts}' where id = '{id}' and is_del = 0"
+    }, 
+    "tab_name": "tbl_customer"
+  }, 
+  {
+    "cols": [
+      "id", 
+      "title", 
+      "url", 
+      "templateurl", 
+      "controller", 
+      "item_name", 
+      "is_navy", 
+      "remark", 
+      "crt_ts", 
+      "upd_ts", 
+      "is_del"
+    ], 
+    "pk": "id", 
+    "sql": {
+      "delete": "update tbl_func set is_del = 1 where id = '{id}'", 
+      "insert": "insert into tbl_func set title = '{title}', url = '{url}', templateurl = '{templateurl}', controller = '{controller}', item_name = '{item_name}', is_navy = '{is_navy}', remark = '{remark}', crt_ts = '{crt_ts}', upd_ts = '{upd_ts}', is_del = 0;", 
+      "recover": "update tbl_func set is_del = 0 where id = '{id}'", 
+      "select": "select title, url, templateurl, controller, item_name, is_navy, remark, crt_ts, upd_ts from tbl_func where is_del = 0 limit {start}, {cnt}", 
+      "select_pk": "select title, url, templateurl, controller, item_name, is_navy, remark, crt_ts, upd_ts from tbl_func where id = '{id}' and is_del = 0", 
+      "update": "update tbl_func set title = '{title}', url = '{url}', templateurl = '{templateurl}', controller = '{controller}', item_name = '{item_name}', is_navy = '{is_navy}', remark = '{remark}', crt_ts = '{crt_ts}', upd_ts = '{upd_ts}' where id = '{id}' and is_del = 0"
+    }, 
+    "tab_name": "tbl_func"
+  }, 
+  {
+    "cols": [
+      "id", 
+      "emp_no", 
+      "real_nm", 
+      "gender", 
+      "email", 
+      "mobile", 
+      "fix_phone", 
+      "id_card_no", 
+      "enter_date", 
+      "left_date", 
+      "user_type", 
+      "sign_id", 
+      "nick_nm", 
+      "password", 
+      "remark", 
+      "crt_ts", 
+      "upd_ts", 
+      "is_del"
+    ], 
+    "pk": "id", 
+    "sql": {
+      "delete": "update tbl_user set is_del = 1 where id = '{id}'", 
+      "insert": "insert into tbl_user set emp_no = '{emp_no}', real_nm = '{real_nm}', gender = '{gender}', email = '{email}', mobile = '{mobile}', fix_phone = '{fix_phone}', id_card_no = '{id_card_no}', enter_date = '{enter_date}', left_date = '{left_date}', user_type = '{user_type}', sign_id = '{sign_id}', nick_nm = '{nick_nm}', password = '{password}', remark = '{remark}', crt_ts = '{crt_ts}', upd_ts = '{upd_ts}', is_del = 0;", 
+      "recover": "update tbl_user set is_del = 0 where id = '{id}'", 
+      "select": "select emp_no, real_nm, gender, email, mobile, fix_phone, id_card_no, enter_date, left_date, user_type, sign_id, nick_nm, password, remark, crt_ts, upd_ts from tbl_user where is_del = 0 limit {start}, {cnt}", 
+      "select_pk": "select emp_no, real_nm, gender, email, mobile, fix_phone, id_card_no, enter_date, left_date, user_type, sign_id, nick_nm, password, remark, crt_ts, upd_ts from tbl_user where id = '{id}' and is_del = 0", 
+      "update": "update tbl_user set emp_no = '{emp_no}', real_nm = '{real_nm}', gender = '{gender}', email = '{email}', mobile = '{mobile}', fix_phone = '{fix_phone}', id_card_no = '{id_card_no}', enter_date = '{enter_date}', left_date = '{left_date}', user_type = '{user_type}', sign_id = '{sign_id}', nick_nm = '{nick_nm}', password = '{password}', remark = '{remark}', crt_ts = '{crt_ts}', upd_ts = '{upd_ts}' where id = '{id}' and is_del = 0"
+    }, 
+    "tab_name": "tbl_user"
+  }, 
+  {
+    "cols": [
+      "id", 
+      "user_id", 
+      "cust_id", 
+      "start_dt", 
+      "end_dt", 
+      "content", 
+      "remark", 
+      "crt_ts", 
+      "upd_ts", 
+      "is_del"
+    ], 
+    "pk": "id", 
+    "sql": {
+      "delete": "update tbl_user__customer set is_del = 1 where id = '{id}'", 
+      "insert": "insert into tbl_user__customer set user_id = '{user_id}', cust_id = '{cust_id}', start_dt = '{start_dt}', end_dt = '{end_dt}', content = '{content}', remark = '{remark}', crt_ts = '{crt_ts}', upd_ts = '{upd_ts}', is_del = 0;", 
+      "recover": "update tbl_user__customer set is_del = 0 where id = '{id}'", 
+      "select": "select cust_id, start_dt, end_dt, content, remark, crt_ts, upd_ts from tbl_user__customer where is_del = 0 limit {start}, {cnt}", 
+      "select_pk": "select cust_id, start_dt, end_dt, content, remark, crt_ts, upd_ts from tbl_user__customer where id = '{id}' and is_del = 0", 
+      "update": "update tbl_user__customer set user_id = '{user_id}', cust_id = '{cust_id}', start_dt = '{start_dt}', end_dt = '{end_dt}', content = '{content}', remark = '{remark}', crt_ts = '{crt_ts}', upd_ts = '{upd_ts}' where id = '{id}' and is_del = 0"
+    }, 
+    "tab_name": "tbl_user__customer"
+  }, 
+  {
+    "cols": [
+      "id", 
+      "user_id", 
+      "func_id", 
+      "remark", 
+      "crt_ts", 
+      "upd_ts", 
+      "is_del"
+    ], 
+    "pk": "id", 
+    "sql": {
+      "delete": "update tbl_user__func set is_del = 1 where id = '{id}'", 
+      "insert": "insert into tbl_user__func set user_id = '{user_id}', func_id = '{func_id}', remark = '{remark}', crt_ts = '{crt_ts}', upd_ts = '{upd_ts}', is_del = 0;", 
+      "recover": "update tbl_user__func set is_del = 0 where id = '{id}'", 
+      "select": "select func_id, remark, crt_ts, upd_ts from tbl_user__func where is_del = 0 limit {start}, {cnt}", 
+      "select_pk": "select func_id, remark, crt_ts, upd_ts from tbl_user__func where id = '{id}' and is_del = 0", 
+      "update": "update tbl_user__func set user_id = '{user_id}', func_id = '{func_id}', remark = '{remark}', crt_ts = '{crt_ts}', upd_ts = '{upd_ts}' where id = '{id}' and is_del = 0"
+    }, 
+    "tab_name": "tbl_user__func"
+  }, 
+  {
+    "cols": [
+      "seq", 
+      "user_id", 
+      "func_id", 
+      "remark", 
+      "crt_ts", 
+      "upd_ts", 
+      "is_del"
+    ], 
+    "pk": "seq", 
+    "sql": {
+      "delete": "update tbl_area set is_del = 1 where seq = '{seq}'", 
+      "insert": "insert into tbl_area set user_id = '{user_id}', func_id = '{func_id}', remark = '{remark}', crt_ts = '{crt_ts}', upd_ts = '{upd_ts}', is_del = 0;", 
+      "recover": "update tbl_area set is_del = 0 where seq = '{seq}'", 
+      "select": "select func_id, remark, crt_ts, upd_ts from tbl_area where is_del = 0 limit {start}, {cnt}", 
+      "select_pk": "select func_id, remark, crt_ts, upd_ts from tbl_area where seq = '{seq}' and is_del = 0", 
+      "update": "update tbl_area set user_id = '{user_id}', func_id = '{func_id}', remark = '{remark}', crt_ts = '{crt_ts}', upd_ts = '{upd_ts}' where seq = '{seq}' and is_del = 0"
+    }, 
+    "tab_name": "tbl_area"
+  }
+]
