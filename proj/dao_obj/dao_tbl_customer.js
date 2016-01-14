@@ -11,19 +11,19 @@ function Tbl_customer(){
 
     // view struct
     Tbl_customer.struct = {
-        id: { key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number', is_col:1, is_view:1},
-        nm: { key: 'nm',  key_text: '名称', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_view:1, is_to_set:1},
+        id: { key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number', is_col:1, is_view:1                                },
+        nm: { key: 'nm',  key_text: '名称', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_view:1, is_to_set:1                      },
         contact_nm: { key: 'contact_nm',  key_text: '联系人名称', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_view:1, is_to_set:1},
-        fix_phone: { key: 'fix_phone',  key_text: '固话', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_view:1, is_to_set:1},
-        mobile: { key: 'mobile',  key_text: '手机', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_view:1, is_to_set:1},
-        addr: { key: 'addr',  key_text: '地址', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_view:1, is_to_set:1},
-        type: { key: 'type',  key_text: '类型', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_view:1, is_last_view_col:1},
-        remark: { key: 'remark',  key_text: '备注', key_type: 'label', value_def: '', value_type: 'text', is_col: 1, is_to_set: 1, },
-        crt_ts: { key: 'crt_ts',  key_text: '创建时间', key_type: 'label', value_def: '', value_type: 'text', is_col: 1, },
-        upd_ts: { key: 'upd_ts',  key_text: '修改时间', key_type: 'label', value_def: '', value_type: 'text', is_col: 1, },
-        is_del: { key: 'is_del',  key_text: '已删除?', key_type: 'label', value_def: '', value_type: 'text', is_col: 1, },
-        upd: { key: 'update',  key_text: '更新?', key_type: 'label', value_def: '', value_type: 'text', is_view:1},
-        del: { key: 'delete',  key_text: '删除?', key_type: 'label', value_def: '', value_type: 'text', is_view:1},
+        fix_phone: { key: 'fix_phone',  key_text: '固话', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_view:1, is_to_set:1        },
+        mobile: { key: 'mobile',  key_text: '手机', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_view:1, is_to_set:1              },
+        addr: { key: 'addr',  key_text: '地址', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_view:1, is_to_set:1                  },
+        type: { key: 'type',  key_text: '类型', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_view:1, is_last_view_col:1           },
+        remark: { key: 'remark',  key_text: '备注', key_type: 'label', value_def: '', value_type: 'text', is_col: 1, is_to_set: 1,                      },
+        crt_ts: { key: 'crt_ts',  key_text: '创建时间', key_type: 'label', value_def: '', value_type: 'text', is_col: 1,                                },
+        upd_ts: { key: 'upd_ts',  key_text: '修改时间', key_type: 'label', value_def: '', value_type: 'text', is_col: 1,                                },
+        is_del: { key: 'is_del',  key_text: '已删除?', key_type: 'label', value_def: '', value_type: 'text', is_col: 1,                                 },
+        upd: { key: 'update',  key_text: '更新?', key_type: 'label', value_def: '', value_type: 'text', is_view:1                                       },
+        del: { key: 'delete',  key_text: '删除?', key_type: 'label', value_def: '', value_type: 'text', is_view:1                                       },
         
     };
 
@@ -41,7 +41,7 @@ function Tbl_customer(){
 
     // url
     Tbl_customer.url = {
-        list :   '#'+Tbl_customer.title.toLowerCase()+'_list',
+        list :   '#/'+Tbl_customer.title.toLowerCase()+'_list',
         create : '#/'+Tbl_customer.title.toLowerCase()+'_create',
         update : '#/'+Tbl_customer.title.toLowerCase()+'_update',
         detail : '#/'+Tbl_customer.title.toLowerCase()+'_detail',
@@ -199,6 +199,16 @@ Tbl_customer._get_list_title = function(){
         }
     }
     return list_title;
+}
+Tbl_customer._get_list_key = function(){
+    var list_key = [];
+    var i=0;
+    for(var elem in Tbl_customer.struct){
+        if(Tbl_customer.struct[elem].is_to_set == 1){
+            list_key[i++] = Tbl_customer.struct[elem].key;
+        }
+    }
+    return list_key;
 }
 
 
@@ -473,7 +483,8 @@ Tbl_customer.prototype._dbop_cmd_list = function(sql_fmt, req, resp, ctx){
                             resp.result_string = "OK";
                             resp.data = {
                                 title :  Tbl_customer.titles.list,
-                                list_title : Tbl_customer._get_list_title(), 
+                                list_title  : Tbl_customer._get_list_title(), 
+                                list_key    : Tbl_customer._get_list_key(), 
                                 content : results,
                                 page : {
                                     cur: req.page.cur,

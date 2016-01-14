@@ -25,13 +25,11 @@
             <tbody >
               <tr ng-repeat="crud in cruds.content | filter:search ">
                 <td>
-                <a class="btn btn-xs btn-primary" href="{{cruds.url.detail}}/{{crud.seq}}" role="button" >{{crud.seq}}</a>
+                    <a class="btn btn-xs btn-primary" href="{{cruds.url.detail}}/{{crud.id}}" role="button" >{{crud.id}}</a>
                 </td>
-                <td>{{crud.first_name}}</td>
-                <td>{{crud.last_name}}</td>
-                <td>{{crud.user_name}}</td>
+                <td ng-repeat="key in cruds.list_key">{{ crud[key]}}</td>
                 <td>
-                <a class="btn btn-xs btn-default" href="{{cruds.url.update}}/{{crud.seq}}">Update</a>
+                <a class="btn btn-xs btn-default" href="{{cruds.url.update}}/{{crud.id}}">Update</a>
                 </td>
                 <td>
                     <button type="button" class="btn btn-xs btn-danger" ng-click="on_delete_seq(crud)">Delete</button>
