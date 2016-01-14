@@ -11,7 +11,7 @@ function Tbl_area(){
 
     // view struct
     Tbl_area.struct = {
-        id: { key: 'seq', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number', is_col:1, is_view:1, },
+        id: { key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number', is_col:1, is_view:1, },
         first_name: { key: 'first_name',  key_text: '名', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_to_set:1, is_view:1, },
         last_name: { key: 'last_name',  key_text: '姓', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_to_set:1, is_view:1, },
         user_name: { key: 'user_name',  key_text: '用户名', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_to_set:1,  is_view:1, is_last_view_col:1},
