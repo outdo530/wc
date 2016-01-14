@@ -197,6 +197,19 @@ Tbl_area.prototype._get_list_title = function(){
     return list_title;
 }
 
+// data: get_list_key
+Tbl_area.prototype._get_list_key = function(){
+    var list_key = [];
+    var i=0;
+    for(var elem in Tbl_area.struct){
+        if(Tbl_area.struct[elem].is_to_set == 1){
+            list_key[i++] = Tbl_area.struct[elem].key;
+        }
+    }
+    return list_key;
+}
+
+
 // data: get_data
 Tbl_area.prototype._get_data = function(res){
     var data = [];
@@ -207,7 +220,7 @@ Tbl_area.prototype._get_data = function(res){
             if(k==0){
                data[i] = [];
             }
-            data[i][k++] = { key: Tbl_area.struct[elem].key, type: Tbl_area.struct[elem].key_type };
+            data[i][k++] = { key: Tbl_area.struct[elem].key_text, type: Tbl_area.struct[elem].key_type };
             data[i][k] = {
                 key: ( Tbl_area.struct[elem].value_type == 'number'
                              ? (res == null ? null : res[Tbl_area.struct[elem].key])
@@ -219,7 +232,7 @@ Tbl_area.prototype._get_data = function(res){
                 data[i][k]['max'] = 100000000;
             }
             if((k%2)==1){
-                data[i][k]['col_nm'] = Tbl_area.struct[elem].key;
+                data[i][k]['col_nm'] = Tbl_area.struct[elem].key
             }
             k ++;
             if( (k % 4) == 0 ){
@@ -466,6 +479,7 @@ Tbl_area.prototype._dbop_cmd_list = function(sql_fmt, req, resp, ctx){
                             resp.data = {
                                 title :  Tbl_area.titles.list,
                                 list_title : dao_obj._get_list_title(), 
+                                list_key : dao_obj._get_list_key(), 
                                 content : results,
                                 page : {
                                     cur: req.page.cur,

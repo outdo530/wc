@@ -202,6 +202,18 @@ Tbl_buyer._get_list_title = function(){
     return list_title;
 }
 
+// data: get_list_key
+Tbl_buyer._get_list_key = function(){
+    var list_key = [];
+    var i=0;
+    for(var elem in Tbl_buyer.struct){
+        if(Tbl_buyer.struct[elem].is_to_set == 1){
+            list_key[i++] = Tbl_buyer.struct[elem].key;
+        }
+    }
+    return list_key;
+}
+
 
 // data: get_data
 Tbl_buyer._get_data = function(res){
@@ -212,7 +224,7 @@ Tbl_buyer._get_data = function(res){
             if(k==0){
                s += '[ ';
             }
-            s += '{ key: "' + Tbl_buyer.struct[elem].key + '", type: "' + Tbl_buyer.struct[elem].key_type + '" }, ';
+            s += '{ key: "' + Tbl_buyer.struct[elem].key_text + '", type: "' + Tbl_buyer.struct[elem].key_type + '" }, ';
             s += '{ key: ' + ( Tbl_buyer.struct[elem].value_type == 'number'
                              ? (res == null ? 'null' : res[Tbl_buyer.struct[elem].key])
                              : (res == null || Tbl_buyer.struct[elem].is_col!=1 ? '""' : ('"' + res[Tbl_buyer.struct[elem].key]+ '"')) )
@@ -475,6 +487,7 @@ Tbl_buyer.prototype._dbop_cmd_list = function(sql_fmt, req, resp, ctx){
                             resp.data = {
                                 title :  Tbl_buyer.titles.list,
                                 list_title : Tbl_buyer._get_list_title(), 
+                                list_key    : Tbl_buyer._get_list_key(), 
                                 content : results,
                                 page : {
                                     cur: req.page.cur,

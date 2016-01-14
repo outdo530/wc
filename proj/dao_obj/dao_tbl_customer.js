@@ -221,7 +221,7 @@ Tbl_customer._get_data = function(res){
             if(k==0){
                s += '[ ';
             }
-            s += '{ key: "' + Tbl_customer.struct[elem].key + '", type: "' + Tbl_customer.struct[elem].key_type + '" }, ';
+            s += '{ key: "' + Tbl_customer.struct[elem].key_text + '", type: "' + Tbl_customer.struct[elem].key_type + '" }, ';
             s += '{ key: ' + ( Tbl_customer.struct[elem].value_type == 'number'
                              ? (res == null ? 'null' : res[Tbl_customer.struct[elem].key])
                              : (res == null || Tbl_customer.struct[elem].is_col!=1 ? '""' : ('"' + res[Tbl_customer.struct[elem].key]+ '"')) )
