@@ -223,7 +223,7 @@ create table tbl_user__func
 /*==============================================================*/
 create table tbl_area
 (
-   seq                  int not null auto_increment,
+   id                   int not null auto_increment,
    first_name           varchar(64),
    last_name            varchar(64),
    user_name            varchar(64),

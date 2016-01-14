@@ -46,7 +46,7 @@ function Tbl_user(){
 
     // url
     Tbl_user.url = {
-        list :   '/'+Tbl_user.title.toLowerCase()+'_list',
+        list :   '#/'+Tbl_user.title.toLowerCase()+'_list',
         create : '#/'+Tbl_user.title.toLowerCase()+'_create',
         update : '#/'+Tbl_user.title.toLowerCase()+'_update',
         detail : '#/'+Tbl_user.title.toLowerCase()+'_detail',
@@ -250,7 +250,8 @@ Tbl_user._get_detail = function(res){
     var s = '{ '
         + Tbl_user.struct['id'].key + ': ' + res[Tbl_user.struct['id'].key] + ', '
         + 'title: "' + Tbl_user.titles.detail + '", '
-        + 'content: ' + Tbl_user._get_data(res)
+        + 'content: ' + Tbl_user._get_data(res) + ','
+        + 'parent_url: "' + Tbl_user.url.list + '" '
         + ' }';
     return eval('('+ s + ')');
 }
@@ -260,7 +261,8 @@ Tbl_user._get_update_info = function(res){
     var s = '{ '
         + Tbl_user.struct['id'].key + ': ' + res[Tbl_user.struct['id'].key] + ', '
         + 'title: "' + Tbl_user.titles.update + '", '
-        + 'content: ' + Tbl_user._get_data(res)
+        + 'content: ' + Tbl_user._get_data(res) + ','
+        + 'parent_url: "' + Tbl_user.url.list + '" '
         + ' }';
     return eval('('+ s + ')');
 }
@@ -270,7 +272,8 @@ Tbl_user._get_create_info = function(){
     var s = '{ '
         + Tbl_user.struct['id'].key + ': null, '
         + 'title: "' + Tbl_user.titles.create + '", '
-        + 'content: ' + Tbl_user._get_data(null)
+        + 'content: ' + Tbl_user._get_data(null) + ','
+        + 'parent_url: "' + Tbl_user.url.list + '" '
         + ' }';
     return eval('('+ s + ')');
 }
