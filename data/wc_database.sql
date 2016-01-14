@@ -231,6 +231,6 @@ create table tbl_area
    crt_ts               timestamp default current_timestamp,
    upd_ts               timestamp,
    is_del               int default 0,
-   primary key (seq)
+   primary key (id)
 );
 
