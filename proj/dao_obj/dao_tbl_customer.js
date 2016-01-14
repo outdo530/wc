@@ -41,7 +41,7 @@ function Tbl_customer(){
 
     // url
     Tbl_customer.url = {
-        list :   '#'+Tbl_customer.title.toLowerCase()+'_list',
+        list :   '#/'+Tbl_customer.title.toLowerCase()+'_list',
         create : '#/'+Tbl_customer.title.toLowerCase()+'_create',
         update : '#/'+Tbl_customer.title.toLowerCase()+'_update',
         detail : '#/'+Tbl_customer.title.toLowerCase()+'_detail',
