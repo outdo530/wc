@@ -253,7 +253,7 @@ Tbl_lp._get_detail = function(res){
         + Tbl_lp.struct['id'].key + ': ' + res[Tbl_lp.struct['id'].key] + ', '
         + 'title: "' + Tbl_lp.titles.detail + '", '
         + 'content: ' + Tbl_lp._get_data(res) + ','
-        + 'parent_url: "' + Tbl_lp.url.list + '" '
+        + 'parent: { url: "' + Tbl_lp.url.list + '", title: "' + Tbl_lp.title + '", }, '
         + ' }';
     return eval('('+ s + ')');
 }
@@ -264,7 +264,7 @@ Tbl_lp._get_update_info = function(res){
         + Tbl_lp.struct['id'].key + ': ' + res[Tbl_lp.struct['id'].key] + ', '
         + 'title: "' + Tbl_lp.titles.update + '", '
         + 'content: ' + Tbl_lp._get_data(res) + ','
-        + 'parent_url: "' + Tbl_lp.url.list + '" '
+        + 'parent: { url: "' + Tbl_lp.url.list + '", title: "' + Tbl_lp.title + '", }, '
         + ' }';
     return eval('('+ s + ')');
 }
@@ -275,7 +275,7 @@ Tbl_lp._get_create_info = function(){
         + Tbl_lp.struct['id'].key + ': null, '
         + 'title: "' + Tbl_lp.titles.create + '", '
         + 'content: ' + Tbl_lp._get_data(null) + ','
-        + 'parent_url: "' + Tbl_lp.url.list + '" '
+        + 'parent: { url: "' + Tbl_lp.url.list + '", title: "' + Tbl_lp.title + '", }, '
         + ' }';
     return eval('('+ s + ')');
 }

@@ -253,7 +253,7 @@ Tbl_customer._get_detail = function(res){
         + Tbl_customer.struct['id'].key + ': ' + res[Tbl_customer.struct['id'].key] + ', '
         + 'title: "' + Tbl_customer.titles.detail + '", '
         + 'content: ' + Tbl_customer._get_data(res) + ','
-        + 'parent_url: "' + Tbl_customer.url.list + '" '
+        + 'parent: { url: "' + Tbl_customer.url.list + '", title: "' + Tbl_customer.title + '", }, '
         + ' }';
     return eval('('+ s + ')');
 }
@@ -264,7 +264,7 @@ Tbl_customer._get_update_info = function(res){
         + Tbl_customer.struct['id'].key + ': ' + res[Tbl_customer.struct['id'].key] + ', '
         + 'title: "' + Tbl_customer.titles.update + '", '
         + 'content: ' + Tbl_customer._get_data(res) + ','
-        + 'parent_url: "' + Tbl_customer.url.list + '" '
+        + 'parent: { url: "' + Tbl_customer.url.list + '", title: "' + Tbl_customer.title + '", }, '
         + ' }';
     return eval('('+ s + ')');
 }
@@ -275,7 +275,7 @@ Tbl_customer._get_create_info = function(){
         + Tbl_customer.struct['id'].key + ': null, '
         + 'title: "' + Tbl_customer.titles.create + '", '
         + 'content: ' + Tbl_customer._get_data(null) + ','
-        + 'parent_url: "' + Tbl_customer.url.list + '" '
+        + 'parent: { url: "' + Tbl_customer.url.list + '", title: "' + Tbl_customer.title + '", }, '
         + ' }';
     return eval('('+ s + ')');
 }

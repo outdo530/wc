@@ -251,7 +251,10 @@ Tbl_area.prototype._get_detail = function(res){
     data[Tbl_area.struct['id'].key] = res[Tbl_area.struct['id'].key];
     data['title'] = Tbl_area.titles.detail;
     data['content'] = this._get_data(res);
-    data['parent_url'] = Tbl_area.url.list;
+    data['parent'] = {
+    	url: Tbl_area.url.list,
+	title: Tbl_area.title,
+    };
     return data;
 }
 
@@ -261,7 +264,10 @@ Tbl_area.prototype._get_update_info = function(res){
     data[Tbl_area.struct['id'].key] = res[Tbl_area.struct['id'].key];
     data['title'] = Tbl_area.titles.update;
     data['content'] = this._get_data(res);
-    data['parent_url'] = Tbl_area.url.list;
+    data['parent'] = {
+    	url: Tbl_area.url.list,
+	title: Tbl_area.title,
+    };
     return data;
 }
 
@@ -271,7 +277,10 @@ Tbl_area.prototype._get_create_info = function(){
     data[Tbl_area.struct['id'].key] = null;
     data['title'] = Tbl_area.titles.create;
     data['content'] = this._get_data(null);
-    data['parent_url'] = Tbl_area.url.list;
+    data['parent'] = {
+    	url: Tbl_area.url.list,
+	title: Tbl_area.title,
+    };
     return data;
 }
 

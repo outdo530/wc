@@ -256,7 +256,7 @@ Tbl_buyer._get_detail = function(res){
         + Tbl_buyer.struct['id'].key + ': ' + res[Tbl_buyer.struct['id'].key] + ', '
         + 'title: "' + Tbl_buyer.titles.detail + '", '
         + 'content: ' + Tbl_buyer._get_data(res) + ','
-        + 'parent_url: "' + Tbl_buyer.url.list + '" '
+        + 'parent: { url: "' + Tbl_buyer.url.list + '", title: "' + Tbl_buyer.title + '", }, '
         + ' }';
     return eval('('+ s + ')');
 }
@@ -266,10 +266,10 @@ Tbl_buyer._get_update_info = function(res){
     var s = '{ '
         + Tbl_buyer.struct['id'].key + ': ' + res[Tbl_buyer.struct['id'].key] + ', '
         + 'title: "' + Tbl_buyer.titles.update + '", '
-        + 'content: ' + Tbl_buyer._get_data(res) + ','
-        + 'parent_url: "' + Tbl_buyer.url.list + '" '
+        + 'content: ' + Tbl_buyer._get_data(res) + ', '
+        + 'parent: { url: "' + Tbl_buyer.url.list + '", title: "' + Tbl_buyer.title + '", }, '
         + ' }';
-    return eval('('+ s + ')');
+   return eval('('+ s + ')');
 }
 
 // data: get_create_info
@@ -278,7 +278,7 @@ Tbl_buyer._get_create_info = function(){
         + Tbl_buyer.struct['id'].key + ': null, '
         + 'title: "' + Tbl_buyer.titles.create + '", '
         + 'content: ' + Tbl_buyer._get_data(null) + ','
-        + 'parent_url: "' + Tbl_buyer.url.list + '" '
+        + 'parent: { url: "' + Tbl_buyer.url.list + '", title: "' + Tbl_buyer.title + '", }, '
         + ' }';
     return eval('('+ s + ')');
 }
