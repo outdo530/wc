@@ -137,7 +137,7 @@ Tbl_func.prototype._dbop_get_board = function(sql_fmt, req, resp, ctx){
                 resp.result = 0;
                 resp.result_string = "OK";
 	        	resp.data = {
-                    title:  "Panel",
+                    title:  "功能列表",
                     panels:[],
                 };
 

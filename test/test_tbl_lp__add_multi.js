@@ -12,17 +12,17 @@ var url = "/" + tbl;
 
 req = [
 	// add 
-	{cmd:'add', cust_id:0, type:'',	risk_prefer_desc:'', expect_of_contrib:'', reward_of_contrib:'',},
-	{cmd:'add', cust_id:0, type:'',	risk_prefer_desc:'', expect_of_contrib:'', reward_of_contrib:'',},
-	{cmd:'add', cust_id:0, type:'',	risk_prefer_desc:'', expect_of_contrib:'', reward_of_contrib:'',},
-	{cmd:'add', cust_id:0, type:'',	risk_prefer_desc:'', expect_of_contrib:'', reward_of_contrib:'',},
-	{cmd:'add', cust_id:0, type:'',	risk_prefer_desc:'', expect_of_contrib:'', reward_of_contrib:'',},
-	{cmd:'add', cust_id:0, type:'',	risk_prefer_desc:'', expect_of_contrib:'', reward_of_contrib:'',},
-	{cmd:'add', cust_id:0, type:'',	risk_prefer_desc:'', expect_of_contrib:'', reward_of_contrib:'',},
-	{cmd:'add', cust_id:0, type:'',	risk_prefer_desc:'', expect_of_contrib:'', reward_of_contrib:'',},
-	{cmd:'add', cust_id:0, type:'',	risk_prefer_desc:'', expect_of_contrib:'', reward_of_contrib:'',},
-	{cmd:'add', cust_id:0, type:'',	risk_prefer_desc:'', expect_of_contrib:'', reward_of_contrib:'',},
-	{cmd:'add', cust_id:0, type:'',	risk_prefer_desc:'', expect_of_contrib:'', reward_of_contrib:'',},
+	{cmd:'add', cust_id:0, _type:'',	risk_prefer_desc:'', expect_of_contrib:'', reward_of_contrib:'',},
+	{cmd:'add', cust_id:0, _type:'',	risk_prefer_desc:'', expect_of_contrib:'', reward_of_contrib:'',},
+	{cmd:'add', cust_id:0, _type:'',	risk_prefer_desc:'', expect_of_contrib:'', reward_of_contrib:'',},
+	{cmd:'add', cust_id:0, _type:'',	risk_prefer_desc:'', expect_of_contrib:'', reward_of_contrib:'',},
+	{cmd:'add', cust_id:0, _type:'',	risk_prefer_desc:'', expect_of_contrib:'', reward_of_contrib:'',},
+	{cmd:'add', cust_id:0, _type:'',	risk_prefer_desc:'', expect_of_contrib:'', reward_of_contrib:'',},
+	{cmd:'add', cust_id:0, _type:'',	risk_prefer_desc:'', expect_of_contrib:'', reward_of_contrib:'',},
+	{cmd:'add', cust_id:0, _type:'',	risk_prefer_desc:'', expect_of_contrib:'', reward_of_contrib:'',},
+	{cmd:'add', cust_id:0, _type:'',	risk_prefer_desc:'', expect_of_contrib:'', reward_of_contrib:'',},
+	{cmd:'add', cust_id:0, _type:'',	risk_prefer_desc:'', expect_of_contrib:'', reward_of_contrib:'',},
+	{cmd:'add', cust_id:0, _type:'',	risk_prefer_desc:'', expect_of_contrib:'', reward_of_contrib:'',},
 
     // select
 	{
@@ -42,7 +42,7 @@ function test(){
 	if( i < req.length ){
 	
         req[i].cust_id =  (i+1);
-        req[i].type = 'type' + (i+1);
+        req[i]._type = 'type' + (i+1);
         req[i].risk_prefer_desc = 'rpd' + (i+1);
         req[i].expect_of_contrib = 'eoc' + (i+1);
         req[i].reward_of_contrib = 'roc' + (i+1);
