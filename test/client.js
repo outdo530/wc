@@ -2,6 +2,24 @@ var util = require("util");
 var inherits = require("util").inherits;
 
 
+
+function mbStringLength(s) {
+    var totalLength = 0;
+    var i;
+    var charCode;
+    for (i = 0; i < s.length; i++) {
+        charCode = s.charCodeAt(i);
+        if (charCode < 0x007f) {
+            totalLength = totalLength + 1;
+        } else if ((0x0080 <= charCode) && (charCode <= 0x07ff)) {
+            totalLength += 2;
+        } else if ((0x0800 <= charCode) && (charCode <= 0xffff)) {
+            totalLength += 3;
+        }
+    }
+    //alert(totalLength);
+    return totalLength;
+}
 function call(rip, rport, rpath, req_str, cb_res){
 
     var request_string = JSON.stringify(req_str);
@@ -14,8 +32,8 @@ function call(rip, rport, rpath, req_str, cb_res){
         path: rpath,
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': request_string.length
+            'Content-Type': 'application/json;charset=utf-8"',
+            'Content-Length': mbStringLength(request_string),
         }
     };
     var http = require('http');
