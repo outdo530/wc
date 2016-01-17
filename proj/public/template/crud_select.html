@@ -16,8 +16,6 @@
 
         <button type="button" class="btn btn-xs btn-default" ng-click="on_select(cruds)" >Multi-Select</button>
 
-        <a class="btn btn-xs btn-success" href="{{cruds.url.create}}" role="button">Create New +   </a>
-
           <table class="table table-striped table-hover">
             <thead>
               <tr>
@@ -27,20 +25,9 @@
             <tbody >
               <tr ng-repeat="crud in cruds.content | filter:search ">
                 <td>
-                    select
+                    <a class="btn btn-xs btn-primary" href="{{cruds.url.detail}}/{{crud.id}}" role="button" >{{crud.id}}</a>
                 </td>
-                <td>
-                <a class="btn btn-xs btn-primary" href="{{cruds.url.detail}}/{{crud.seq}}" role="button" >{{crud.seq}}</a>
-                </td>
-                <td>{{crud.first_name}}</td>
-                <td>{{crud.last_name}}</td>
-                <td>{{crud.user_name}}</td>
-                <td>
-                <a class="btn btn-xs btn-default" href="{{cruds.url.update}}/{{crud.seq}}">Update</a>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-xs btn-danger" ng-click="on_delete_seq(crud)">Delete</button>
-                </td>
+                <td ng-repeat="key in cruds.list_key">{{ crud[key]}}</td>
               </tr>
             </tbody>
           </table>

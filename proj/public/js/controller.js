@@ -299,23 +299,28 @@ function ctrl_update(sub_url, $scope, $routeParams, $http, ngDialog){
             __reset_input_box(crud.content);
         }
         $scope.click_to_open = function(crud){
-            $scope.dialog_val = "nihao";
-            ngDialog.openConfirm(  { 
-                template: 'template/dialog.html',
-                scope : $scope,
-                }
-            )
-            .then(
-               function (val){
-                console.log(" confirm value : " + val);
-               },
-               function (reason){
-                console.log(" cancel reason : " + reason);
-               }
-            );
-        }
-    });
-
+            var req = { cmd : 'cmd_list',   page : {'cur' : 1,} };
+            var sub_url = '/dao_tbl_customer'
+            __http_req($http, sub_url, req
+            , function(rsp){
+                $scope.cruds = rsp.data;
+                $scope.page_str = __format_page_info($scope.cruds.page);
+                ngDialog.openConfirm(  { 
+                    template: 'template/crud_select.html',
+                    scope : $scope,
+                    }
+                )
+                .then(
+                   function (val){
+                    console.log(" confirm value : " + val);
+                   },
+                   function (reason){
+                    console.log(" cancel reason : " + reason);
+                   }
+                );
+            });//__http_req
+    }
+    });// __http_req
 }
 
 function ctrl_create(sub_url, $scope, $http){
