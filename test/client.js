@@ -37,6 +37,7 @@ function call(rip, rport, rpath, req_str, cb_res){
         }
     };
     var http = require('http');
+        
     var req = http.request(
         options, 
         function (res) {
@@ -44,21 +45,23 @@ function call(rip, rport, rpath, req_str, cb_res){
                 console.log('respone STATUS: ' + res.statusCode);
                 console.log('respone HEADERS: ' + JSON.stringify(res.headers));
             }
-            //res.setEncoding('utf8');
-            res.on(
-                'data', 
-                function (message) {
-                    var ret= eval('(' + message + ')');
-                    if(cb_res != null){
-			console.log( util.inspect(ret, {depth: 5, colors: true}));
-                        cb_res(res,ret);
-                    }
-                    else{
-                        console.log('resp_str: ' ,ret);
-                    }
-                }
-            );
+            var BufferHelper = require('./bufferhelper');
+            var bufferHelper = new BufferHelper();
 
+            res.on('data', function (chunk) {  
+                bufferHelper.concat(chunk);
+            });  
+            res.on('end', function () {  
+                var buffer = bufferHelper.toBuffer();
+                var ret= JSON.parse(buffer);
+                if(cb_res != null){
+                    console.log( util.inspect(ret, {depth: 5, colors: true}));
+                    cb_res(res,ret);
+                }
+                else{
+                    console.log('resp_str: ' ,ret);
+                }
+            });
         }
     );
     req.on(
