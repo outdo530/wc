@@ -1,8 +1,10 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2015/12/26 22:18:31                          */
+/* Created on:     2016/1/17 13:28:55                           */
 /*==============================================================*/
 
+
+drop table if exists tbl_area;
 
 drop table if exists tbl_buyer;
 
@@ -22,7 +24,21 @@ drop table if exists tbl_user__customer;
 
 drop table if exists tbl_user__func;
 
-drop table if exists tbl_area;
+/*==============================================================*/
+/* Table: tbl_area                                              */
+/*==============================================================*/
+create table tbl_area
+(
+   id                   int not null auto_increment,
+   first_name           varchar(64),
+   last_name            varchar(64),
+   user_name            varchar(64),
+   remark               varchar(256),
+   crt_ts               timestamp default current_timestamp on update current_timestamp,
+   upd_ts               timestamp,
+   is_del               int default 0,
+   primary key (id)
+);
 
 /*==============================================================*/
 /* Table: tbl_buyer                                             */
@@ -53,8 +69,8 @@ alter table tbl_buyer comment '买方';
 create table tbl_const
 (
    id                   int not null auto_increment,
-   type                 varchar(64),
-   _desc                 varchar(128),
+   _type                varchar(64),
+   _desc                varchar(128),
    primary key (id)
 );
 
@@ -74,7 +90,9 @@ create table tbl_customer
    fix_phone            varchar(16) comment '固话',
    mobile               varchar(16) comment '手机',
    addr                 varchar(128) comment '客户地址',
-   type                 varchar(16) comment '按照位进行操作,  char1 买方，chart 2 卖方， char 3LP  多选',
+   is_buyer             int comment '按照位进行操作,  char1 买方，chart 2 卖方， char 3LP  多选',
+   is_seller            int,
+   is_lp                int,
    remark               varchar(256),
    crt_ts               timestamp default current_timestamp,
    upd_ts               timestamp,
@@ -94,11 +112,10 @@ create table tbl_func
    url                  varchar(128),
    templateurl          varchar(128),
    controller           varchar(64),
-   item_name		varchar(64),
-   is_navy		int default 0,
+   is_navy              int default 0,
+   item_name            varchar(64),
    remark               varchar(256),
    crt_ts               timestamp default current_timestamp on update current_timestamp,
- 
    upd_ts               timestamp,
    is_del               int default 0,
    primary key (id)
@@ -111,7 +128,7 @@ create table tbl_lp
 (
    id                   int not null auto_increment,
    cust_id              int,
-   type                 varchar(64) comment 'LP 类型
+   _type                varchar(64) comment 'LP 类型
             p2p、行业内高净值人群、私人银行、境外资金',
    risk_prefer_desc     varchar(1024) comment '风险偏好描述',
    expect_of_contrib    varchar(64) comment '出资期限',
@@ -210,23 +227,6 @@ create table tbl_user__func
    id                   int not null auto_increment,
    user_id              int,
    func_id              int,
-   remark               varchar(256),
-   crt_ts               timestamp default current_timestamp,
-   upd_ts               timestamp,
-   is_del               int default 0,
-   primary key (id)
-);
-
-
-/*==============================================================*/
-/* Table: tbl_area                                              */
-/*==============================================================*/
-create table tbl_area
-(
-   id                   int not null auto_increment,
-   first_name           varchar(64),
-   last_name            varchar(64),
-   user_name            varchar(64),
    remark               varchar(256),
    crt_ts               timestamp default current_timestamp,
    upd_ts               timestamp,
