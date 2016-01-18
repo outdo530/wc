@@ -283,15 +283,17 @@ function ctrl_update(sub_url, $scope, $routeParams, $http, ngDialog){
         $scope.on_reset = function(crud){
             __reset_input_box(crud.content);
         }
-        $scope.click_to_open = function(crud){
+        $scope.click_to_open = function(crud, item){
             var req = { cmd : 'cmd_list',   page : {'cur' : 1,} };
-            var sub_url = '/dao_tbl_customer'
+            var sub_url = item.op_args.url;
             __http_req($http, sub_url, req
             , function(rsp){
                 $scope.cruds = rsp.data;
                 $scope.page_str = __format_page_info($scope.cruds.page);
                 ngDialog.openConfirm(  { 
                     template: 'template/crud_select.html',
+                    //className : 'ngDialog-custom-width',
+                    //controller : 'dialog_ctrl',
                     scope : $scope,
                     }
                 )
@@ -495,4 +497,9 @@ function ($scope, $http, $location, $routeParams){
     ctrl_select("/dao_tbl_user", $scope, $http, $location, $routeParams);
 }]);
 
+
+myapp.controller('dialog_ctrl', ['$scope', '$http', '$location', '$routeParams',
+function ($scope, $http, $location, $routeParams){
+    ctrl_list("/dao_tbl_customer", $scope, $http, $location, $routeParams);
+}]);
 

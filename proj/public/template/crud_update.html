@@ -15,16 +15,16 @@
             <table class="table table-bordered">
                 <tbody >
                     <tr ng-repeat="item in crud_update.content">
+
                         <td align="right" > <span class="label label-default">{{item[0].key}}</span>    </td>
                         <td ng-switch="item[1].op_type">               
                             <p ng-switch-when="select">
-                                <select ng-model="item[i].select" ng-options="item for item in item[i].select.items">
+                                <select ng-model="item[1].key" ng-options="item.key as item.show_as for item in item[1].op_args.items">
                                 </select>
-                                <!--<input type="{{item[1].type}}" ng-model="item[1].key" ng-readonly="item[1].editable != 1"/>  -->
                             </p>
                             <p ng-switch-when="dialog">
                                 <input type="{{item[1].type}}" ng-model="item[1].key" ng-readonly="item[1].editable != 1"/>  
-                                <button type="button" class="btn btn-sm btn-default" ng-click="click_to_open(crud_update)">Select</button>
+                                <button type="button" class="btn btn-sm btn-default" ng-click="click_to_open(crud_update, item[1])">Select</button>
                             </p>
                             <p ng-switch-default="">
                                 <input type="{{item[1].type}}" ng-model="item[1].key" ng-readonly="item[1].editable != 1"/>  
@@ -38,17 +38,12 @@
                             </p>
                             <p ng-switch-when="dialog">
                                 <input type="{{item[3].type}}" ng-model="item[3].key" ng-readonly="item[3].editable != 1"/>  
-                                <button type="button" class="btn btn-sm btn-default" ng-click="click_to_open(crud_update)">Select</button>
+                                <button type="button" class="btn btn-sm btn-default" ng-click="click_to_open(crud_update, item[3])">Select</button>
                             </p>
                             <p ng-switch-default="">
                                 <input type="{{item[3].type}}" ng-model="item[3].key" ng-readonly="item[3].editable != 1"/>  
                             </p>
                         </td>
-                        <!--
-                        <td >               
-                            <input type="{{item[3].type}}" ng-model="item[3].key" ng-readonly="item[3].editable != 1"/>    
-                            <button type="button" class="btn btn-sm btn-default" ng-click="click_to_open(crud_update)">Select</button>
-                        </td>-->
                     </tr>
                 </tbody>
             </table>
