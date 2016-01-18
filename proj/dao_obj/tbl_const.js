@@ -37,7 +37,7 @@ exports.op_type_text_span = function(_cols){
     };
 }
 
-exports.op_type_text_span = function(){
+exports.op_type_text_area = function(){
     return {
         editable:1,
         multi_line:1,

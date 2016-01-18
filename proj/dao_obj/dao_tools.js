@@ -1,5 +1,5 @@
 var util = require("util");
-
+var tbl_const = require("./tbl_const");
 // get base sql:
 
 // sql: get_set_sql
@@ -210,7 +210,8 @@ exports._get_detail_content = function(info, res){
                 data[i][k]['max'] = 100000000;
             }
             if((k%2)==1){
-                data[i][k]['col_nm'] = info.struct[elem].key
+                data[i][k]['col_nm'] = info.struct[elem].key;
+                tbl_const.copy_elem(data[i][k], info.struct[elem].op);
             }
             k ++;
             if( (k % 4) == 0 ){
