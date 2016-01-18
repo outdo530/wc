@@ -16,7 +16,7 @@ function Tbl_buyer(){
         tbl_alias: ' a',
         tbl_name2: 'tbl_'+Tbl_buyer.tbl_name2,
         tbl_alias2: ' b',
-        join_condition: 'a.cust_id = b.id ',
+        join_condition: '(a.cust_id = b.id) ',
 
         struct : {
 	        id: { tbl: 'a.', key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number',
