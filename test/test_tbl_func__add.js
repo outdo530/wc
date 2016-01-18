@@ -14,11 +14,11 @@ req = [
 	{'cmd':'add','title':'boards',	'url':'/boards',	'templateUrl':'template/boards.html',		'controller':'boardCtrl', 'is_navy':'1'},
 
     // controller: area
-	{'cmd':'add','title':'area_list','url':'/area_list',	'templateUrl':'template/crud_list.html',	'controller':'crudListCtrl', 'is_navy':'1'	},
-	{'cmd':'add','title':'area_detail','url':'/area_detail/:crud_id','templateUrl':'template/crud_detail.html','controller':'crudDetailCtrl', 'is_navy':'1'	},
-	{'cmd':'add','title':'area_update','url':'/area_update/:crud_id','templateUrl':'template/crud_update.html','controller':'crudUpdateCtrl', 'is_navy':'1'	},
-	{'cmd':'add','title':'area_create','url':'/area_create',	'templateUrl':'template/crud_create.html','controller':'crudCreateCtrl', 'is_navy':'1'	},
-	{'cmd':'add','title':'area_list','url':'/area_list/:search',	'templateUrl':'template/crud_list.html','controller':'crudListCtrl', 'is_navy':'1'	},
+//	{'cmd':'add','title':'area_list','url':'/area_list',	'templateUrl':'template/crud_list.html',	'controller':'crudListCtrl', 'is_navy':'1'	},
+//	{'cmd':'add','title':'area_detail','url':'/area_detail/:crud_id','templateUrl':'template/crud_detail.html','controller':'crudDetailCtrl', 'is_navy':'1'	},
+//	{'cmd':'add','title':'area_update','url':'/area_update/:crud_id','templateUrl':'template/crud_update.html','controller':'crudUpdateCtrl', 'is_navy':'1'	},
+//	{'cmd':'add','title':'area_create','url':'/area_create',	'templateUrl':'template/crud_create.html','controller':'crudCreateCtrl', 'is_navy':'1'	},
+//	{'cmd':'add','title':'area_list','url':'/area_list/:search',	'templateUrl':'template/crud_list.html','controller':'crudListCtrl', 'is_navy':'1'	},
     // controller: customer
 	{'cmd':'add','title':'customer_list','url':'/customer_list',	'templateUrl':'template/crud_list.html',	'controller':'crudListCtrl', 'is_navy':'1'	},
 	{'cmd':'add','title':'customer_detail','url':'/customer_detail/:crud_id','templateUrl':'template/crud_detail.html','controller':'crudDetailCtrl', 'is_navy':'1'	},
@@ -51,27 +51,26 @@ req = [
 	{'cmd':'add','title':'user_list','url':'/user_list/:search',	'templateUrl':'template/crud_list.html','controller':'crudListCtrl', 'is_navy':'1'	},
 
 	// boards:
-	{'cmd':'add','title':'Area',	'url':'#/area_list',		'item_name':'Area List',	'is_navy':'0'},
-	{'cmd':'add','title':'Area',	'url':'#/area_create',		'item_name':'Area Create',	'is_navy':'0'},
-	{'cmd':'add','title':'Customer',	'url':'#/customer_list',		'item_name':'Customer List',	'is_navy':'0'},
-	{'cmd':'add','title':'Customer',	'url':'#/customer_create',		'item_name':'Customer Create',	'is_navy':'0'},
-	{'cmd':'add','title':'Seller',	'url':'#/seller_list',		'item_name':'Seller List',	'is_navy':'0'},
-	{'cmd':'add','title':'Seller',	'url':'#/seller_create',		'item_name':'Seller Create',	'is_navy':'0'},
-	{'cmd':'add','title':'Buyer',	'url':'#/buyer_list',		'item_name':'Buyer List',	'is_navy':'0'},
-	{'cmd':'add','title':'Buyer',	'url':'#/buyer_create',		'item_name':'Buyer Create',	'is_navy':'0'},
-    {'cmd':'add','title':'LP',	'url':'#/lp_list',		'item_name':'LP List',	'is_navy':'0'},
-	{'cmd':'add','title':'LP',	'url':'#/lp_create',		'item_name':'LP Create',	'is_navy':'0'},
-	{'cmd':'add','title':'User',	'url':'#/user_list',		'item_name':'User List',	'is_navy':'0'},
-	{'cmd':'add','title':'User',	'url':'#/user_create',		'item_name':'User Create',	'is_navy':'0'},
+	//{'cmd':'add','title':'地区',	'url':'#/area_list',		'item_name':'地区列表',	'is_navy':'0'},
+	//{'cmd':'add','title':'地区',	'url':'#/area_create',		'item_name':'新增地区',	'is_navy':'0'},
+	{'cmd':'add','title':'客户',	'url':'#/customer_list',		'item_name':'客户列表',	'is_navy':'0'},
+	{'cmd':'add','title':'客户',	'url':'#/customer_create',		'item_name':'新增客户',	'is_navy':'0'},
+	{'cmd':'add','title':'卖家',	'url':'#/seller_list',		'item_name':'卖家列表',	'is_navy':'0'},
+	{'cmd':'add','title':'卖家',	'url':'#/seller_create',		'item_name':'新增卖家',	'is_navy':'0'},
+	{'cmd':'add','title':'买家',	'url':'#/buyer_list',		'item_name':'买家列表',	'is_navy':'0'},
+	{'cmd':'add','title':'买家',	'url':'#/buyer_create',		'item_name':'新增买家',	'is_navy':'0'},
+    {'cmd':'add','title':'LP',	'url':'#/lp_list',		'item_name':'LP列表',	'is_navy':'0'},
+	{'cmd':'add','title':'LP',	'url':'#/lp_create',		'item_name':'新增LP',	'is_navy':'0'},
+	{'cmd':'add','title':'用户',	'url':'#/user_list',		'item_name':'用户列表',	'is_navy':'0'},
+	{'cmd':'add','title':'用户',	'url':'#/user_create',		'item_name':'新增用户',	'is_navy':'0'},
  
 
 	// select
 	{
 		'cmd':'select',
-		'start':0,
-		'cnt':100,
+		'start':'0',
+		'cnt':'100',
 	},
-	
 ];
 
 
