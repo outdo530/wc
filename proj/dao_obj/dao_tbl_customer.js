@@ -1,4 +1,5 @@
 var inherits = require("util").inherits;
+var tbl_const = require("./tbl_const");
 var Dao = require("../dao");
 function Tbl_customer(){
     Dao.call(this);
@@ -14,19 +15,19 @@ function Tbl_customer(){
 	        id: { key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number',
                 is_col:1, is_view:1     },
 	        nm: { key: 'nm',  key_text: '名称', key_type: 'label', value_def: '', value_type: 'text',
-                is_col:1, is_list:1, is_to_set:1, is_detail:1},
-	        contact_nm: { key: 'contact_nm',  key_text: '联系人名称', key_type: 'label', value_def: '', value_type: 'text',
-                is_col:1, is_list:1, is_to_set:1, is_detail:1},
+                is_col:1, is_list:1, is_to_set:1, is_detail:1, op: tbl_const.op_type_text(),},
+	        contact_nm: { key: 'contact_nm',  key_text: '联系人', key_type: 'label', value_def: '', value_type: 'text',
+                is_col:1, is_list:1, is_to_set:1, is_detail:1, op: tbl_const.op_type_text(),},
 	        fix_phone: { key: 'fix_phone',  key_text: '固话', key_type: 'label', value_def: '', value_type: 'text',
-                is_col:1, is_list:1, is_to_set:1 , is_detail:1       },
+                is_col:1, is_list:1, is_to_set:1 , is_detail:1, op: tbl_const.op_type_text(),       },
 	        mobile: { key: 'mobile',  key_text: '手机', key_type: 'label', value_def: '', value_type: 'text',
-                is_col:1, is_list:1, is_to_set:1 , is_detail:1             },
+                is_col:1, is_list:1, is_to_set:1 , is_detail:1, op: tbl_const.op_type_text(),             },
 	        addr: { key: 'addr',  key_text: '地址', key_type: 'label', value_def: '', value_type: 'text',
-                is_col:1, is_list:1, is_to_set:1   , is_detail:1  },
+                is_col:1, is_list:1, is_to_set:1   , is_detail:1, op: tbl_const.op_type_text(),  },
 	        is_buyer: { key: 'is_buyer',  key_text: '是否买家', key_type: 'label', value_def: '', value_type: 'text',
-                is_col:1, is_list:1, is_detail:1, is_to_set:1 , is_yes_no:1   },
+                is_col:1, is_list:1, is_detail:1, is_to_set:1 , is_yes_no:1,   },
 	        is_seller: { key: 'is_seller',  key_text: '是否卖家', key_type: 'label', value_def: '', value_type: 'text',
-                is_col:1, is_list:1 , is_detail:1, is_to_set:1 , is_yes_no:1 },
+                is_col:1, is_list:1 , is_detail:1, is_to_set:1 , is_yes_no:1, },
 	        is_lp: { key: 'is_lp',  key_text: '是否LP', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_list:1, is_detail:1, is_to_set:1 , is_yes_no:1, },
 	        remark: { key: 'remark',  key_text: '备注', key_type: 'label', value_def: '', value_type: 'text',
@@ -45,9 +46,9 @@ function Tbl_customer(){
         titles : {
             list : Tbl_customer.title,
             search: Tbl_customer.title,
-            detail: 'Detail',
-            update: 'Update',
-            create: 'Create'
+            detail: '详情',
+            update: '修改',
+            create: '新增'
         },
         url : {
             list :   '#/'+Tbl_customer.tbl_name+'_list',

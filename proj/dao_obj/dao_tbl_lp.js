@@ -1,4 +1,5 @@
 var inherits = require("util").inherits;
+var tbl_const = require("./tbl_const");
 var Dao = require("../dao");
 function Tbl_lp(){
     Dao.call(this);
@@ -19,16 +20,14 @@ function Tbl_lp(){
         struct : {
 	        id: { tbl: 'a.', key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number',
                 is_col:1, is_view:1, },
-	        cust_id: { tbl: 'a.', key: 'cust_id',  key_text: '客户id', key_type: 'label', value_def: '', value_type: 'number',
-                is_col:1, is_to_set:1, is_list:1, is_detail:1},
 	        _type: { tbl: 'a.', key: '_type',  key_text: 'LP类型', key_type: 'label', value_def: '', value_type: 'text', is_col:1,
-                is_to_set:1,  is_list:1, is_detail:1},
+                is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_text(),},
 	        risk_prefer_desc: { tbl: 'a.', key: 'risk_prefer_desc',  key_text: '风险偏好描述', key_type: 'label', value_def: '', value_type: 'text',
-                is_col:1, is_to_set:1,  is_list:1, is_detail:1},
+                is_col:1, is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_text(),},
 	        expect_of_contrib: { tbl: 'a.', key: 'expect_of_contrib',  key_text: '出资期限', key_type: 'label', value_def: '', value_type: 'text',
-                is_col:1, is_to_set:1,  is_list:1, is_detail:1},
+                is_col:1, is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_text(),},
 	        reward_of_contrib: { tbl: 'a.', key: 'reward_of_contrib',  key_text: '期望回报描述', key_type: 'label', value_def: '', value_type: 'text',
-                is_col:1, is_to_set:1,   is_list:1, is_detail:1},
+                is_col:1, is_to_set:1,   is_list:1, is_detail:1, op: tbl_const.op_type_text(),},
 	        remark: { tbl: 'a.', key: 'remark',  key_text: '备注', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_to_set:1, },
 	        crt_ts: { tbl: 'a.', key: 'crt_ts',  key_text: '创建时间', key_type: 'label', value_def: '', value_type: 'text',
@@ -38,16 +37,18 @@ function Tbl_lp(){
 	        is_del: { tbl: 'a.', key: 'is_del',  key_text: '已删除?', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, },
 
-            id2: { tbl:'b.', key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number',
+ 	        cust_id: { tbl:'a.', key: 'cust_id',  key_text: '客户id', key_type: 'label', value_def: '', value_type: 'number',
+                is_col:1, is_to_set:1, is_detail:1, is_list:1, op: tbl_const.op_type_dialog('/dao_tbl_'+Tbl_lp.tbl_name2) },
+	        id2: { tbl:'b.', key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number',
                 is_col:1,      },
 	        nm: { tbl:'b.', key: 'nm',  key_text: '名称', key_type: 'label', value_def: '', value_type: 'text',
-                is_col:1, is_list:1, },
+                is_col:1, is_list:1, is_detail:1, },
 	        contact_nm: { tbl:'b.', key: 'contact_nm',  key_text: '联系人', key_type: 'label', value_def: '', value_type: 'text',
-                is_col:1, is_list:1, },
+                is_col:1, is_list:1, is_detail:1, },
 	        fix_phone: { tbl:'b.', key: 'fix_phone',  key_text: '固话', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1,     },
 	        mobile: { tbl:'b.', key: 'mobile',  key_text: '手机', key_type: 'label', value_def: '', value_type: 'text',
-                is_col:1, is_list:1,    },
+                is_col:1, is_list:1, is_detail:1   },
 	        addr: { tbl:'b.', key: 'addr',  key_text: '地址', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1,        },
 	        is_buyer: { tbl:'b.', key: 'is_buyer',  key_text: '是否买家', key_type: 'label', value_def: '', value_type: 'text',
