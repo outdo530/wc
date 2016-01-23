@@ -231,7 +231,6 @@ function ctrl_list(sub_url, $scope, $http, $location, $routeParams){
         });
     }
     else{
-        console.log("chenglun");
         ____get_list(sub_url, $scope, $http, 1, function(cruds){
             __on_search_or_list_it($scope, sub_url, cruds, $http, $location, ____get_list);
         });
@@ -284,33 +283,38 @@ function ctrl_update(sub_url, $scope, $routeParams, $http, ngDialog){
             __reset_input_box(crud.content);
         }
         $scope.click_to_open = function(crud, item){
+            
             var req = { cmd : 'cmd_list',   page : {'cur' : 1,} };
             var sub_url = item.op_args.url;
+            var ref_item = item;
             __http_req($http, sub_url, req
             , function(rsp){
                 $scope.cruds = rsp.data;
                 $scope.page_str = __format_page_info($scope.cruds.page);
+                
                 ngDialog.openConfirm(  { 
-                    template: 'template/crud_select.html',
-                    //className : 'ngDialog-custom-width',
-                    //controller : 'dialog_ctrl',
-                    scope : $scope,
+                        template: 'template/crud_select.html',
+                        className : 'ngdialog-theme-default custom-width',
+                        controller : 'dialog_ctrl',
+                        scope : $scope,
                     }
                 )
                 .then(
-                   function (val){
-                    console.log(" confirm value : " + val);
-                   },
-                   function (reason){
-                    console.log(" cancel reason : " + reason);
-                   }
+                    function (val){
+                        console.log("dialog --> confirm value : " + val);
+                        ref_item.key = parseInt(val);
+                    },
+                    function (reason){
+                        console.log(" cancel reason : " + reason);
+                        ref_item.key = 0;
+                    }
                 );
             });//__http_req
-    }
+        } // $scope.click_to_open
     });// __http_req
 }
 
-function ctrl_create(sub_url, $scope, $http){
+function ctrl_create(sub_url, $scope, $http, ngDialog){
     debug(fn_pre , "crudCreateCtrl--OK");
     var req = {
         cmd : 'cmd_get_create_info',
@@ -334,6 +338,33 @@ function ctrl_create(sub_url, $scope, $http){
         $scope.on_reset = function(crud){
             __reset_input_box(crud.content);
         }
+        $scope.click_to_open = function(crud, item){
+            var req = { cmd : 'cmd_list',   page : {'cur' : 1,} };
+            var sub_url = item.op_args.url;
+            var ref_item = item;
+            __http_req($http, sub_url, req
+            , function(rsp){
+                $scope.cruds = rsp.data;
+                $scope.page_str = __format_page_info($scope.cruds.page);
+                ngDialog.openConfirm(  { 
+                        template: 'template/crud_select.html',
+                        className : 'ngdialog-theme-default custom-width',
+                        controller : 'dialog_ctrl',
+                        scope : $scope,
+                    }
+                )
+                .then(
+                    function (val){
+                        console.log(" confirm value : " + val);
+                        ref_item.key = parseInt(val);
+                    },
+                    function (reason){
+                        console.log(" cancel reason : " + reason);
+                        ref_item.key = 0;
+                    }
+                );
+            });//__http_req
+    } // $scope.click_to_open
     });
 }
 
@@ -344,7 +375,9 @@ function ctrl_select(sub_url, $scope, $http, $location, $routeParams){
     debug(fn_pre , "crudSelectCtrl--OK");
     debug_obj($routeParams);
 
+    var dialog_obj = this;
     if("search" in $routeParams){
+        console.log("select ..... search");
        $scope.search = $routeParams["search"] 
 
         ____get_list_search(sub_url, $scope, $http, 1, function(cruds){
@@ -378,9 +411,9 @@ myapp.controller('crudUpdateCtrl_area', ['$scope', '$routeParams', '$http', 'ngD
 function($scope, $routeParams, $http, ngDialog){
      ctrl_update("/dao_tbl_area", $scope, $routeParams, $http, ngDialog);
 }]);
-myapp.controller('crudCreateCtrl_area', ['$scope', '$http',
-function ($scope, $http){
-    ctrl_create("/dao_tbl_area", $scope, $http);
+myapp.controller('crudCreateCtrl_area', ['$scope', '$http', 'ngDialog',
+function ($scope, $http, ngDialog){
+    ctrl_create("/dao_tbl_area", $scope, $http, ngDialog);
 }]);
 myapp.controller('crudSelectCtrl_area', ['$scope', '$http', '$location', '$routeParams',
 function ($scope, $http, $location, $routeParams){
@@ -400,9 +433,9 @@ myapp.controller('crudUpdateCtrl_customer', ['$scope', '$routeParams', '$http', 
 function($scope, $routeParams, $http, ngDialog){
      ctrl_update("/dao_tbl_customer", $scope, $routeParams, $http, ngDialog);
 }]);
-myapp.controller('crudCreateCtrl_customer', ['$scope', '$http',
-function ($scope, $http){
-    ctrl_create("/dao_tbl_customer", $scope, $http);
+myapp.controller('crudCreateCtrl_customer', ['$scope', '$http', 'ngDialog',
+function ($scope, $http, ngDialog){
+    ctrl_create("/dao_tbl_customer", $scope, $http, ngDialog);
 }]);
 myapp.controller('crudSelectCtrl_customer', ['$scope', '$http', '$location', '$routeParams',
 function ($scope, $http, $location, $routeParams){
@@ -422,9 +455,9 @@ myapp.controller('crudUpdateCtrl_seller', ['$scope', '$routeParams', '$http', 'n
 function($scope, $routeParams, $http, ngDialog){
      ctrl_update("/dao_tbl_seller", $scope, $routeParams, $http, ngDialog);
 }]);
-myapp.controller('crudCreateCtrl_seller', ['$scope', '$http',
-function ($scope, $http){
-    ctrl_create("/dao_tbl_seller", $scope, $http);
+myapp.controller('crudCreateCtrl_seller', ['$scope', '$http', 'ngDialog',
+function ($scope, $http, ngDialog){
+    ctrl_create("/dao_tbl_seller", $scope, $http, ngDialog);
 }]);
 myapp.controller('crudSelectCtrl_seller', ['$scope', '$http', '$location', '$routeParams',
 function ($scope, $http, $location, $routeParams){
@@ -444,9 +477,9 @@ myapp.controller('crudUpdateCtrl_buyer', ['$scope', '$routeParams', '$http', 'ng
 function($scope, $routeParams, $http, ngDialog){
      ctrl_update("/dao_tbl_buyer", $scope, $routeParams, $http, ngDialog);
 }]);
-myapp.controller('crudCreateCtrl_buyer', ['$scope', '$http',
-function ($scope, $http){
-    ctrl_create("/dao_tbl_buyer", $scope, $http);
+myapp.controller('crudCreateCtrl_buyer', ['$scope', '$http', 'ngDialog',
+function ($scope, $http, ngDialog){
+    ctrl_create("/dao_tbl_buyer", $scope, $http, ngDialog);
 }]);
 myapp.controller('crudSelectCtrl_buyer', ['$scope', '$http', '$location', '$routeParams',
 function ($scope, $http, $location, $routeParams){
@@ -466,9 +499,9 @@ myapp.controller('crudUpdateCtrl_lp', ['$scope', '$routeParams', '$http', 'ngDia
 function($scope, $routeParams, $http, ngDialog){
      ctrl_update("/dao_tbl_lp", $scope, $routeParams, $http, ngDialog);
 }]);
-myapp.controller('crudCreateCtrl_lp', ['$scope', '$http',
-function ($scope, $http){
-    ctrl_create("/dao_tbl_lp", $scope, $http);
+myapp.controller('crudCreateCtrl_lp', ['$scope', '$http', 'ngDialog',
+function ($scope, $http, ngDialog){
+    ctrl_create("/dao_tbl_lp", $scope, $http, ngDialog);
 }]);
 myapp.controller('crudSelectCtrl_lp', ['$scope', '$http', '$location', '$routeParams',
 function ($scope, $http, $location, $routeParams){
@@ -488,9 +521,9 @@ myapp.controller('crudUpdateCtrl_user', ['$scope', '$routeParams', '$http', 'ngD
 function($scope, $routeParams, $http, ngDialog){
      ctrl_update("/dao_tbl_user", $scope, $routeParams, $http, ngDialog);
 }]);
-myapp.controller('crudCreateCtrl_user', ['$scope', '$http',
-function ($scope, $http){
-    ctrl_create("/dao_tbl_user", $scope, $http);
+myapp.controller('crudCreateCtrl_user', ['$scope', '$http', 'ngDialog', 
+function ($scope, $http, ngDialog){
+    ctrl_create("/dao_tbl_user", $scope, $http, ngDialog);
 }]);
 myapp.controller('crudSelectCtrl_user', ['$scope', '$http', '$location', '$routeParams',
 function ($scope, $http, $location, $routeParams){
@@ -500,6 +533,6 @@ function ($scope, $http, $location, $routeParams){
 
 myapp.controller('dialog_ctrl', ['$scope', '$http', '$location', '$routeParams',
 function ($scope, $http, $location, $routeParams){
-    ctrl_list("/dao_tbl_customer", $scope, $http, $location, $routeParams);
+    ctrl_select("/dao_tbl_customer", $scope, $http, $location, $routeParams);
 }]);
 

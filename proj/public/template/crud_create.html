@@ -23,11 +23,11 @@
                                 </select>
                             </p>
                             <p ng-switch-when="dialog">
-                                <input type="{{item[1].type}}" ng-model="item[1].key" ng-readonly="item[1].editable != 1"/>  
+                                <input type="{{item[1].type}}" ng-model="item[1].key" ng-readonly="item[1].editable != 1"  ng-disabled="item[1].editable != 1"/>  
                                 <button type="button" class="btn btn-sm btn-default" ng-click="click_to_open(crud_create, item[1])">Select</button>
                             </p>
                             <p ng-switch-default="">
-                                <input type="{{item[1].type}}" ng-model="item[1].key" ng-readonly="item[1].editable != 1"/>  
+                                <input type="{{item[1].type}}" ng-model="item[1].key" ng-readonly="item[1].editable != 1" ng-disabled="item[1].editable != 1"/>  
                             </p>
                         </td>
 
@@ -35,14 +35,15 @@
 
                         <td ng-switch="item[3].op_type">               
                             <p ng-switch-when="select">
-                                <input type="{{item[3].type}}" ng-model="item[3].key" ng-readonly="item[3].editable != 1"/>  
+                                <select ng-model="item[3].key" ng-options="item.key as item.show_as for item in item[3].op_args.items">
+                                </select>
                             </p>
                             <p ng-switch-when="dialog">
-                                <input type="{{item[3].type}}" ng-model="item[3].key" ng-readonly="item[3].editable != 1"/>  
+                                <input type="{{item[3].type}}" ng-model="item[3].key" ng-readonly="item[3].editable != 1" ng-disabled="item[3].editable != 1"/>  
                                 <button type="button" class="btn btn-sm btn-default" ng-click="click_to_open(crud_create, item[3])">Select</button>
                             </p>
                             <p ng-switch-default="">
-                                <input type="{{item[3].type}}" ng-model="item[3].key" ng-readonly="item[3].editable != 1"/>  
+                                <input type="{{item[3].type}}" ng-model="item[3].key" ng-readonly="item[3].editable != 1" ng-disabled="item[3].editable != 1"/>  
                             </p>
                         </td>
 

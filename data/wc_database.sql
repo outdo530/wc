@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/1/17 13:28:55                           */
+/* Created on:     2016/1/23 22:32:46                           */
 /*==============================================================*/
 
 
@@ -46,7 +46,7 @@ create table tbl_area
 create table tbl_buyer
 (
    id                   int not null auto_increment,
-   cust_id              int comment '客户id',
+   cust_id              int default 0 comment '客户id',
    ship_type            varchar(64) comment '需求船型	',
    ship_weigth          varchar(32) comment '船舶吨位（载重吨）',
    require_type         varchar(64) comment '需求类型	',
@@ -90,9 +90,9 @@ create table tbl_customer
    fix_phone            varchar(16) comment '固话',
    mobile               varchar(16) comment '手机',
    addr                 varchar(128) comment '客户地址',
-   is_buyer             int comment '按照位进行操作,  char1 买方，chart 2 卖方， char 3LP  多选',
-   is_seller            int,
-   is_lp                int,
+   is_buyer             int default 0 comment '按照位进行操作,  char1 买方，chart 2 卖方， char 3LP  多选',
+   is_seller            int default 0,
+   is_lp                int default 0,
    remark               varchar(256),
    crt_ts               timestamp default current_timestamp,
    upd_ts               timestamp,
@@ -127,7 +127,7 @@ create table tbl_func
 create table tbl_lp
 (
    id                   int not null auto_increment,
-   cust_id              int,
+   cust_id              int default 0,
    _type                varchar(64) comment 'LP 类型
             p2p、行业内高净值人群、私人银行、境外资金',
    risk_prefer_desc     varchar(1024) comment '风险偏好描述',
@@ -148,7 +148,7 @@ alter table tbl_lp comment '出资人';
 create table tbl_seller
 (
    id                   int not null auto_increment,
-   cust_id              int,
+   cust_id              int default 0,
    property_desc        varchar(2048) comment '船舶资产描述',
    bad_property_desc    varchar(2048) comment '船舶不良资产描述',
    class_1              varchar(128) comment '银行, 资产管理公司,租赁公司,其他',
@@ -178,14 +178,14 @@ create table tbl_user
    id                   int not null auto_increment,
    emp_no               varchar(32) comment '雇员号',
    real_nm              varchar(64) comment '真实名称',
-   gender               int comment '性别',
+   gender               int default 0 comment '性别',
    email                varchar(64) comment '邮件地址',
    mobile               varchar(16) comment '手机',
    fix_phone            varchar(16) comment '固话',
    id_card_no           varchar(32) comment '身份证号码',
    enter_date           date comment '入司日期',
    left_date            date comment '离司日期',
-   user_type            int comment '用户类型',
+   user_type            int default 0 comment '用户类型',
    sign_id              varchar(64) comment '登录id',
    nick_nm              varchar(32) comment '昵称',
    password             varchar(128) comment '登录密码',
@@ -202,10 +202,10 @@ create table tbl_user
 create table tbl_user__customer
 (
    id                   bigint not null auto_increment,
-   user_id              int,
-   cust_id              int,
-   visitor_type         int comment '拜访客户的事由类型， 买方，卖方，LP',
-   visitor_id           int comment '事由对应的序号',
+   user_id              int default 0,
+   cust_id              int default 0,
+   visitor_type         int default 0 comment '拜访客户的事由类型， 买方，卖方，LP',
+   visitor_id           int default 0 comment '事由对应的序号',
    start_dt             datetime comment '拜访起始日期时间',
    end_dt               datetime comment '拜访结束日期时间',
    content              varchar(1024) comment '拜访日志',
@@ -225,8 +225,8 @@ alter table tbl_user__customer comment '拜访客户记录
 create table tbl_user__func
 (
    id                   int not null auto_increment,
-   user_id              int,
-   func_id              int,
+   user_id              int default 0,
+   func_id              int default 0,
    remark               varchar(256),
    crt_ts               timestamp default current_timestamp,
    upd_ts               timestamp,
