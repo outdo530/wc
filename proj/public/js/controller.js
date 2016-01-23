@@ -131,6 +131,49 @@ function __gen_req_from_info(op_cmd, crud){
     return req;
 }
 
+function __on_delete_seq(sub_url, cruds, crud, $http){
+    debug(fn_pre , "delete the crud: " + crud.id);
+    var ret = confirm('Are you sure to delete it!'); //TODO: to a diaglog
+    if(ret)
+        ____delete_seq_list(sub_url, cruds, crud.id, $http);
+}
+function __on_search($scope, $location, search){
+    debug(fn_pre, "on search :" + search);
+    if( typeof(search) != "undefined" && search != null){
+        var dest_url = $scope.cruds.url.list.substr(1) + "/" + search;
+        debug(fn_pre, "dest_url search: " + dest_url);
+        $location.path(dest_url);
+    }else{
+        var dest_url = $scope.cruds.url.list.substr(1);
+        debug(fn_pre, "dest_url list: " + dest_url);
+        $location.path(dest_url);
+    }
+}
+
+function __on_prepage(crud, sub_url, $scope, $http, cb_list_or_search){
+    if(crud.page.cur > 1){
+        crud.page.cur--;
+        if(cb_list_or_search != null)
+            cb_list_or_search(sub_url, $scope, $http, crud.page.cur, null);
+    }
+    else{
+        debug(fn_pre, "Reached the first page!");
+        alert("到达第一页了");
+    }
+}
+function __on_nextpage(crud, sub_url, $scope, $http, cb_list_or_search){
+    if(crud.page.cur < crud.page.total){
+        crud.page.cur++;
+        if(cb_list_or_search != null)
+            cb_list_or_search(sub_url, $scope, $http, crud.page.cur, null);
+    }
+    else{
+        debug(fn_pre, "Reached the last page!");
+        alert("到达最后一页了");
+    }
+}
+
+
 /*********** controls   start ********************************/
 
 function ctrl_login($scope, $http, $location){
@@ -161,6 +204,22 @@ function ctrl_board($scope, $http){
     });
 }
 
+
+function __on_search_or_list_it($scope, sub_url, cruds, $http, $location, cb_list_or_search){
+    $scope.on_delete_seq = function(crud){
+        __on_delete_seq(sub_url, cruds, crud, $http);
+    }
+    $scope.on_search = function(search){
+        __on_search($scope, $location, search);
+    }
+    $scope.on_prepage = function(crud){
+        __on_prepage(crud, sub_url, $scope, $http, cb_list_or_search);
+    }
+    $scope.on_nextpage = function(crud){
+        __on_nextpage(crud, sub_url, $scope, $http, cb_list_or_search);
+    }
+}
+
 function ctrl_list(sub_url, $scope, $http, $location, $routeParams){
     debug(fn_pre , "crudListCtrl--OK");
     debug_obj($routeParams);
@@ -168,87 +227,13 @@ function ctrl_list(sub_url, $scope, $http, $location, $routeParams){
     if("search" in $routeParams){
        $scope.search = $routeParams["search"] 
         ____get_list_search(sub_url, $scope, $http, 1, function(cruds){
-
-            $scope.on_delete_seq = function(crud){
-                debug(fn_pre , "delete the crud: " + crud.id);
-                alert(fn_pre + "delete the crud: " + crud.id);
-                __delete_seq_list(sub_url, cruds, crud.id, $http);
-            }
-            $scope.on_search = function(search){
-                debug(fn_pre, "on search :" + search);
-                if(search != undefined){
-                    var dest_url = $scope.cruds.url.list.substr(1) + "/" + search;
-                    debug(fn_pre, "dest_url : " + dest_url);
-                    $location.path(dest_url);
-                }else{ //TODO: maybe have some bug
-                    var dest_url = $scope.cruds.url.list.substr(1);
-                    debug(fn_pre, "dest_url : " + dest_url);
-                    $location.path(dest_url);
-                }
-            }
-            $scope.on_prepage = function(crud){
-                if(crud.page.cur > 1){
-                    crud.page.cur--;
-                    ____get_list_search(sub_url, $scope, $http, crud.page.cur, null);
-                }
-                else{
-                    debug(fn_pre, "Reached the first page!");
-                    alert("到达第一页了");
-                }
-            }
-            $scope.on_nextpage = function(crud){
-                if(crud.page.cur < crud.page.total){
-                    crud.page.cur++;
-                    ____get_list_search(sub_url, $scope, $http, crud.page.cur, null);
-                }
-                else{
-                    debug(fn_pre, "Reached the last page!");
-                    alert("到达最后一页了");
-                }
-            }
+            __on_search_or_list_it($scope, sub_url, cruds, $http, $location, ____get_list_search);
         });
     }
     else{
+        console.log("chenglun");
         ____get_list(sub_url, $scope, $http, 1, function(cruds){
-
-            $scope.on_delete_seq = function(crud){
-                debug(fn_pre , "delete the crud: " + crud.id);
-                var ret = confirm('Are you sure to delete it!'); //TODO: to a diaglog
-                if(ret)
-                    ____delete_seq_list(sub_url, cruds, crud.id, $http);
-            }
-            $scope.on_search = function(search){
-                debug(fn_pre, "on search :" + search);
-                if(search != undefined){
-                    var dest_url = $scope.cruds.url.list.substr(1) + "/" + search;
-                    debug(fn_pre, "dest_url : " + dest_url);
-                    $location.path(dest_url);
-                }else{
-                    var dest_url = $scope.cruds.url.list.substr(1);
-                    debug(fn_pre, "dest_url : " + dest_url);
-                    $location.path(dest_url);
-                }
-            }
-            $scope.on_prepage = function(crud){
-                if(crud.page.cur > 1){
-                    crud.page.cur--;
-                    ____get_list(sub_url, $scope, $http, crud.page.cur, null);
-                }
-                else{
-                    debug(fn_pre, "Reached the first page!");
-                    alert("到达第一页了");
-                }
-            }
-            $scope.on_nextpage = function(crud){
-                if(crud.page.cur < crud.page.total){
-                    crud.page.cur++;
-                    ____get_list(sub_url, $scope, $http, crud.page.cur, null);
-                }
-                else{
-                    debug(fn_pre, "Reached the last page!");
-                    alert("到达最后一页了");
-                }
-            }
+            __on_search_or_list_it($scope, sub_url, cruds, $http, $location, ____get_list);
         });
     }
 
@@ -298,15 +283,17 @@ function ctrl_update(sub_url, $scope, $routeParams, $http, ngDialog){
         $scope.on_reset = function(crud){
             __reset_input_box(crud.content);
         }
-        $scope.click_to_open = function(crud){
+        $scope.click_to_open = function(crud, item){
             var req = { cmd : 'cmd_list',   page : {'cur' : 1,} };
-            var sub_url = '/dao_tbl_customer'
+            var sub_url = item.op_args.url;
             __http_req($http, sub_url, req
             , function(rsp){
                 $scope.cruds = rsp.data;
                 $scope.page_str = __format_page_info($scope.cruds.page);
                 ngDialog.openConfirm(  { 
                     template: 'template/crud_select.html',
+                    //className : 'ngDialog-custom-width',
+                    //controller : 'dialog_ctrl',
                     scope : $scope,
                     }
                 )
@@ -350,94 +337,23 @@ function ctrl_create(sub_url, $scope, $http){
     });
 }
 
+
+
+
 function ctrl_select(sub_url, $scope, $http, $location, $routeParams){
     debug(fn_pre , "crudSelectCtrl--OK");
     debug_obj($routeParams);
 
     if("search" in $routeParams){
        $scope.search = $routeParams["search"] 
-        ____get_list_search(sub_url, $scope, $http, 1, function(cruds){
 
-            $scope.on_delete_seq = function(crud){
-                debug(fn_pre , "delete the crud: " + crud.id);
-                alert(fn_pre + "delete the crud: " + crud.id);
-                __delete_seq_list(sub_url, cruds, crud.id, $http);
-            }
-            $scope.on_search = function(search){
-                debug(fn_pre, "on search :" + search);
-                if(search != undefined){
-                    var dest_url = $scope.cruds.url.list.substr(1) + "/" + search;
-                    debug(fn_pre, "dest_url : " + dest_url);
-                    $location.path(dest_url);
-                }else{ //TODO: maybe have some bug
-                    var dest_url = $scope.cruds.url.list.substr(1);
-                    debug(fn_pre, "dest_url : " + dest_url);
-                    $location.path(dest_url);
-                }
-            }
-            $scope.on_prepage = function(crud){
-                if(crud.page.cur > 1){
-                    crud.page.cur--;
-                    ____get_list_search(sub_url, $scope, $http, crud.page.cur, null);
-                }
-                else{
-                    debug(fn_pre, "Reached the first page!");
-                    alert("到达第一页了");
-                }
-            }
-            $scope.on_nextpage = function(crud){
-                if(crud.page.cur < crud.page.total){
-                    crud.page.cur++;
-                    ____get_list_search(sub_url, $scope, $http, crud.page.cur, null);
-                }
-                else{
-                    debug(fn_pre, "Reached the last page!");
-                    alert("到达最后一页了");
-                }
-            }
+        ____get_list_search(sub_url, $scope, $http, 1, function(cruds){
+            __on_search_or_list_it($scope, sub_url, cruds, $http, $location, ____get_list_search);
         });
     }
     else{
         ____get_list(sub_url, $scope, $http, 1, function(cruds){
-
-            $scope.on_delete_seq = function(crud){
-                debug(fn_pre , "delete the crud: " + crud.id);
-                var ret = confirm('Are you sure to delete it!'); //TODO: to a diaglog
-                if(ret)
-                    ____delete_seq_list(sub_url, cruds, crud.id, $http);
-            }
-            $scope.on_search = function(search){
-                debug(fn_pre, "on search :" + search);
-                if(search != undefined){
-                    var dest_url = $scope.cruds.url.list + "/" + search;
-                    debug(fn_pre, "dest_url : " + dest_url);
-                    $location.path(dest_url);
-                }else{
-                    var dest_url = $scope.cruds.url.list;
-                    debug(fn_pre, "dest_url : " + dest_url);
-                    $location.path(dest_url);
-                }
-            }
-            $scope.on_prepage = function(crud){
-                if(crud.page.cur > 1){
-                    crud.page.cur--;
-                    ____get_list(sub_url, $scope, $http, crud.page.cur, null);
-                }
-                else{
-                    debug(fn_pre, "Reached the first page!");
-                    alert("到达第一页了");
-                }
-            }
-            $scope.on_nextpage = function(crud){
-                if(crud.page.cur < crud.page.total){
-                    crud.page.cur++;
-                    ____get_list(sub_url, $scope, $http, crud.page.cur, null);
-                }
-                else{
-                    debug(fn_pre, "Reached the last page!");
-                    alert("到达最后一页了");
-                }
-            }
+            __on_search_or_list_it($scope, sub_url, cruds, $http, $location, ____get_list);
         });
     }
 }
@@ -581,4 +497,9 @@ function ($scope, $http, $location, $routeParams){
     ctrl_select("/dao_tbl_user", $scope, $http, $location, $routeParams);
 }]);
 
+
+myapp.controller('dialog_ctrl', ['$scope', '$http', '$location', '$routeParams',
+function ($scope, $http, $location, $routeParams){
+    ctrl_list("/dao_tbl_customer", $scope, $http, $location, $routeParams);
+}]);
 

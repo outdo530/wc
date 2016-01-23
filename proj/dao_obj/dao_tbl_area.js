@@ -4,7 +4,7 @@ function Tbl_area(){
     Dao.call(this);
 
     Tbl_area.tbl_name = 'area';
-    Tbl_area.title = 'Area';
+    Tbl_area.title = '区域';
 
     Tbl_area.info = {
         title: Tbl_area.title,
@@ -12,9 +12,9 @@ function Tbl_area(){
         m_page_cfg : { size : 6, },
         struct : {
             id: { key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number', is_col:1, is_view:1, },
-            first_name: { key: 'first_name',  key_text: '名', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_to_set:1, is_view:1, },
-            last_name: { key: 'last_name',  key_text: '姓', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_to_set:1, is_view:1, },
-            user_name: { key: 'user_name',  key_text: '用户名', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_to_set:1,  is_view:1, is_last_view_col:1},
+            first_name: { key: 'first_name',  key_text: '名', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_to_set:1, is_list:1, is_detail:1, },
+            last_name: { key: 'last_name',  key_text: '姓', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_to_set:1, is_list:1, is_detail:1, },
+            user_name: { key: 'user_name',  key_text: '用户名', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_to_set:1,  is_list:1, is_detail:1,},
             remark: { key: 'remark',  key_text: '备注', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_to_set:1, },
             crt_ts: { key: 'crt_ts',  key_text: '创建时间', key_type: 'label', value_def: '', value_type: 'text', is_col:1, },
             upd_ts: { key: 'upd_ts',  key_text: '修改时间', key_type: 'label', value_def: '', value_type: 'text', is_col:1, },
@@ -263,7 +263,8 @@ Tbl_area.prototype._dbop_cmd_list = function(sql_fmt, req, resp, ctx){
                         console.log("result: ", results);
                         mysql_conn.end();
                         dao_obj.render_resp(resp, ctx);
-                    });
+                    }
+                );
             }
         }
     );
@@ -308,7 +309,8 @@ Tbl_area.prototype._dbop_cmd_search = function(sql_fmt, req, resp, ctx){
                         console.log("result: ", results);
                         mysql_conn.end();
                         dao_obj.render_resp(resp, ctx);
-                    });
+                    }
+                );
             }
         }
     );

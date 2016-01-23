@@ -1,36 +1,54 @@
 var inherits = require("util").inherits;
+var tbl_const = require("./tbl_const");
 var Dao = require("../dao");
 function Tbl_customer(){
     Dao.call(this);
 
     Tbl_customer.tbl_name = 'customer';
-    Tbl_customer.title = 'Customer';
+    Tbl_customer.title = '客户';
 
     Tbl_customer.info = {
         title: Tbl_customer.title,
         tbl_name: 'tbl_'+Tbl_customer.tbl_name,
         m_page_cfg : { size : 6, },
         struct : {
-	        id: { key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number', is_col:1, is_view:1                                },
-	        nm: { key: 'nm',  key_text: '名称', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_view:1, is_to_set:1                      },
-	        contact_nm: { key: 'contact_nm',  key_text: '联系人名称', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_view:1, is_to_set:1},
-	        fix_phone: { key: 'fix_phone',  key_text: '固话', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_view:1, is_to_set:1        },
-	        mobile: { key: 'mobile',  key_text: '手机', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_view:1, is_to_set:1              },
-	        addr: { key: 'addr',  key_text: '地址', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_view:1, is_to_set:1                  },
-	        type: { key: 'type',  key_text: '类型', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_view:1, is_last_view_col:1           },
-	        remark: { key: 'remark',  key_text: '备注', key_type: 'label', value_def: '', value_type: 'text', is_col: 1, is_to_set: 1,                      },
-	        crt_ts: { key: 'crt_ts',  key_text: '创建时间', key_type: 'label', value_def: '', value_type: 'text', is_col: 1,                                },
-	        upd_ts: { key: 'upd_ts',  key_text: '修改时间', key_type: 'label', value_def: '', value_type: 'text', is_col: 1,                                },
-	        is_del: { key: 'is_del',  key_text: '已删除?', key_type: 'label', value_def: '', value_type: 'text', is_col: 1,                                 },
-	        upd: { key: 'update',  key_text: '更新?', key_type: 'label', value_def: '', value_type: 'text', is_view:1                                       },
-	        del: { key: 'delete',  key_text: '删除?', key_type: 'label', value_def: '', value_type: 'text', is_view:1                                       },
+	        id: { key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number',
+                is_col:1, is_view:1     },
+	        nm: { key: 'nm',  key_text: '名称', key_type: 'label', value_def: '', value_type: 'text',
+                is_col:1, is_list:1, is_to_set:1, is_detail:1, op: tbl_const.op_type_text(),},
+	        contact_nm: { key: 'contact_nm',  key_text: '联系人', key_type: 'label', value_def: '', value_type: 'text',
+                is_col:1, is_list:1, is_to_set:1, is_detail:1, op: tbl_const.op_type_text(),},
+	        fix_phone: { key: 'fix_phone',  key_text: '固话', key_type: 'label', value_def: '', value_type: 'text',
+                is_col:1, is_list:1, is_to_set:1 , is_detail:1, op: tbl_const.op_type_text(),       },
+	        mobile: { key: 'mobile',  key_text: '手机', key_type: 'label', value_def: '', value_type: 'text',
+                is_col:1, is_list:1, is_to_set:1 , is_detail:1, op: tbl_const.op_type_text(),             },
+	        addr: { key: 'addr',  key_text: '地址', key_type: 'label', value_def: '', value_type: 'text',
+                is_col:1, is_list:1, is_to_set:1   , is_detail:1, op: tbl_const.op_type_text(),  },
+	        is_buyer: { key: 'is_buyer',  key_text: '是否买家', key_type: 'label', value_def: '', value_type: 'text',
+                is_col:1, is_list:1, is_detail:1, is_to_set:1 , is_yes_no:1,   },
+	        is_seller: { key: 'is_seller',  key_text: '是否卖家', key_type: 'label', value_def: '', value_type: 'text',
+                is_col:1, is_list:1 , is_detail:1, is_to_set:1 , is_yes_no:1, },
+	        is_lp: { key: 'is_lp',  key_text: '是否LP', key_type: 'label', value_def: '', value_type: 'text',
+                is_col:1, is_list:1, is_detail:1, is_to_set:1 , is_yes_no:1, },
+	        remark: { key: 'remark',  key_text: '备注', key_type: 'label', value_def: '', value_type: 'text',
+                is_col: 1, is_to_set: 1,    },
+	        crt_ts: { key: 'crt_ts',  key_text: '创建时间', key_type: 'label', value_def: '', value_type: 'text',
+                is_col: 1,                                },
+	        upd_ts: { key: 'upd_ts',  key_text: '修改时间', key_type: 'label', value_def: '', value_type: 'text',
+                is_col: 1,                                },
+	        is_del: { key: 'is_del',  key_text: '已删除?', key_type: 'label', value_def: '', value_type: 'text',
+                is_col: 1,                                 },
+	        upd: { key: 'update',  key_text: '更新?', key_type: 'label', value_def: '', value_type: 'text',
+                is_view:1                                       },
+	        del: { key: 'delete',  key_text: '删除?', key_type: 'label', value_def: '', value_type: 'text',
+                is_view:1                                       },
         },
         titles : {
             list : Tbl_customer.title,
             search: Tbl_customer.title,
-            detail: 'Detail',
-            update: 'Update',
-            create: 'Create'
+            detail: '详情',
+            update: '修改',
+            create: '新增'
         },
         url : {
             list :   '#/'+Tbl_customer.tbl_name+'_list',
@@ -232,6 +250,7 @@ Tbl_customer.prototype.cmd_get_create_info = function(req, resp, ctx){
 Tbl_customer.prototype._dbop_cmd_list = function(sql_fmt, req, resp, ctx){
 
     var sql_fmt_content = sql_fmt + " limit {start}, {cnt};";
+    console.log("sql: ", tools.format_object(sql_fmt_content, req));
 
     var dao_obj = this;
     var mysql_conn = require("../mysql_conn").create_short();
@@ -239,7 +258,6 @@ Tbl_customer.prototype._dbop_cmd_list = function(sql_fmt, req, resp, ctx){
         tools.format_object(sql_fmt_content, req),
         function (err, results, fields){
             if(err) {
-                console.log("sql: ", tools.format_object(sql_fmt_content, req));
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
                 resp.result_string = "Select failed: " + err;
@@ -248,7 +266,7 @@ Tbl_customer.prototype._dbop_cmd_list = function(sql_fmt, req, resp, ctx){
             }
             else{
                 var sql_fmt_count = "select count(1) cnt from ({sql}) v_list_area";
-                console.log(tools.format_object(sql_fmt_count, {sql: tools.format_object(sql_fmt, req)}));
+                console.log("sql: ", tools.format_object(sql_fmt_count, {sql: tools.format_object(sql_fmt, req)}));
                 mysql_conn.query(
                     tools.format_object(sql_fmt_count, {sql: tools.format_object(sql_fmt, req)}),
                     function (n_err, n_results, n_fields){
@@ -279,12 +297,12 @@ Tbl_customer.prototype._dbop_cmd_search = function(sql_fmt, req, resp, ctx){
     var sql_fmt_content = sql_fmt + " limit {start}, {cnt};";
 
     var dao_obj = this;
+    console.log("sql: ", tools.format_object(sql_fmt_content, req));
     var mysql_conn = require("../mysql_conn").create_short();
     mysql_conn.query(
         tools.format_object(sql_fmt_content, req),
         function (err, results, fields){
             if(err) {
-                console.log("sql: ", tools.format_object(sql_fmt_content, req));
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
                 resp.result_string = "Select failed: " + err;
@@ -293,7 +311,7 @@ Tbl_customer.prototype._dbop_cmd_search = function(sql_fmt, req, resp, ctx){
             }
             else{
                 var sql_fmt_count = "select count(1) cnt from ({sql}) v_list_area";
-                console.log(tools.format_object(sql_fmt_count, {sql: tools.format_object(sql_fmt, req)}));
+                console.log("sql: ", tools.format_object(sql_fmt_count, {sql: tools.format_object(sql_fmt, req)}));
                 mysql_conn.query(
                     tools.format_object(sql_fmt_count, {sql: tools.format_object(sql_fmt, req)}),
                     function (n_err, n_results, n_fields){
@@ -321,12 +339,12 @@ Tbl_customer.prototype._dbop_cmd_search = function(sql_fmt, req, resp, ctx){
 // dbop: get_detail
 Tbl_customer.prototype._dbop_cmd_get_detail = function(sql_fmt, req, resp, ctx){
     var dao_obj = this;
+    console.log("sql: ", tools.format_object(sql_fmt, req));
     var mysql_conn = require("../mysql_conn").create_short();
     mysql_conn.query(
         tools.format_object(sql_fmt, req),
         function (err, results, fields){
             if(err) {
-                console.log("sql: ", tools.format_object(sql_fmt, req));
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
                 resp.result_string = "Select failed: " + err;
@@ -346,12 +364,12 @@ Tbl_customer.prototype._dbop_cmd_get_detail = function(sql_fmt, req, resp, ctx){
 // dbop: get_update_info
 Tbl_customer.prototype._dbop_cmd_get_update_info = function(sql_fmt, req, resp, ctx){
     var dao_obj = this;
+    console.log("sql: ", tools.format_object(sql_fmt, req));
     var mysql_conn = require("../mysql_conn").create_short();
     mysql_conn.query(
         tools.format_object(sql_fmt, req),
         function (err, results, fields){
             if(err) {
-                console.log("sql: ", tools.format_object(sql_fmt, req));
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
                 resp.result_string = "Select failed: " + err;
@@ -371,12 +389,12 @@ Tbl_customer.prototype._dbop_cmd_get_update_info = function(sql_fmt, req, resp, 
 // dbop: get_create_info
 Tbl_customer.prototype._dbop_cmd_get_create_info = function(sql_fmt, req, resp, ctx){
     var dao_obj = this;
+    console.log("sql: ", tools.format_object(sql_fmt, req));
     var mysql_conn = require("../mysql_conn").create_short();
     mysql_conn.query(
         tools.format_object(sql_fmt, req),
         function (err, results, fields){
             if(err) {
-                console.log("sql: ", tools.format_object(sql_fmt, req));
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
                 resp.result_string = "Select failed: " + err;

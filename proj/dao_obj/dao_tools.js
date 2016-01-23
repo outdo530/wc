@@ -1,6 +1,6 @@
 var util = require("util");
-
-// get sql:
+var tbl_const = require("./tbl_const");
+// get base sql:
 
 // sql: get_set_sql
 exports._get_set_sql = function(info){
@@ -79,50 +79,84 @@ exports._get_is_exist_sql = function(info){
 }
 
 
-// get view select sql 
-exports._get_view_select_sql = function(info){
+
+// get custom sql:
+
+// get list select sql 
+exports._get_list_select_sql = function(info){
     var sql_fmt = 'select ';
     for(var elem in info.struct){
-        if(info.struct[elem].is_view == 1 && info.struct[elem].is_col == 1){
-            sql_fmt += info.struct[elem].key;
-            sql_fmt += info.struct[elem].is_last_view_col == 1 ? ' ' : ', ';
+        if(info.struct[elem].is_col==1 && (info.struct[elem].is_view==1 || info.struct[elem].is_list==1 )){
+            if( info.struct[elem].is_yes_no != 1 ){
+                sql_fmt += ( info.tbl_name2 != null ? info.struct[elem].tbl : '' ) + info.struct[elem].key;
+            }
+            else{
+                sql_fmt += '( case ' + ( info.tbl_name2 != null ? info.struct[elem].tbl : '' ) + info.struct[elem].key
+                    + ' when 1 then "是" else "否" end ) as ' + info.struct[elem].key;
+            }
+            sql_fmt += ', ';
         }
     }
-    sql_fmt += 'from '+ info.tbl_name + ' ';
-    sql_fmt += 'where ' +info.struct['is_del'].key + ' = 0 ';
+    sql_fmt = sql_fmt.substr(0, sql_fmt.length-2) + ' ';
+    sql_fmt += 'from '+ info.tbl_name + ( info.tbl_name2 != null ? ( info.tbl_alias + ', ' + info.tbl_name2 + info.tbl_alias2 + ' '  ) : ' ' );
+    sql_fmt += 'where ' +  ( info.tbl_name2 != null ? info.struct['is_del'].tbl : '' )  + info.struct['is_del'].key + ' = 0 '
+        + ( info.tbl_name2 != null ? ( 'and ' + info.struct['is_del2'].tbl + info.struct['is_del2'].key + ' = 0 and ' + info.join_condition ) : ' ' );
+    return sql_fmt;
+}
+
+// get detail select sql 
+exports._get_detail_select_sql = function(info){
+    var sql_fmt = 'select ';
+    for(var elem in info.struct){
+        if(info.struct[elem].is_col==1 && (info.struct[elem].is_view==1 || info.struct[elem].is_detail==1 )){
+            if( info.struct[elem].is_yes_no != 1 ){
+                sql_fmt += ( info.tbl_name2 != null ? info.struct[elem].tbl : '' ) + info.struct[elem].key;
+            }
+            else{
+                sql_fmt += '( case ' + ( info.tbl_name2 != null ? info.struct[elem].tbl : '' ) + info.struct[elem].key
+                    + ' when 1 then "是" else "否" end ) as ' + info.struct[elem].key;
+            }
+            sql_fmt += ', ';
+        }
+    }
+    sql_fmt = sql_fmt.substr(0, sql_fmt.length-2) + ' ';
+    sql_fmt += 'from '+ info.tbl_name + ( info.tbl_name2 != null ? ( info.tbl_alias + ', ' + info.tbl_name2 + info.tbl_alias2 + ' '  ) : ' ' );
+    sql_fmt += 'where ' +  ( info.tbl_name2 != null ? info.struct['is_del'].tbl : '' )  + info.struct['is_del'].key + ' = 0 '
+        + ( info.tbl_name2 != null ? ( 'and ' + info.struct['is_del2'].tbl + info.struct['is_del2'].key + ' = 0 and ' + info.join_condition ) : ' ' );
     return sql_fmt;
 }
 
 // sql: get_list_sql 
 exports._get_list_sql = function(info){
-    return this._get_view_select_sql(info);
+    return this._get_list_select_sql(info) + 'order by ' +( info.tbl_name2 != null ? info.struct['is_del'].tbl:'' ) + info.struct['id'].key +' desc ';
 }
 
 // sql: get_search_sql 
 exports._get_search_sql = function(info){
     var sql_fmt = 'and ( ';
     for(var elem in info.struct){
-        if(info.struct[elem].is_view == 1 && info.struct[elem].is_col == 1 ){
-            sql_fmt += info.struct[elem].key + ' like "%{search}%" ';
-            sql_fmt += info.struct[elem].is_last_view_col == 1 ? ') ' : 'or ';
+        if(info.struct[elem].is_col==1 && (info.struct[elem].is_view==1 || info.struct[elem].is_list==1 )){
+            sql_fmt += ( info.tbl_name2 != null ? info.struct[elem].tbl : '' ) + info.struct[elem].key + ' like "%{search}%" ';
+            sql_fmt += 'or ';
        }
     }
-    return this._get_view_select_sql(info) + sql_fmt;
+    sql_fmt = sql_fmt.substr(0, sql_fmt.length-3) + ') ';
+    return this._get_list_select_sql(info) + sql_fmt + 'order by ' +( info.tbl_name2 != null ? info.struct['is_del'].tbl:'' ) +  info.struct['id'].key +' desc ';
 }
 
 // sql: get_detail_sql 
 exports._get_detail_sql = function(info){
-    return this._get_view_select_sql(info) + 'and ' + info.struct['id'].key + '= "{id}" ';
+    return this._get_detail_select_sql(info) + 'and ' +( info.tbl_name2 != null ? info.struct['is_del'].tbl:'' ) + info.struct['id'].key + '= "{id}" ';
 }
 
 // sql: get_update_info_sql 
 exports._get_update_info_sql = function(info){
-    return this._get_view_select_sql(info) + 'and ' + info.struct['id'].key + '= "{id}" ';
+    return this._get_detail_select_sql(info) + 'and ' +( info.tbl_name2 != null ? info.struct['is_del'].tbl:'' ) + info.struct['id'].key + '= "{id}" ';
 }
 
 // sql: get_create_info_sql 
 exports._get_create_info_sql = function(info){
-    return this._get_view_select_sql(info) + 'limit 0, 1 ';
+    return this._get_detail_select_sql(info) + 'limit 0, 1 ';
 }
 
 
@@ -133,10 +167,11 @@ exports._get_list_title = function(info){
     var list_title = [];
     var i=0;
     for(var elem in info.struct){
-        if(info.struct[elem].is_view == 1){
+        if(info.struct[elem].is_view == 1 || info.struct[elem].is_list == 1){
             list_title[i++] = info.struct[elem].key_text;
         }
     }
+
     return list_title;
 }
 
@@ -145,7 +180,7 @@ exports._get_list_key = function(info){
     var list_key = [];
     var i=0;
     for(var elem in info.struct){
-        if(info.struct[elem].is_to_set == 1){
+        if(info.struct[elem].is_list == 1){
             list_key[i++] = info.struct[elem].key;
         }
     }
@@ -154,12 +189,12 @@ exports._get_list_key = function(info){
 
 
 // data: get_data
-exports._get_data = function(info, res){
+exports._get_detail_content = function(info, res){
     var data = [];
     var k=0;
     var i=0;
     for(var elem in info.struct){
-        if(info.struct[elem].is_view==1){
+        if(info.struct[elem].is_col==1 && (info.struct[elem].is_view==1 || info.struct[elem].is_detail==1 )){
             if(k==0){
                data[i] = [];
             }
@@ -175,7 +210,8 @@ exports._get_data = function(info, res){
                 data[i][k]['max'] = 100000000;
             }
             if((k%2)==1){
-                data[i][k]['col_nm'] = info.struct[elem].key
+                data[i][k]['col_nm'] = info.struct[elem].key;
+                tbl_const.copy_elem(data[i][k], info.struct[elem].op);
             }
             k ++;
             if( (k % 4) == 0 ){
@@ -227,7 +263,7 @@ exports._get_detail = function(info, res){
     var data = {};
     data[info.struct['id'].key] = res[info.struct['id'].key];
     data['title'] = info.titles.detail;
-    data['content'] = this._get_data(info, res);
+    data['content'] = this._get_detail_content(info, res);
     data['parent'] = {
     	url: info.url.list,
 	    title: info.title,
@@ -240,7 +276,7 @@ exports._get_update_info = function(info, res){
     var data = {};
     data[info.struct['id'].key] = res[info.struct['id'].key];
     data['title'] = info.titles.update;
-    data['content'] = this._get_data(info, res);
+    data['content'] = this._get_detail_content(info, res);
     data['parent'] = {
     	url: info.url.list,
 	    title: info.title,
@@ -253,7 +289,7 @@ exports._get_create_info = function(info){
     var data = {};
     data[info.struct['id'].key] = null;
     data['title'] = info.titles.create;
-    data['content'] = this._get_data(info, null);
+    data['content'] = this._get_detail_content(info, null);
     data['parent'] = {
     	url: info.url.list,
 	    title: info.title,

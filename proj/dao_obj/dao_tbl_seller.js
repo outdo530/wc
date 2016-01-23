@@ -1,30 +1,81 @@
 var inherits = require("util").inherits;
+var tbl_const = require("./tbl_const");
 var Dao = require("../dao");
 function Tbl_seller(){
     Dao.call(this);
 
     Tbl_seller.tbl_name = 'seller';
     Tbl_seller.title = 'Seller';
+    Tbl_seller.tbl_name2 = 'customer';
 
+
+    
     Tbl_seller.info = {
         title: Tbl_seller.title,
         tbl_name: 'tbl_'+Tbl_seller.tbl_name,
         m_page_cfg : { size : 6, },
+        tbl_name: 'tbl_'+Tbl_seller.tbl_name,
+        tbl_alias: ' a',
+        tbl_name2: 'tbl_'+Tbl_seller.tbl_name2,
+        tbl_alias2: ' b',
+        join_condition: 'a.cust_id = b.id ',
+
         struct : {
-	        id: { key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number', is_col:1, is_view:1, },
-	        cust_id: { key: 'cust_id',  key_text: '客户id', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_to_set:1, is_view:1, },
-	        property_desc: { key: 'property_desc',  key_text: '船舶资产描述', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_to_set:1, is_view:1, },
-	        bad_property_desc: { key: 'bad_property_desc',  key_text: '船舶不良资产描述', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_to_set:1, is_view:1, },
-	        class_1: { key: 'class_1',  key_text: '姓', key_type: 'Class1', value_def: '', value_type: 'text', is_col:1, is_to_set:1, is_view:1, },
-	        class_2: { key: 'class_2',  key_text: '姓', key_type: 'Class2', value_def: '', value_type: 'text', is_col:1, is_to_set:1, is_view:1, },
-	        class_3: { key: 'class_3',  key_text: '用户名', key_type: 'Class3', value_def: '', value_type: 'text', is_col:1, is_to_set:1,  is_view:1, is_last_view_col:1},
-	        remark: { key: 'remark',  key_text: '备注', key_type: 'label', value_def: '', value_type: 'text', is_col:1, is_to_set:1, },
-	        crt_ts: { key: 'crt_ts',  key_text: '创建时间', key_type: 'label', value_def: '', value_type: 'text', is_col:1, },
-	        upd_ts: { key: 'upd_ts',  key_text: '修改时间', key_type: 'label', value_def: '', value_type: 'text', is_col:1, },
-	        is_del: { key: 'is_del',  key_text: '已删除?', key_type: 'label', value_def: '', value_type: 'text', is_col:1, },
-	        upd: { key: 'update',  key_text: '更新?', key_type: 'label', value_def: '', value_type: 'text', is_view:1, },
-	        del: { key: 'delete',  key_text: '删除?', key_type: 'label', value_def: '', value_type: 'text', is_view:1, },
+	        id: { tbl: 'a.', key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number',
+                is_col:1, is_view:1, },
+	        property_desc: { tbl: 'a.', key: 'property_desc',  key_text: '船舶资产描述', key_type: 'label', value_def: '', value_type: 'text',
+                is_col:1, is_to_set:1, is_detail:1, op: tbl_const.op_type_text(), },
+	        bad_property_desc: { tbl: 'a.', key: 'bad_property_desc',  key_text: '船舶不良资产描述', key_type: 'label', value_def: '', value_type: 'text',
+                is_col:1, is_to_set:1, is_detail:1, op: tbl_const.op_type_text(), },
+	        class_1: { tbl: 'a.', key: 'class_1',  key_text: '姓', key_type: 'Class1', value_def: '', value_type: 'text',
+                is_col:1, is_to_set:1, is_detail:1, is_list:1, op: tbl_const.op_type_text(),},
+	        class_2: { tbl: 'a.', key: 'class_2',  key_text: '姓2', key_type: 'Class2', value_def: '', value_type: 'text',
+                is_col:1, is_to_set:1, is_detail:1, is_list:1, op: tbl_const.op_type_text(),},
+	        class_3: { tbl: 'a.', key: 'class_3',  key_text: '用户名', key_type: 'Class3', value_def: '', value_type: 'text',
+                is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_text(),},
+	        remark: { tbl:'a.', key: 'remark',  key_text: '备注', key_type: 'label', value_def: '', value_type: 'text',
+                is_col:1, is_to_set:1,  },
+	        crt_ts: { tbl:'a.', key: 'crt_ts',  key_text: '创建时间', key_type: 'label', value_def: '', value_type: 'text',
+                is_col:1, },
+	        upd_ts: { tbl:'a.', key: 'upd_ts',  key_text: '修改时间', key_type: 'label', value_def: '', value_type: 'text',
+                is_col:1, },
+	        is_del: { tbl:'a.', key: 'is_del',  key_text: '已删除?', key_type: 'label', value_def: '', value_type: 'text',
+                is_col:1, },
+
+ 	        cust_id: { tbl:'a.', key: 'cust_id',  key_text: '客户id', key_type: 'label', value_def: '', value_type: 'number',
+                is_col:1, is_to_set:1, is_detail:1, is_list:1, op: tbl_const.op_type_dialog('/dao_tbl_'+Tbl_seller.tbl_name2) },
+	        id2: { tbl:'b.', key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number',
+                is_col:1,      },
+	        nm: { tbl:'b.', key: 'nm',  key_text: '名称', key_type: 'label', value_def: '', value_type: 'text',
+                is_col:1, is_list:1, is_detail:1, },
+	        contact_nm: { tbl:'b.', key: 'contact_nm',  key_text: '联系人', key_type: 'label', value_def: '', value_type: 'text',
+                is_col:1, is_list:1, is_detail:1, },
+	        fix_phone: { tbl:'b.', key: 'fix_phone',  key_text: '固话', key_type: 'label', value_def: '', value_type: 'text',
+                is_col:1,     },
+	        mobile: { tbl:'b.', key: 'mobile',  key_text: '手机', key_type: 'label', value_def: '', value_type: 'text',
+                is_col:1, is_list:1, is_detail:1   },
+	        addr: { tbl:'b.', key: 'addr',  key_text: '地址', key_type: 'label', value_def: '', value_type: 'text',
+                is_col:1,        },
+	        is_buyer: { tbl:'b.', key: 'is_buyer',  key_text: '是否买家', key_type: 'label', value_def: '', value_type: 'text',
+                is_col:1,   },
+	        is_seller: { tbl:'b.', key: 'is_seller',  key_text: '是否卖家', key_type: 'label', value_def: '', value_type: 'text',
+                is_col:1,  },
+	        is_lp: { tbl:'b.', key: 'is_lp',  key_text: '是否LP', key_type: 'label', value_def: '', value_type: 'text',
+                is_col:1,  },
+	        remark2: { tbl:'b.', key: 'remark',  key_text: '备注', key_type: 'label', value_def: '', value_type: 'text',
+                is_col: 1,  },
+	        crt_ts2: { tbl:'b.', key: 'crt_ts',  key_text: '创建时间', key_type: 'label', value_def: '', value_type: 'text',
+                is_col: 1,                                },
+	        upd_ts2: { tbl:'b.', key: 'upd_ts',  key_text: '修改时间', key_type: 'label', value_def: '', value_type: 'text',
+                is_col: 1,                                },
+	        is_del2: { tbl:'b.', key: 'is_del',  key_text: '已删除?', key_type: 'label', value_def: '', value_type: 'text',
+                is_col: 1,                                 },
+	        upd: { key: 'update',  key_text: '更新?', key_type: 'label', value_def: '', value_type: 'text', 
+                is_view:1 },
+	        del: { key: 'delete',  key_text: '删除?', key_type: 'label', value_def: '', value_type: 'text', 
+                is_view:1 },
         },
+
         titles : {
             list : Tbl_seller.title,
             search: Tbl_seller.title,
