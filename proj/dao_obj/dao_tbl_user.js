@@ -9,7 +9,7 @@ function Tbl_user(){
 
     Tbl_user.info = {
         title: Tbl_user.title,
-        tbl_name: 'tbl_'+Tbl_user.title.toLowerCase(),
+        tbl_name: 'tbl_'+Tbl_user.tbl_name,
         m_page_cfg : { size : 6, },
         struct : {
 	        id: { key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number', 
