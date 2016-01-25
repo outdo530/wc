@@ -375,20 +375,23 @@ function ctrl_select(sub_url, $scope, $http, $location, $routeParams){
     debug(fn_pre , "crudSelectCtrl--OK");
     debug_obj($routeParams);
 
-    var dialog_obj = this;
-    if("search" in $routeParams){
-        console.log("select ..... search");
-       $scope.search = $routeParams["search"] 
-
-        ____get_list_search(sub_url, $scope, $http, 1, function(cruds){
-            __on_search_or_list_it($scope, sub_url, cruds, $http, $location, ____get_list_search);
-        });
-    }
-    else{
-        ____get_list(sub_url, $scope, $http, 1, function(cruds){
-            __on_search_or_list_it($scope, sub_url, cruds, $http, $location, ____get_list);
-        });
-    }
+    ____get_list(sub_url, $scope, $http, 1, function(cruds){
+        $scope.on_delete_seq = function(crud){
+            __on_delete_seq(sub_url, cruds, crud, $http);
+        }
+        $scope.on_search = function(search){
+            ____get_list_search(sub_url, $scope, $http, 1, function(cruds){
+                //TODO:Selected OK ngDialog
+                console.log("search hit && http get and ok log it");
+            });
+        }
+        $scope.on_prepage = function(crud){
+            __on_prepage(crud, sub_url, $scope, $http, ____get_list);
+        }
+        $scope.on_nextpage = function(crud){
+            __on_nextpage(crud, sub_url, $scope, $http, ____get_list);
+        }
+    });
 }
 
 
