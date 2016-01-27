@@ -7,7 +7,15 @@ exports._get_set_sql = function(info){
     var sql_fmt = 'set ';
     for(var elem in info.struct){
         if(info.struct[elem].is_to_set == 1){
-            sql_fmt += info.struct[elem].key + ' = "{' + info.struct[elem].key + '}", ';
+            sql_fmt += info.struct[elem].key + ' = ';
+            switch(info.struct[elem].value_type)
+            {
+                case 'number':
+                    sql_fmt += '{' + info.struct[elem].key + '}, ';
+                    break;
+                default:
+                    sql_fmt += '"{' + info.struct[elem].key + '}", ';
+            }
         }
     }
     return sql_fmt;
@@ -87,12 +95,13 @@ exports._get_list_select_sql = function(info){
     var sql_fmt = 'select ';
     for(var elem in info.struct){
         if(info.struct[elem].is_col==1 && (info.struct[elem].is_view==1 || info.struct[elem].is_list==1 )){
-            if( info.struct[elem].is_yes_no != 1 ){
+            if( info.struct[elem].op == null || info.struct[elem].op['op_type'] != 'select' ){
                 sql_fmt += ( info.tbl_name2 != null ? info.struct[elem].tbl : '' ) + info.struct[elem].key;
             }
             else{
+            console.log("args: ", info.struct[elem].op.op_args );
                 sql_fmt += '( case ' + ( info.tbl_name2 != null ? info.struct[elem].tbl : '' ) + info.struct[elem].key
-                    + ' when 1 then "是" else "否" end ) as ' + info.struct[elem].key;
+                    + tbl_const.value_instead(info.struct[elem].op.op_args) + ' ) as ' + info.struct[elem].key;
             }
             sql_fmt += ', ';
         }
@@ -109,13 +118,7 @@ exports._get_detail_select_sql = function(info){
     var sql_fmt = 'select ';
     for(var elem in info.struct){
         if(info.struct[elem].is_col==1 && (info.struct[elem].is_view==1 || info.struct[elem].is_detail==1 )){
-            if( info.struct[elem].is_yes_no != 1 ){
-                sql_fmt += ( info.tbl_name2 != null ? info.struct[elem].tbl : '' ) + info.struct[elem].key;
-            }
-            else{
-                sql_fmt += '( case ' + ( info.tbl_name2 != null ? info.struct[elem].tbl : '' ) + info.struct[elem].key
-                    + ' when 1 then "是" else "否" end ) as ' + info.struct[elem].key;
-            }
+            sql_fmt += ( info.tbl_name2 != null ? info.struct[elem].tbl : '' ) + info.struct[elem].key;
             sql_fmt += ', ';
         }
     }

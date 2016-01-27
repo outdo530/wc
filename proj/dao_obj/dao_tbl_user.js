@@ -9,7 +9,7 @@ function Tbl_user(){
 
     Tbl_user.info = {
         title: Tbl_user.title,
-        tbl_name: 'tbl_'+Tbl_user.title.toLowerCase(),
+        tbl_name: 'tbl_'+Tbl_user.tbl_name,
         m_page_cfg : { size : 6, },
         struct : {
 	        id: { key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number', 
@@ -19,7 +19,7 @@ function Tbl_user(){
 	        real_nm: { key: 'real_nm',  key_text: '真实姓名', key_type: 'label', value_def: '', value_type: 'text', 
                 is_col:1, is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_text(),},
 	        gender: { key: 'gender',  key_text: '性别', key_type: 'label', value_def: '', value_type: 'text', 
-                is_col:1, is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_text(),},
+                is_col:1, is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_select(tbl_const.gender),},
 	        email: { key: 'email',  key_text: '邮件地址', key_type: 'label', value_def: '', value_type: 'text', 
                 is_col:1, is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_text(),  },
 	        mobile: { key: 'mobile',  key_text: '手机', key_type: 'label', value_def: '', value_type: 'text', 
@@ -54,9 +54,9 @@ function Tbl_user(){
         titles : {
             list : Tbl_user.title,
             search: Tbl_user.title,
-            detail: 'Detail',
-            update: 'Update',
-            create: 'Create'
+            detail: '详情',
+            update: '修改',
+            create: '新增'
         },
         url : {
             list :   '#/'+Tbl_user.tbl_name+'_list',
@@ -97,7 +97,10 @@ Tbl_user.prototype._get_tbl_info = function(){
 // cmd: add
 Tbl_user.prototype.add = function(req, resp, ctx){
     console.log( "Tbl_user: add");
-    //if(this.check_field(req, ctx, "name",       true, 0,255) == false) return false;
+    if(this.check_field(req, ctx, "real_nm",       true, 2,64) == false) return false;
+    if(this.check_field(req, ctx, "gender",       true, 0) == false) return false;
+    if(this.check_field(req, ctx, "email",       true, 5,64) == false) return false;
+    if(this.check_field(req, ctx, "mobile",       true, 11,32) == false) return false;
 
     var sql_fmt = dao_tools._get_add_sql(this._get_tbl_info());
     return this._dbop_insert(sql_fmt, req, resp, ctx);
@@ -116,6 +119,11 @@ Tbl_user.prototype.is_exist = function(req, resp, ctx){
 Tbl_user.prototype.update = function(req, resp, ctx){
     console.log( "Tbl_user: update");
     if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "real_nm",       true, 2,64) == false) return false;
+    if(this.check_field(req, ctx, "gender",       true, 0) == false) return false;
+    if(this.check_field(req, ctx, "email",       true, 5,64) == false) return false;
+    if(this.check_field(req, ctx, "mobile",       true, 11,32) == false) return false;
+
 
     var sql_fmt = dao_tools._get_update_sql(this._get_tbl_info());
     return this._dbop_update(sql_fmt, req, resp, ctx);

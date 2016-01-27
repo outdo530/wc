@@ -5,7 +5,7 @@ function Tbl_seller(){
     Dao.call(this);
 
     Tbl_seller.tbl_name = 'seller';
-    Tbl_seller.title = 'Seller';
+    Tbl_seller.title = '卖方';
     Tbl_seller.tbl_name2 = 'customer';
 
 
@@ -21,18 +21,18 @@ function Tbl_seller(){
         join_condition: 'a.cust_id = b.id ',
 
         struct : {
-	        id: { tbl: 'a.', key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number',
+	        id: { tbl: 'a.', key: 'id', key_text: '编号', key_type: 'label', value_def: 0, value_type: 'number',
                 is_col:1, is_view:1, },
 	        property_desc: { tbl: 'a.', key: 'property_desc',  key_text: '船舶资产描述', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_to_set:1, is_detail:1, op: tbl_const.op_type_text(), },
 	        bad_property_desc: { tbl: 'a.', key: 'bad_property_desc',  key_text: '船舶不良资产描述', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_to_set:1, is_detail:1, op: tbl_const.op_type_text(), },
-	        class_1: { tbl: 'a.', key: 'class_1',  key_text: '姓', key_type: 'Class1', value_def: '', value_type: 'text',
-                is_col:1, is_to_set:1, is_detail:1, is_list:1, op: tbl_const.op_type_text(),},
-	        class_2: { tbl: 'a.', key: 'class_2',  key_text: '姓2', key_type: 'Class2', value_def: '', value_type: 'text',
-                is_col:1, is_to_set:1, is_detail:1, is_list:1, op: tbl_const.op_type_text(),},
-	        class_3: { tbl: 'a.', key: 'class_3',  key_text: '用户名', key_type: 'Class3', value_def: '', value_type: 'text',
-                is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_text(),},
+	        class_1: { tbl: 'a.', key: 'class_1',  key_text: '一级分类', key_type: 'label', value_def: 0, value_type: 'number',
+                is_col:1, is_to_set:1, is_detail:1, is_list:1, op: tbl_const.op_type_select(tbl_const.ship_class_1),},
+	        class_2: { tbl: 'a.', key: 'class_2',  key_text: '二级分类', key_type: 'label', value_def: 0, value_type: 'number',
+                is_col:1, is_to_set:1, is_detail:1, is_list:1, op: tbl_const.op_type_select(tbl_const.ship_class_2),},
+	        class_3: { tbl: 'a.', key: 'class_3',  key_text: '三级分类', key_type: 'label', value_def: 0, value_type: 'number',
+                is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_select(tbl_const.ship_class_3),},
 	        remark: { tbl:'a.', key: 'remark',  key_text: '备注', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_to_set:1,  },
 	        crt_ts: { tbl:'a.', key: 'crt_ts',  key_text: '创建时间', key_type: 'label', value_def: '', value_type: 'text',
@@ -42,9 +42,9 @@ function Tbl_seller(){
 	        is_del: { tbl:'a.', key: 'is_del',  key_text: '已删除?', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, },
 
- 	        cust_id: { tbl:'a.', key: 'cust_id',  key_text: '客户id', key_type: 'label', value_def: '', value_type: 'number',
+ 	        cust_id: { tbl:'a.', key: 'cust_id',  key_text: '客户id', key_type: 'label', value_def: 0, value_type: 'number',
                 is_col:1, is_to_set:1, is_detail:1, is_list:1, op: tbl_const.op_type_dialog('/dao_tbl_'+Tbl_seller.tbl_name2) },
-	        id2: { tbl:'b.', key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number',
+	        id2: { tbl:'b.', key: 'id', key_text: '编号', key_type: 'label', value_def: 0, value_type: 'number',
                 is_col:1,      },
 	        nm: { tbl:'b.', key: 'nm',  key_text: '名称', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_list:1, is_detail:1, },
@@ -79,9 +79,9 @@ function Tbl_seller(){
         titles : {
             list : Tbl_seller.title,
             search: Tbl_seller.title,
-            detail: 'Detail',
-            update: 'Update',
-            create: 'Create'
+            detail: '详情',
+            update: '修改',
+            create: '新增'
         },
         url : {
             list :   '#/'+Tbl_seller.tbl_name+'_list',
