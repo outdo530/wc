@@ -31,7 +31,7 @@ function Tbl_buyer(){
                 is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_text(),  },
 	        fund_require: { tbl:'a.', key: 'fund_require',  key_text: '融资需求', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_to_set:1,  is_detail:1, op: tbl_const.op_type_text_span(2), },
-	        can_to_lp: { tbl:'a.', key: 'can_to_lp',  key_text: '是否能LP', key_type: 'label', value_def: '', value_type: 'text',
+	        can_to_lp: { tbl:'a.', key: 'can_to_lp',  key_text: '是否能LP', key_type: 'label', value_def: '', value_type: 'number',
                 is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_select(tbl_const.yes_no), },
 	        reason_to_lp: { tbl:'a.', key: 'reason_to_lp',  key_text: 'LP原因', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_to_set:1,  is_detail:1, op: tbl_const.op_type_text_area(), },
@@ -58,11 +58,11 @@ function Tbl_buyer(){
                 is_col:1, is_list:1, is_detail:1   },
 	        addr: { tbl:'b.', key: 'addr',  key_text: '地址', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1,        },
-	        is_buyer: { tbl:'b.', key: 'is_buyer',  key_text: '是否买家', key_type: 'label', value_def: '', value_type: 'text',
+	        is_buyer: { tbl:'b.', key: 'is_buyer',  key_text: '是否买家', key_type: 'label', value_def: '', value_type: 'number',
                 is_col:1,   },
-	        is_seller: { tbl:'b.', key: 'is_seller',  key_text: '是否卖家', key_type: 'label', value_def: '', value_type: 'text',
+	        is_seller: { tbl:'b.', key: 'is_seller',  key_text: '是否卖家', key_type: 'label', value_def: '', value_type: 'number',
                 is_col:1,  },
-	        is_lp: { tbl:'b.', key: 'is_lp',  key_text: '是否LP', key_type: 'label', value_def: '', value_type: 'text',
+	        is_lp: { tbl:'b.', key: 'is_lp',  key_text: '是否LP', key_type: 'label', value_def: '', value_type: 'number',
                 is_col:1,  },
 	        remark2: { tbl:'b.', key: 'remark',  key_text: '备注', key_type: 'label', value_def: '', value_type: 'text',
                 is_col: 1,  },
@@ -82,9 +82,9 @@ function Tbl_buyer(){
         titles : {
             list : Tbl_buyer.title,
             search: Tbl_buyer.title,
-            detail: 'Detail',
-            update: 'Update',
-            create: 'Create'
+            detail: '详情',
+            update: '修改',
+            create: '新增'
         },
         url : {
             list :   '#/'+Tbl_buyer.tbl_name+'_list',

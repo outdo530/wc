@@ -3,8 +3,8 @@
  * OK 2016.01.07 - 1. split the controls and functions
  * OK 2016.01.09 - 2. title navy :   create,detail,update -> add : parent_url = "#" + Tbl_area.url.list
  * 3. prompt some op-success msg after creating or updating data
- * 4. Error Page 
- * 5. dialog confirm
+ * OK 4. Error Page 
+ * OK 5. dialog confirm
  * 6. Cookie login 
  * 7. change the seq to id in the tbl-area
  */
@@ -25,15 +25,17 @@ function __error_info(prefix, rsp){
     console.log("Error Info: ------------- start")
     console.log(prefix);
     console.log(rsp);
+    alert('错误:' + rsp.result_string); //TODO: to a diaglog
     console.log("Error Info: ------------- end")
 }
 function __http_req($http, sub_url, req, cb){
     $http.post(base_url + sub_url, req)
     .success( function(data, status, headers, config){
-        if(data != null && data.result == 0)
+        if(data != null && data.result == 0){
             if(cb != null) cb(data);
+        }
         else{
-            __error_info('get result != 0:', rsp);
+            __error_info('get result != 0:', data);
         }
     })
     .error( function(data, status, headers, config){
@@ -235,7 +237,6 @@ function ctrl_list(sub_url, $scope, $http, $location, $routeParams){
             __on_search_or_list_it($scope, sub_url, cruds, $http, $location, ____get_list);
         });
     }
-
 }
 
 function ctrl_detail(sub_url, $scope, $routeParams, $http){
@@ -306,7 +307,6 @@ function ctrl_update(sub_url, $scope, $routeParams, $http, ngDialog){
                     },
                     function (reason){
                         console.log(" cancel reason : " + reason);
-                        ref_item.key = 0;
                     }
                 );
             });//__http_req
@@ -360,7 +360,6 @@ function ctrl_create(sub_url, $scope, $http, ngDialog){
                     },
                     function (reason){
                         console.log(" cancel reason : " + reason);
-                        ref_item.key = 0;
                     }
                 );
             });//__http_req
@@ -368,27 +367,26 @@ function ctrl_create(sub_url, $scope, $http, ngDialog){
     });
 }
 
-
-
-
 function ctrl_select(sub_url, $scope, $http, $location, $routeParams){
     debug(fn_pre , "crudSelectCtrl--OK");
     debug_obj($routeParams);
 
-    var dialog_obj = this;
-    if("search" in $routeParams){
-        console.log("select ..... search");
-       $scope.search = $routeParams["search"] 
-
-        ____get_list_search(sub_url, $scope, $http, 1, function(cruds){
-            __on_search_or_list_it($scope, sub_url, cruds, $http, $location, ____get_list_search);
-        });
-    }
-    else{
-        ____get_list(sub_url, $scope, $http, 1, function(cruds){
-            __on_search_or_list_it($scope, sub_url, cruds, $http, $location, ____get_list);
-        });
-    }
+    ____get_list(sub_url, $scope, $http, 1, function(cruds){
+        $scope.on_delete_seq = function(crud){
+            __on_delete_seq(sub_url, cruds, crud, $http);
+        }
+        $scope.on_search = function(search){
+            ____get_list_search(sub_url, $scope, $http, 1, function(cruds){
+                console.log("search hit && http get and ok log it");
+            });
+        }
+        $scope.on_prepage = function(crud){
+            __on_prepage(crud, sub_url, $scope, $http, ____get_list);
+        }
+        $scope.on_nextpage = function(crud){
+            __on_nextpage(crud, sub_url, $scope, $http, ____get_list);
+        }
+    });
 }
 
 
