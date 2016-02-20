@@ -20,8 +20,10 @@ function Tbl_lp(){
         struct : {
 	        id: { tbl: 'a.', key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number',
                 is_col:1, is_view:1, },
-	        _type: { tbl: 'a.', key: '_type',  key_text: 'LP类型', key_type: 'label', value_def: null, value_type: 'number', is_col:1,
-                is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_select(tbl_const.lp_type),},
+	        _type: { tbl: 'a.', key: '_type',  key_text: 'LP类型', key_type: 'label', value_def: '', value_type: 'text', is_col:1,
+                is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_text(),},
+	        //_type: { tbl: 'a.', key: '_type',  key_text: 'LP类型', key_type: 'label', value_def: null, value_type: 'number', is_col:1,
+            //    is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_select(tbl_const.lp_type),},
 	        risk_prefer_desc: { tbl: 'a.', key: 'risk_prefer_desc',  key_text: '风险偏好描述', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_text(),},
 	        expect_of_contrib: { tbl: 'a.', key: 'expect_of_contrib',  key_text: '出资期望', key_type: 'label', value_def: '', value_type: 'text',
