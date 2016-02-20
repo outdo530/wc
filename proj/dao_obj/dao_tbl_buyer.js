@@ -295,8 +295,6 @@ Tbl_buyer.prototype.cmd_get_create_info = function(req, resp, ctx){
 
 
 
-// dbop:
-
 // dbop: insert
 Tbl_buyer.prototype._dbop_insert = function(sql_fmt, req, resp, ctx){
 
