@@ -21,18 +21,18 @@ function Tbl_seller(){
         join_condition: 'a.cust_id = b.id ',
 
         struct : {
-	        id: { tbl: 'a.', key: 'id', key_text: '编号', key_type: 'label', value_def: 0, value_type: 'number',
+	        id: { tbl: 'a.', key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number',
                 is_col:1, is_view:1, },
 	        property_desc: { tbl: 'a.', key: 'property_desc',  key_text: '船舶资产描述', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_to_set:1, is_detail:1, op: tbl_const.op_type_text(), },
 	        bad_property_desc: { tbl: 'a.', key: 'bad_property_desc',  key_text: '船舶不良资产描述', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_to_set:1, is_detail:1, op: tbl_const.op_type_text(), },
-	        class_1: { tbl: 'a.', key: 'class_1',  key_text: '一级分类', key_type: 'label', value_def: 0, value_type: 'number',
+	        class_1: { tbl: 'a.', key: 'class_1',  key_text: '一级分类', key_type: 'label', value_def: null, value_type: 'number',
                 is_col:1, is_to_set:1, is_detail:1, is_list:1, op: tbl_const.op_type_select(tbl_const.ship_class_1),},
-	        class_2: { tbl: 'a.', key: 'class_2',  key_text: '二级分类', key_type: 'label', value_def: 0, value_type: 'number',
+	        class_2: { tbl: 'a.', key: 'class_2',  key_text: '二级分类', key_type: 'label', value_def: null, value_type: 'number',
                 is_col:1, is_to_set:1, is_detail:1, is_list:1, op: tbl_const.op_type_select(tbl_const.ship_class_2),},
-	        class_3: { tbl: 'a.', key: 'class_3',  key_text: '三级分类', key_type: 'label', value_def: 0, value_type: 'number',
-                is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_select(tbl_const.ship_class_3),},
+	        class_3: { tbl: 'a.', key: 'class_3',  key_text: '三级分类', key_type: 'label', value_def: '', value_type: 'text',
+                is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_text(),},
 	        remark: { tbl:'a.', key: 'remark',  key_text: '备注', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_to_set:1,  },
 	        crt_ts: { tbl:'a.', key: 'crt_ts',  key_text: '创建时间', key_type: 'label', value_def: '', value_type: 'text',
@@ -42,7 +42,7 @@ function Tbl_seller(){
 	        is_del: { tbl:'a.', key: 'is_del',  key_text: '已删除?', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, },
 
- 	        cust_id: { tbl:'a.', key: 'cust_id',  key_text: '客户id', key_type: 'label', value_def: 0, value_type: 'number',
+ 	        cust_id: { tbl:'a.', key: 'cust_id',  key_text: '客户id', key_type: 'label', value_def: null, value_type: 'number',
                 is_col:1, is_to_set:1, is_detail:1, is_list:1, op: tbl_const.op_type_dialog('/dao_tbl_'+Tbl_seller.tbl_name2) },
 	        id2: { tbl:'b.', key: 'id', key_text: '编号', key_type: 'label', value_def: 0, value_type: 'number',
                 is_col:1,      },
@@ -116,8 +116,13 @@ Tbl_seller.prototype._get_tbl_info = function(){
 // cmd: add
 Tbl_seller.prototype.add = function(req, resp, ctx){
     console.log( "Tbl_seller: add");
-    //if(this.check_field(req, ctx, "name",       true, 0,255) == false) return false;
-
+    if(this.check_field(req, ctx, "property_desc", '船舶资产描述',      true, 1,2048) == false) return false;
+    if(this.check_field(req, ctx, "bad_property_desc", '船舶不良资产描述',      true, 1,2048) == false) return false;
+    if(this.check_field(req, ctx, "class_1", '一级分类',      true, 1) == false) return false;
+    if(this.check_field(req, ctx, "class_2", '二级分类',      true, 1) == false) return false;
+    if(this.check_field(req, ctx, "class_3", '三级分类',      true, 1,512) == false) return false;
+    if(this.check_field(req, ctx, "cust_id",'客户ID',       true, 1) == false) return false;
+     
     var sql_fmt = dao_tools._get_add_sql(this._get_tbl_info());
     return this._dbop_insert(sql_fmt, req, resp, ctx);
 }
@@ -125,7 +130,7 @@ Tbl_seller.prototype.add = function(req, resp, ctx){
 // cmd: is_exist
 Tbl_seller.prototype.is_exist = function(req, resp, ctx){
     console.log( "Tbl_seller: is_exist");
-    if(this.check_field(req, ctx, "name",       true, 0,255) == false) return false;
+    //if(this.check_field(req, ctx, "name",       true, 0,255) == false) return false;
 
     var sql_fmt = dao_tools._get_is_exist_sql(this._get_tbl_info());
     return this._dbop_is_exist(sql_fmt, req, resp, ctx);
@@ -134,7 +139,14 @@ Tbl_seller.prototype.is_exist = function(req, resp, ctx){
 // cmd: update
 Tbl_seller.prototype.update = function(req, resp, ctx){
     console.log( "Tbl_seller: update");
-    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "id",'编号',        true, 1) == false) return false;
+    if(this.check_field(req, ctx, "property_desc", '船舶资产描述',      true, 1,2048) == false) return false;
+    if(this.check_field(req, ctx, "bad_property_desc", '船舶不良资产描述',      true, 1,2048) == false) return false;
+    if(this.check_field(req, ctx, "class_1", '一级分类',      true, 1) == false) return false;
+    if(this.check_field(req, ctx, "class_2", '二级分类',      true, 1) == false) return false;
+    if(this.check_field(req, ctx, "class_3", '三级分类',      true, 1,512) == false) return false;
+    if(this.check_field(req, ctx, "cust_id",'客户ID',       true, 1) == false) return false;
+ 
 
     var sql_fmt = dao_tools._get_update_sql(this._get_tbl_info());
     return this._dbop_update(sql_fmt, req, resp, ctx);
@@ -151,7 +163,7 @@ Tbl_seller.prototype._check_req_data = function (arr_data, ctx){
         return false;
     }
     for( var i in arr_data){
-        if(this.check_field(arr_data[i], ctx, "name",       true, 0,64) == false) return false;
+        //if(this.check_field(arr_data[i], ctx, "name",       true, 0,64) == false) return false;
         //if(this.check_field(arr_data[i], ctx, "parent_id",  false, 1) == false) return false;
     }
     return true;
@@ -172,7 +184,7 @@ Tbl_seller.prototype.add_multi_rows = function(req, resp, ctx){
 // cmd: remove
 Tbl_seller.prototype.remove = function(req, resp, ctx){
     console.log( "Tbl_seller: remove");
-    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "id", '编号',       true, 1) == false) return false;
     
     var sql_fmt = dao_tools._get_remove_sql(this._get_tbl_info());
     return this._dbop_remove(sql_fmt, req, resp, ctx);
@@ -181,7 +193,7 @@ Tbl_seller.prototype.remove = function(req, resp, ctx){
 // cmd: recover
 Tbl_seller.prototype.recover = function(req, resp, ctx){
     console.log( "Tbl_seller: recover");
-    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "id",'编号',        true, 1) == false) return false;
 
     var sql_fmt = dao_tools._get_recover_sql(this._get_tbl_info());
     return this._dbop_recover(sql_fmt, req, resp, ctx);
@@ -190,7 +202,7 @@ Tbl_seller.prototype.recover = function(req, resp, ctx){
 // cmd: select_with_name
 Tbl_seller.prototype.select_with_name = function(req, resp, ctx){
     console.log( "Tbl_seller: select_with_name");
-    if(this.check_field(req, ctx, "name",       true, 0,255) == false) return false;
+    //if(this.check_field(req, ctx, "name",'编号',       true, 0,255) == false) return false;
 
     var sql_fmt = dao_tools._get_select_with_name_sql(this._get_tbl_info());
     return this._dbop_select_with_name(sql_fmt, req, resp, ctx);
@@ -199,7 +211,7 @@ Tbl_seller.prototype.select_with_name = function(req, resp, ctx){
 // cmd: select_with_key
 Tbl_seller.prototype.select_with_key = function(req, resp, ctx){
     console.log( "Tbl_seller: select_with_key");
-    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "id", '编号',       true, 1) == false) return false;
 
     var sql_fmt = dao_tools._get_select_with_key_sql(this._get_tbl_info());
     return this._dbop_select_with_key(sql_fmt, req, resp, ctx);
@@ -252,7 +264,7 @@ Tbl_seller.prototype.cmd_search = function(req, resp, ctx){
 // cmd: get_detail
 Tbl_seller.prototype.cmd_get_detail = function(req, resp, ctx){
     console.log( "Tbl_seller: cmd_get_detail");
-    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "id",'编号',        true, 1) == false) return false;
 
     var sql_fmt = dao_tools._get_detail_sql(this._get_tbl_info());
     return this._dbop_cmd_get_detail(sql_fmt, req, resp, ctx);
@@ -261,7 +273,7 @@ Tbl_seller.prototype.cmd_get_detail = function(req, resp, ctx){
 // cmd: get_update_info
 Tbl_seller.prototype.cmd_get_update_info = function(req, resp, ctx){
     console.log( "Tbl_seller: cmd_get_update_info");
-    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "id",'编号',        true, 1) == false) return false;
 
     var sql_fmt = dao_tools._get_update_info_sql(this._get_tbl_info());
     return this._dbop_cmd_get_update_info(sql_fmt, req, resp, ctx);

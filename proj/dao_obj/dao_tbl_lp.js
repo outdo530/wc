@@ -20,11 +20,11 @@ function Tbl_lp(){
         struct : {
 	        id: { tbl: 'a.', key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number',
                 is_col:1, is_view:1, },
-	        _type: { tbl: 'a.', key: '_type',  key_text: 'LP类型', key_type: 'label', value_def: '', value_type: 'number', is_col:1,
+	        _type: { tbl: 'a.', key: '_type',  key_text: 'LP类型', key_type: 'label', value_def: null, value_type: 'number', is_col:1,
                 is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_select(tbl_const.lp_type),},
 	        risk_prefer_desc: { tbl: 'a.', key: 'risk_prefer_desc',  key_text: '风险偏好描述', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_text(),},
-	        expect_of_contrib: { tbl: 'a.', key: 'expect_of_contrib',  key_text: '出资期限', key_type: 'label', value_def: '', value_type: 'text',
+	        expect_of_contrib: { tbl: 'a.', key: 'expect_of_contrib',  key_text: '出资期望', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_text(),},
 	        reward_of_contrib: { tbl: 'a.', key: 'reward_of_contrib',  key_text: '期望回报描述', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_to_set:1,   is_list:1, is_detail:1, op: tbl_const.op_type_text(),},
@@ -37,7 +37,7 @@ function Tbl_lp(){
 	        is_del: { tbl: 'a.', key: 'is_del',  key_text: '已删除?', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, },
 
- 	        cust_id: { tbl:'a.', key: 'cust_id',  key_text: '客户id', key_type: 'label', value_def: '', value_type: 'number',
+ 	        cust_id: { tbl:'a.', key: 'cust_id',  key_text: '客户id', key_type: 'label', value_def: null, value_type: 'number',
                 is_col:1, is_to_set:1, is_detail:1, is_list:1, op: tbl_const.op_type_dialog('/dao_tbl_'+Tbl_lp.tbl_name2) },
 	        id2: { tbl:'b.', key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number',
                 is_col:1,      },
@@ -111,7 +111,12 @@ Tbl_lp.prototype._get_tbl_info = function(){
 // cmd: add
 Tbl_lp.prototype.add = function(req, resp, ctx){
     console.log( "Tbl_lp: add");
-    //if(this.check_field(req, ctx, "name",       true, 0,255) == false) return false;
+    if(this.check_field(req, ctx, "_type",'LP类型',       true, 1) == false) return false;
+    if(this.check_field(req, ctx, "risk_prefer_desc",'风险偏好描述',       true, 1,1024) == false) return false;
+    if(this.check_field(req, ctx, "expect_of_contrib",'出资期望',       true, 1,64) == false) return false;
+    if(this.check_field(req, ctx, "reward_of_contrib",'期望回报描述',       true, 1,512) == false) return false;
+    if(this.check_field(req, ctx, "cust_id",'客户ID',       true, 1) == false) return false;
+    
 
     var sql_fmt = dao_tools._get_add_sql(this._get_tbl_info());
     return this._dbop_insert(sql_fmt, req, resp, ctx);
@@ -129,7 +134,12 @@ Tbl_lp.prototype.is_exist = function(req, resp, ctx){
 // cmd: update
 Tbl_lp.prototype.update = function(req, resp, ctx){
     console.log( "Tbl_lp: update");
-    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "id",'编号',        true, 1) == false) return false;
+    if(this.check_field(req, ctx, "_type",'LP类型',       true, 1) == false) return false;
+    if(this.check_field(req, ctx, "risk_prefer_desc",'风险偏好描述',       true, 1,1024) == false) return false;
+    if(this.check_field(req, ctx, "expect_of_contrib",'出资期望',       true, 1,64) == false) return false;
+    if(this.check_field(req, ctx, "reward_of_contrib",'期望回报描述',       true, 1,512) == false) return false;
+    if(this.check_field(req, ctx, "cust_id",'客户ID',       true, 1) == false) return false;
 
     var sql_fmt = dao_tools._get_update_sql(this._get_tbl_info());
     return this._dbop_update(sql_fmt, req, resp, ctx);
@@ -167,7 +177,7 @@ Tbl_lp.prototype.add_multi_rows = function(req, resp, ctx){
 // cmd: remove
 Tbl_lp.prototype.remove = function(req, resp, ctx){
     console.log( "Tbl_lp: remove");
-    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "id", '编号',        true, 1) == false) return false;
     
     var sql_fmt = dao_tools._get_remove_sql(this._get_tbl_info());
     return this._dbop_remove(sql_fmt, req, resp, ctx);
@@ -176,7 +186,7 @@ Tbl_lp.prototype.remove = function(req, resp, ctx){
 // cmd: recover
 Tbl_lp.prototype.recover = function(req, resp, ctx){
     console.log( "Tbl_lp: recover");
-    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "id", '编号',       true, 1) == false) return false;
 
     var sql_fmt = dao_tools._get_recover_sql(this._get_tbl_info());
     return this._dbop_recover(sql_fmt, req, resp, ctx);
@@ -194,7 +204,7 @@ Tbl_lp.prototype.select_with_name = function(req, resp, ctx){
 // cmd: select_with_key
 Tbl_lp.prototype.select_with_key = function(req, resp, ctx){
     console.log( "Tbl_lp: select_with_key");
-    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "id", '编号',       true, 1) == false) return false;
 
     var sql_fmt = dao_tools._get_select_with_key_sql(this._get_tbl_info());
     return this._dbop_select_with_key(sql_fmt, req, resp, ctx);
@@ -247,7 +257,7 @@ Tbl_lp.prototype.cmd_search = function(req, resp, ctx){
 // cmd: get_detail
 Tbl_lp.prototype.cmd_get_detail = function(req, resp, ctx){
     console.log( "Tbl_lp: cmd_get_detail");
-    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "id", '编号',       true, 1) == false) return false;
 
     var sql_fmt = dao_tools._get_detail_sql(this._get_tbl_info());
     return this._dbop_cmd_get_detail(sql_fmt, req, resp, ctx);
@@ -256,7 +266,7 @@ Tbl_lp.prototype.cmd_get_detail = function(req, resp, ctx){
 // cmd: get_update_info
 Tbl_lp.prototype.cmd_get_update_info = function(req, resp, ctx){
     console.log( "Tbl_lp: cmd_get_update_info");
-    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "id",  '编号',      true, 1) == false) return false;
 
     var sql_fmt = dao_tools._get_update_info_sql(this._get_tbl_info());
     return this._dbop_cmd_get_update_info(sql_fmt, req, resp, ctx);
