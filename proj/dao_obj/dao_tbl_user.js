@@ -18,7 +18,7 @@ function Tbl_user(){
                 is_col:1, is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_text(), },
 	        real_nm: { key: 'real_nm',  key_text: '真实姓名', key_type: 'label', value_def: '', value_type: 'text', 
                 is_col:1, is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_text(),},
-	        gender: { key: 'gender',  key_text: '性别', key_type: 'label', value_def: '', value_type: 'text', 
+	        gender: { key: 'gender',  key_text: '性别', key_type: 'label', value_def: null, value_type: 'number', 
                 is_col:1, is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_select(tbl_const.gender),},
 	        email: { key: 'email',  key_text: '邮件地址', key_type: 'label', value_def: '', value_type: 'text', 
                 is_col:1, is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_text(),  },
@@ -34,7 +34,7 @@ function Tbl_user(){
                 is_col:1, is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_text(), },
 	        user_type: { key: 'user_type',  key_text: '用户类型', key_type: 'label', value_def: '', value_type: 'text', 
                 is_col:1, is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_text(), },
-	        sign_id: { key: 'sign_id',  key_text: '登录id', key_type: 'label', value_def: '', value_type: 'text', 
+	        sign_id: { key: 'sign_id',  key_text: '登录ID', key_type: 'label', value_def: '', value_type: 'text', 
                 is_col:1, is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_text(), },
 	        nick_nm: { key: 'nick_nm',  key_text: '昵称', key_type: 'label', value_def: '', value_type: 'text', 
                 is_col:1, is_to_set:1,   is_list:1, is_detail:1, op: tbl_const.op_type_text(),},
@@ -97,10 +97,21 @@ Tbl_user.prototype._get_tbl_info = function(){
 // cmd: add
 Tbl_user.prototype.add = function(req, resp, ctx){
     console.log( "Tbl_user: add");
-    if(this.check_field(req, ctx, "real_nm",       true, 2,64) == false) return false;
-    if(this.check_field(req, ctx, "gender",       true, 0) == false) return false;
-    if(this.check_field(req, ctx, "email",       true, 5,64) == false) return false;
-    if(this.check_field(req, ctx, "mobile",       true, 11,32) == false) return false;
+    //if(this.check_field(req, ctx, "id",'编号',        true, 0) == false) return false;
+
+    if(this.check_field(req, ctx, "emp_no",'雇员号',       true, 0) == false) return false;
+    if(this.check_field(req, ctx, "real_nm",'真实姓名',       true, 2,64) == false) return false;
+    if(this.check_field(req, ctx, "gender",'性别',       true, 0) == false) return false;
+    if(this.check_field(req, ctx, "email",'邮件地址',       true, 5,64) == false) return false;
+    if(this.check_field(req, ctx, "mobile",'手机',       true, 11,32) == false) return false;
+    if(this.check_field(req, ctx, "fix_phone",'固话',        true, 5,32) == false) return false;
+    if(this.check_field(req, ctx, "id_card_no",'身份证',      true, 15,18) == false) return false;
+    if(this.check_field(req, ctx, "enter_date",'入司日期',       true, 0) == false) return false;
+    if(this.check_field(req, ctx, "left_date",'离司日期',       true, 0) == false) return false;
+    if(this.check_field(req, ctx, "user_type",'用户类型',       true, 0) == false) return false;
+    if(this.check_field(req, ctx, "sign_id",'登录ID',        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "nick_nm",'昵称',       true, 4,32) == false) return false;
+//    if(this.check_field(req, ctx, "password",'密码',       true, 6,32) == false) return false;
 
     var sql_fmt = dao_tools._get_add_sql(this._get_tbl_info());
     return this._dbop_insert(sql_fmt, req, resp, ctx);
@@ -109,7 +120,7 @@ Tbl_user.prototype.add = function(req, resp, ctx){
 // cmd: is_exist
 Tbl_user.prototype.is_exist = function(req, resp, ctx){
     console.log( "Tbl_user: is_exist");
-    if(this.check_field(req, ctx, "name",       true, 0,255) == false) return false;
+    if(this.check_field(req, ctx, "name",'名称',       true, 0,255) == false) return false;
 
     var sql_fmt = dao_tools._get_is_exist_sql(this._get_tbl_info());
     return this._dbop_is_exist(sql_fmt, req, resp, ctx);
@@ -118,11 +129,22 @@ Tbl_user.prototype.is_exist = function(req, resp, ctx){
 // cmd: update
 Tbl_user.prototype.update = function(req, resp, ctx){
     console.log( "Tbl_user: update");
-    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
-    if(this.check_field(req, ctx, "real_nm",       true, 2,64) == false) return false;
-    if(this.check_field(req, ctx, "gender",       true, 0) == false) return false;
-    if(this.check_field(req, ctx, "email",       true, 5,64) == false) return false;
-    if(this.check_field(req, ctx, "mobile",       true, 11,32) == false) return false;
+    if(this.check_field(req, ctx, "id",'编号',        true, 0) == false) return false;
+
+    if(this.check_field(req, ctx, "emp_no",'雇员号',       true, 0) == false) return false;
+    if(this.check_field(req, ctx, "real_nm",'真实姓名',       true, 2,64) == false) return false;
+    if(this.check_field(req, ctx, "gender",'性别',       true, 0) == false) return false;
+    if(this.check_field(req, ctx, "email",'邮件地址',       true, 5,64) == false) return false;
+    if(this.check_field(req, ctx, "mobile",'手机',       true, 11,32) == false) return false;
+    if(this.check_field(req, ctx, "fix_phone",'固话',        true, 5,32) == false) return false;
+    if(this.check_field(req, ctx, "id_card_no",'身份证',      true, 15,18) == false) return false;
+    if(this.check_field(req, ctx, "enter_date",'入司日期',       true, 0) == false) return false;
+    if(this.check_field(req, ctx, "left_date",'离司日期',       true, 0) == false) return false;
+    if(this.check_field(req, ctx, "user_type",'用户类型',       true, 0) == false) return false;
+    if(this.check_field(req, ctx, "sign_id",'登录ID',        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "nick_nm",'昵称',       true, 4,32) == false) return false;
+//    if(this.check_field(req, ctx, "password",'密码',       true, 6,32) == false) return false;
+
 
 
     var sql_fmt = dao_tools._get_update_sql(this._get_tbl_info());
@@ -140,7 +162,7 @@ Tbl_user.prototype._check_req_data = function (arr_data, ctx){
         return false;
     }
     for( var i in arr_data){
-        if(this.check_field(arr_data[i], ctx, "name",       true, 0,64) == false) return false;
+        if(this.check_field(arr_data[i], ctx, "name",'名称',       true, 0,64) == false) return false;
         //if(this.check_field(arr_data[i], ctx, "parent_id",  false, 1) == false) return false;
     }
     return true;
@@ -161,7 +183,7 @@ Tbl_user.prototype.add_multi_rows = function(req, resp, ctx){
 // cmd: remove
 Tbl_user.prototype.remove = function(req, resp, ctx){
     console.log( "Tbl_user: remove");
-    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "id",'编号',        true, 1) == false) return false;
     
     var sql_fmt = dao_tools._get_remove_sql(this._get_tbl_info());
     return this._dbop_remove(sql_fmt, req, resp, ctx);
@@ -170,7 +192,7 @@ Tbl_user.prototype.remove = function(req, resp, ctx){
 // cmd: recover
 Tbl_user.prototype.recover = function(req, resp, ctx){
     console.log( "Tbl_user: recover");
-    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "id",'编号',        true, 1) == false) return false;
 
     var sql_fmt = dao_tools._get_recover_sql(this._get_tbl_info());
     return this._dbop_recover(sql_fmt, req, resp, ctx);
@@ -179,7 +201,7 @@ Tbl_user.prototype.recover = function(req, resp, ctx){
 // cmd: select_with_name
 Tbl_user.prototype.select_with_name = function(req, resp, ctx){
     console.log( "Tbl_user: select_with_name");
-    if(this.check_field(req, ctx, "name",       true, 0,255) == false) return false;
+    if(this.check_field(req, ctx, "name",'名称',       true, 0,255) == false) return false;
 
     var sql_fmt = dao_tools._get_select_with_name_sql(this._get_tbl_info());
     return this._dbop_select_with_name(sql_fmt, req, resp, ctx);
@@ -188,7 +210,7 @@ Tbl_user.prototype.select_with_name = function(req, resp, ctx){
 // cmd: select_with_key
 Tbl_user.prototype.select_with_key = function(req, resp, ctx){
     console.log( "Tbl_user: select_with_key");
-    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "id",'编号',        true, 1) == false) return false;
 
     var sql_fmt = dao_tools._get_select_with_key_sql(this._get_tbl_info());
     return this._dbop_select_with_key(sql_fmt, req, resp, ctx);
@@ -197,8 +219,8 @@ Tbl_user.prototype.select_with_key = function(req, resp, ctx){
 // cmd: select
 Tbl_user.prototype.select = function(req, resp, ctx){
     console.log( "Tbl_user: select");
-    if(this.check_field(req, ctx, "start",      true, 0) == false) return false;
-    if(this.check_field(req, ctx, "cnt",        true, 1) == false) return false;
+    if(this.check_field(req, ctx, "start",'起始记录号',      true, 0) == false) return false;
+    if(this.check_field(req, ctx, "cnt",'记录条数',        true, 1) == false) return false;
 
 	var sql_fmt = dao_tools._get_select_sql(this._get_tbl_info());
 	return this._dbop_select(sql_fmt, req, resp, ctx);
@@ -212,7 +234,7 @@ Tbl_user.prototype.select = function(req, resp, ctx){
 Tbl_user.prototype.cmd_list = function(req, resp, ctx){
     var info = this._get_tbl_info();
     console.log( "Tbl_user: cmd_list");
-    if(this.check_field(req.page, ctx, "cur",      true, 0) == false) return false;
+    if(this.check_field(req.page, ctx, "cur",'当前页',      true, 0) == false) return false;
 
     req["cnt"] = info.m_page_cfg.size;
     req["start"] = ( req.page.cur - 1 ) * info.m_page_cfg.size;
@@ -229,8 +251,8 @@ Tbl_user.prototype.cmd_search = function(req, resp, ctx){
         return this.cmd_list(req,resp,ctx);
     }
 
-    if(this.check_field(req.page, ctx, "cur",      true, 0) == false) return false;
-    if(this.check_field(req, ctx, "search",      true, 0,255) == false) return false;
+    if(this.check_field(req.page, ctx, "cur",'当前页',      true, 0) == false) return false;
+    if(this.check_field(req, ctx, "search",'搜索',      true, 0,255) == false) return false;
     req["start"] = ( req.page.cur - 1 ) * info.m_page_cfg.size;
     req["cnt"] = info.m_page_cfg.size;
    
@@ -241,7 +263,7 @@ Tbl_user.prototype.cmd_search = function(req, resp, ctx){
 // cmd: get_detail
 Tbl_user.prototype.cmd_get_detail = function(req, resp, ctx){
     console.log( "Tbl_user: cmd_get_detail");
-    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "id",'编号',        true, 1) == false) return false;
 
     var sql_fmt = dao_tools._get_detail_sql(this._get_tbl_info());
     return this._dbop_cmd_get_detail(sql_fmt, req, resp, ctx);
@@ -250,7 +272,7 @@ Tbl_user.prototype.cmd_get_detail = function(req, resp, ctx){
 // cmd: get_update_info
 Tbl_user.prototype.cmd_get_update_info = function(req, resp, ctx){
     console.log( "Tbl_user: cmd_get_update_info");
-    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "id",'编号',        true, 1) == false) return false;
 
     var sql_fmt = dao_tools._get_update_info_sql(this._get_tbl_info());
     return this._dbop_cmd_get_update_info(sql_fmt, req, resp, ctx);
@@ -411,12 +433,12 @@ Tbl_user.prototype._dbop_cmd_get_update_info = function(sql_fmt, req, resp, ctx)
 // dbop: get_create_info
 Tbl_user.prototype._dbop_cmd_get_create_info = function(sql_fmt, req, resp, ctx){
     var dao_obj = this;
+    /*console.log("sql: ", tools.format_object(sql_fmt, req));
     var mysql_conn = require("../mysql_conn").create_short();
     mysql_conn.query(
         tools.format_object(sql_fmt, req),
         function (err, results, fields){
             if(err) {
-                console.log("sql: ", tools.format_object(sql_fmt, req));
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
                 resp.result_string = "Select failed: " + err;
@@ -429,7 +451,11 @@ Tbl_user.prototype._dbop_cmd_get_create_info = function(sql_fmt, req, resp, ctx)
             mysql_conn.end();
             dao_obj.render_resp(resp, ctx);
         }
-    );
+    );*/
+    resp.result = 0;
+    resp.result_string = "OK";
+    resp.data = dao_tools._get_create_info(dao_obj._get_tbl_info());
+    dao_obj.render_resp(resp, ctx);
     return  true;
 }
 
@@ -440,8 +466,8 @@ Tbl_user.prototype._dbop_cmd_get_create_info = function(sql_fmt, req, resp, ctx)
 // cmd: signin
 Tbl_user.prototype.signin = function(req, resp, ctx){
     console.log( "Tbl_user: signin");
-    if(this.check_field(req, ctx, "sign_id",      true, 4,64) == false) return false;
-    if(this.check_field(req, ctx, "password",     true, 6,128) == false) return false;
+    if(this.check_field(req, ctx, "sign_id",'登录ID',      true, 4,64) == false) return false;
+    if(this.check_field(req, ctx, "password",'密码',     true, 6,128) == false) return false;
 
     var sql_fmt = "select * from tbl_user where sign_id = '{sign_id}' and password = '{password}' and is_del = 0";
     return this._dbop_select_with_name(sql_fmt, req, resp, ctx);
@@ -450,8 +476,8 @@ Tbl_user.prototype.signin = function(req, resp, ctx){
 // cmd: signup
 Tbl_user.prototype.signup = function(req, resp, ctx){
     console.log( "Tbl_user: signup");
-    if(this.check_field(req, ctx, "sign_id",      true, 4,64) == false) return false;
-    if(this.check_field(req, ctx, "password",     true, 6,128) == false) return false;
+    if(this.check_field(req, ctx, "sign_id",'登录ID',      true, 4,64) == false) return false;
+    if(this.check_field(req, ctx, "password", '密码',    true, 6,128) == false) return false;
 
     var sql_fmt_is_exist = "select sign_id from tbl_user where sign_id = '{sign_id}' and is_del = 0"
     var sql_fmt = "insert into tbl_user set emp_no = '{emp_no}', real_nm = '{real_nm}', gender = '{gender}', email = '{email}', mobile = '{mobile}', fix_phone = '{fix_phone}', id_card_no = '{id_card_no}', enter_date = '{enter_date}', left_date = '{left_date}', user_type = '{user_type}', sign_id = '{sign_id}', nick_nm = '{nick_nm}', password = '{password}', remark = '{remark}', crt_ts = now(), is_del = 0;"

@@ -5,7 +5,7 @@ var util = require("util");
 var inherits = require("util").inherits;
 
 var host = "127.0.0.1";  //var host =  "127.0.0.1"
-var port = 30000;
+var port = 3000;
 var url = "/dao_tbl_func";
 
 req = [

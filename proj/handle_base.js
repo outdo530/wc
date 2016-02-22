@@ -60,13 +60,13 @@ HandleBase.prototype.render_resp = function (resp, ctx){
     }
 }
 
-HandleBase.prototype.check_field = function (req, ctx, f_nm, exist, min_len, max_len){
+HandleBase.prototype.check_field = function (req, ctx, f_nm, f_nm_vw, exist, min_len, max_len){
     var hbo = this;
     if(req != null && ctx != null && f_nm != null){
         if(exist == true){
             var f_v = req[f_nm];
             if(f_v == null){
-                this.easy_render_resp(ErrorCode.field_absent, "field must present : " + f_nm, ctx);
+                this.easy_render_resp(ErrorCode.field_absent, '"'+f_nm_vw+'"必填', ctx);
                 return false;
             }
             var tp = typeof(f_v);
@@ -74,13 +74,13 @@ HandleBase.prototype.check_field = function (req, ctx, f_nm, exist, min_len, max
                 function check_len(len_f_v){
                     if(min_len != null){
                         if(len_f_v < min_len){
-                            hbo.easy_render_resp(ErrorCode.field_too_short, "field length must >= min_len: " + f_nm, ctx);
+                            hbo.easy_render_resp(ErrorCode.field_too_short, '"'+f_nm_vw+'"至少'+min_len+"个字符", ctx);
                             return false;
                         }
                     }
                     if(max_len != null){
                         if(len_f_v > max_len){
-                            hbo.easy_render_resp(ErrorCode.field_too_long, "field length must <= max_len: " + f_nm, ctx);
+                            hbo.easy_render_resp(ErrorCode.field_too_long, '"'+f_nm_vw+'"最多'+max_len+'个字符', ctx);
                             return false;
                         }
                     }
@@ -89,7 +89,22 @@ HandleBase.prototype.check_field = function (req, ctx, f_nm, exist, min_len, max
                 return check_len(f_v.length);
             }
             else if( tp == "number"){
-                return check_len(f_v);
+                function check_value(len_f_v){
+                    if(min_len != null){
+                        if(len_f_v < min_len){
+                            hbo.easy_render_resp(ErrorCode.field_too_short, '"'+f_nm_vw+'"至少为'+min_len, ctx);
+                            return false;
+                        }
+                    }
+                    if(max_len != null){
+                        if(len_f_v > max_len){
+                            hbo.easy_render_resp(ErrorCode.field_too_long, '"'+f_nm_vw+'"最多为'+max_len, ctx);
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+                return check_value(f_v);
             }
             else{
                 console.error("the field type is not number or string, field:" + f_nm)

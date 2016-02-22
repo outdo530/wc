@@ -20,11 +20,13 @@ function Tbl_lp(){
         struct : {
 	        id: { tbl: 'a.', key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number',
                 is_col:1, is_view:1, },
-	        _type: { tbl: 'a.', key: '_type',  key_text: 'LP类型', key_type: 'label', value_def: '', value_type: 'number', is_col:1,
-                is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_select(tbl_const.lp_type),},
+	        _type: { tbl: 'a.', key: '_type',  key_text: 'LP类型', key_type: 'label', value_def: '', value_type: 'text', is_col:1,
+                is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_text(),},
+	        //_type: { tbl: 'a.', key: '_type',  key_text: 'LP类型', key_type: 'label', value_def: null, value_type: 'number', is_col:1,
+            //    is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_select(tbl_const.lp_type),},
 	        risk_prefer_desc: { tbl: 'a.', key: 'risk_prefer_desc',  key_text: '风险偏好描述', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_text(),},
-	        expect_of_contrib: { tbl: 'a.', key: 'expect_of_contrib',  key_text: '出资期限', key_type: 'label', value_def: '', value_type: 'text',
+	        expect_of_contrib: { tbl: 'a.', key: 'expect_of_contrib',  key_text: '出资期望', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_text(),},
 	        reward_of_contrib: { tbl: 'a.', key: 'reward_of_contrib',  key_text: '期望回报描述', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_to_set:1,   is_list:1, is_detail:1, op: tbl_const.op_type_text(),},
@@ -37,7 +39,7 @@ function Tbl_lp(){
 	        is_del: { tbl: 'a.', key: 'is_del',  key_text: '已删除?', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, },
 
- 	        cust_id: { tbl:'a.', key: 'cust_id',  key_text: '客户id', key_type: 'label', value_def: '', value_type: 'number',
+ 	        cust_id: { tbl:'a.', key: 'cust_id',  key_text: '客户id', key_type: 'label', value_def: null, value_type: 'number',
                 is_col:1, is_to_set:1, is_detail:1, is_list:1, op: tbl_const.op_type_dialog('/dao_tbl_'+Tbl_lp.tbl_name2) },
 	        id2: { tbl:'b.', key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number',
                 is_col:1,      },
@@ -51,7 +53,7 @@ function Tbl_lp(){
                 is_col:1, is_list:1, is_detail:1   },
 	        addr: { tbl:'b.', key: 'addr',  key_text: '地址', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1,        },
-	        is_buyer: { tbl:'b.', key: 'is_buyer',  key_text: '是否买家', key_type: 'label', value_def: '', value_type: 'text',
+	        is_lp: { tbl:'b.', key: 'is_lp',  key_text: '是否买家', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1,   },
 	        is_seller: { tbl:'b.', key: 'is_seller',  key_text: '是否卖家', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1,  },
@@ -111,7 +113,12 @@ Tbl_lp.prototype._get_tbl_info = function(){
 // cmd: add
 Tbl_lp.prototype.add = function(req, resp, ctx){
     console.log( "Tbl_lp: add");
-    //if(this.check_field(req, ctx, "name",       true, 0,255) == false) return false;
+    if(this.check_field(req, ctx, "_type",'LP类型',       true, 1) == false) return false;
+    if(this.check_field(req, ctx, "risk_prefer_desc",'风险偏好描述',       true, 1,1024) == false) return false;
+    if(this.check_field(req, ctx, "expect_of_contrib",'出资期望',       true, 1,64) == false) return false;
+    if(this.check_field(req, ctx, "reward_of_contrib",'期望回报描述',       true, 1,512) == false) return false;
+    if(this.check_field(req, ctx, "cust_id",'客户ID',       true, 1) == false) return false;
+    
 
     var sql_fmt = dao_tools._get_add_sql(this._get_tbl_info());
     return this._dbop_insert(sql_fmt, req, resp, ctx);
@@ -129,7 +136,12 @@ Tbl_lp.prototype.is_exist = function(req, resp, ctx){
 // cmd: update
 Tbl_lp.prototype.update = function(req, resp, ctx){
     console.log( "Tbl_lp: update");
-    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "id",'编号',        true, 1) == false) return false;
+    if(this.check_field(req, ctx, "_type",'LP类型',       true, 1) == false) return false;
+    if(this.check_field(req, ctx, "risk_prefer_desc",'风险偏好描述',       true, 1,1024) == false) return false;
+    if(this.check_field(req, ctx, "expect_of_contrib",'出资期望',       true, 1,64) == false) return false;
+    if(this.check_field(req, ctx, "reward_of_contrib",'期望回报描述',       true, 1,512) == false) return false;
+    if(this.check_field(req, ctx, "cust_id",'客户ID',       true, 1) == false) return false;
 
     var sql_fmt = dao_tools._get_update_sql(this._get_tbl_info());
     return this._dbop_update(sql_fmt, req, resp, ctx);
@@ -167,7 +179,7 @@ Tbl_lp.prototype.add_multi_rows = function(req, resp, ctx){
 // cmd: remove
 Tbl_lp.prototype.remove = function(req, resp, ctx){
     console.log( "Tbl_lp: remove");
-    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "id", '编号',        true, 1) == false) return false;
     
     var sql_fmt = dao_tools._get_remove_sql(this._get_tbl_info());
     return this._dbop_remove(sql_fmt, req, resp, ctx);
@@ -176,7 +188,7 @@ Tbl_lp.prototype.remove = function(req, resp, ctx){
 // cmd: recover
 Tbl_lp.prototype.recover = function(req, resp, ctx){
     console.log( "Tbl_lp: recover");
-    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "id", '编号',       true, 1) == false) return false;
 
     var sql_fmt = dao_tools._get_recover_sql(this._get_tbl_info());
     return this._dbop_recover(sql_fmt, req, resp, ctx);
@@ -194,7 +206,7 @@ Tbl_lp.prototype.select_with_name = function(req, resp, ctx){
 // cmd: select_with_key
 Tbl_lp.prototype.select_with_key = function(req, resp, ctx){
     console.log( "Tbl_lp: select_with_key");
-    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "id", '编号',       true, 1) == false) return false;
 
     var sql_fmt = dao_tools._get_select_with_key_sql(this._get_tbl_info());
     return this._dbop_select_with_key(sql_fmt, req, resp, ctx);
@@ -247,7 +259,7 @@ Tbl_lp.prototype.cmd_search = function(req, resp, ctx){
 // cmd: get_detail
 Tbl_lp.prototype.cmd_get_detail = function(req, resp, ctx){
     console.log( "Tbl_lp: cmd_get_detail");
-    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "id", '编号',       true, 1) == false) return false;
 
     var sql_fmt = dao_tools._get_detail_sql(this._get_tbl_info());
     return this._dbop_cmd_get_detail(sql_fmt, req, resp, ctx);
@@ -256,7 +268,7 @@ Tbl_lp.prototype.cmd_get_detail = function(req, resp, ctx){
 // cmd: get_update_info
 Tbl_lp.prototype.cmd_get_update_info = function(req, resp, ctx){
     console.log( "Tbl_lp: cmd_get_update_info");
-    if(this.check_field(req, ctx, "id",        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "id",  '编号',      true, 1) == false) return false;
 
     var sql_fmt = dao_tools._get_update_info_sql(this._get_tbl_info());
     return this._dbop_cmd_get_update_info(sql_fmt, req, resp, ctx);
@@ -272,7 +284,231 @@ Tbl_lp.prototype.cmd_get_create_info = function(req, resp, ctx){
 
 
 
-// dbop of custom cmd:
+// dbop: insert
+Tbl_lp.prototype._dbop_insert = function(sql_fmt, req, resp, ctx){
+
+    var sql_fmt_cust_id = 'select id from tbl_customer'
+        + ' where is_del = 0 and id = {cust_id}; ';
+    console.log("sql: ", tools.format_object(sql_fmt_cust_id, req));
+
+    var dao_obj = this;
+    var mysql_conn = require("../mysql_conn").create_short();
+    mysql_conn.query(
+        tools.format_object(sql_fmt_cust_id, req),
+        function (err, results, fields){
+            if(err) {
+                console.log("err: ", err);
+                resp.result = ErrorCode.db_sel_failed;
+                resp.result_string = "验证客户编号出错: " + err;
+                mysql_conn.end();
+                dao_obj.render_resp(resp, ctx);
+            }
+            else{
+                console.log("results: ", results);
+
+                if( results.length == 1 ){
+                    sql_fmt += '; update tbl_customer set is_lp = if(is_lp < 1, 1, is_lp + 1) where is_del = 0 and id = {cust_id};';
+                }
+                else{
+                    console.log("err: ", '"客户编号"不存在');
+                    resp.result = ErrorCode.db_sel_failed;
+                    resp.result_string = '"客户编号"不存在';
+                    mysql_conn.end();
+                    dao_obj.render_resp(resp, ctx);
+                    return true;
+                }
+
+                console.log("sql: ", tools.format_object(sql_fmt, req));
+
+                mysql_conn.query(
+                    tools.format_object(sql_fmt, req),
+                    function (n_err, n_results, n_fields){
+                        if(n_err){
+                            console.log("err: ", n_err);
+                            resp.result = ErrorCode.db_sel_failed;
+                            resp.result_string = "Select failed: " + err;
+                        }
+                        else{
+                            resp.result = 0;
+                            resp.result_string = "OK";
+                        }
+                        console.log("result: ", n_results);
+                        mysql_conn.end();
+                        dao_obj.render_resp(resp, ctx);
+                    });
+            }
+        }
+    );
+    return  true;
+}
+
+// dbop: update
+Tbl_lp.prototype._dbop_update = function(sql_fmt, req, resp, ctx){
+
+    var sql_fmt_cust_id = 'select a.cust_id, b.id from tbl_lp a, tbl_customer b'
+        + ' where a.id = {id} and a.is_del = 0 and b.is_del = 0 and ( a.cust_id = b.id or b.id = {cust_id}); ';
+    console.log("sql: ", tools.format_object(sql_fmt_cust_id, req));
+
+    var dao_obj = this;
+    var mysql_conn = require("../mysql_conn").create_short();
+    mysql_conn.query(
+        tools.format_object(sql_fmt_cust_id, req),
+        function (err, results, fields){
+            if(err) {
+                console.log("err: ", err);
+                resp.result = ErrorCode.db_sel_failed;
+                resp.result_string = "验证客户编号出错: " + err;
+                mysql_conn.end();
+                dao_obj.render_resp(resp, ctx);
+            }
+            else{
+                console.log("results: ", results);
+
+                if( results.length == 2 ){
+                   sql_fmt = 'update tbl_customer set is_lp = if( is_lp < 1, 0, is_lp - 1 ) where is_del = 0 and id = ' + results[0].cust_id + '; '
+                            + sql_fmt
+                            + '; update tbl_customer set is_lp = if(is_lp < 1, 1, is_lp + 1) where is_del = 0 and id = {cust_id};';
+                }
+                else if( results.length == 1 && results[0].cust_id == results[0].id && results[0].cust_id == req.cust_id ){
+                    sql_fmt += '; update tbl_customer set is_lp = 1 where is_del = 0 and id = {cust_id} and is_lp < 1;';
+                }
+                else if( results.length == 1 && results[0].cust_id != results[0].id && results[0].cust_id != req.cust_id ){
+                    sql_fmt += '; update tbl_customer set is_lp = if(is_lp < 1, 1, is_lp + 1) where is_del = 0 and id = {cust_id};';
+                }
+                else{
+                    console.log("err: ", '"客户编号"不存在');
+                    resp.result = ErrorCode.db_sel_failed;
+                    resp.result_string = '"客户编号"不存在';
+                    mysql_conn.end();
+                    dao_obj.render_resp(resp, ctx);
+                    return true;
+                }
+
+                console.log("sql: ", tools.format_object(sql_fmt, req));
+
+                mysql_conn.query(
+                    tools.format_object(sql_fmt, req),
+                    function (n_err, n_results, n_fields){
+                        if(n_err){
+                            console.log("err: ", n_err);
+                            resp.result = ErrorCode.db_sel_failed;
+                            resp.result_string = "Select failed: " + err;
+                        }
+                        else{
+                            resp.result = 0;
+                            resp.result_string = "OK";
+                        }
+                        console.log("result: ", n_results);
+                        mysql_conn.end();
+                        dao_obj.render_resp(resp, ctx);
+                    });
+            }
+        }
+    );
+    return  true;
+}
+
+
+// dbop: remove
+Tbl_lp.prototype._dbop_remove = function(sql_fmt, req, resp, ctx){
+
+    var sql_fmt_cust_id = 'select cust_id from tbl_lp'
+        + ' where is_del = 0 and id = {id}; ';
+    console.log("sql: ", tools.format_object(sql_fmt_cust_id, req));
+
+    var dao_obj = this;
+    var mysql_conn = require("../mysql_conn").create_short();
+    mysql_conn.query(
+        tools.format_object(sql_fmt_cust_id, req),
+        function (err, results, fields){
+            if(err) {
+                console.log("err: ", err);
+                resp.result = ErrorCode.db_sel_failed;
+                resp.result_string = "验证客户编号出错: " + err;
+                mysql_conn.end();
+                dao_obj.render_resp(resp, ctx);
+            }
+            else{
+                console.log("results: ", results);
+
+                if( results.length == 1 ){
+                    sql_fmt += '; update tbl_customer set is_lp = if(is_lp <= 1, 0, is_lp - 1) where is_del = 0 and id = ' + results[0].cust_id + ';';
+                }
+                console.log("sql: ", tools.format_object(sql_fmt, req));
+
+                mysql_conn.query(
+                    tools.format_object(sql_fmt, req),
+                    function (n_err, n_results, n_fields){
+                        if(n_err){
+                            console.log("err: ", n_err);
+                            resp.result = ErrorCode.db_sel_failed;
+                            resp.result_string = "Select failed: " + err;
+                        }
+                        else{
+                            resp.result = 0;
+                            resp.result_string = "OK";
+                        }
+                        console.log("result: ", n_results);
+                        mysql_conn.end();
+                        dao_obj.render_resp(resp, ctx);
+                    });
+            }
+        }
+    );
+    return  true;
+}
+
+
+// dbop: recover
+Tbl_lp.prototype._dbop_recover = function(sql_fmt, req, resp, ctx){
+
+    var sql_fmt_cust_id = 'select cust_id from tbl_lp'
+        + ' where is_del = 0 and id = {id}; ';
+    console.log("sql: ", tools.format_object(sql_fmt_cust_id, req));
+
+    var dao_obj = this;
+    var mysql_conn = require("../mysql_conn").create_short();
+    mysql_conn.query(
+        tools.format_object(sql_fmt_cust_id, req),
+        function (err, results, fields){
+            if(err) {
+                console.log("err: ", err);
+                resp.result = ErrorCode.db_sel_failed;
+                resp.result_string = "验证客户编号出错: " + err;
+                mysql_conn.end();
+                dao_obj.render_resp(resp, ctx);
+            }
+            else{
+                console.log("results: ", results);
+
+                if( results.length == 1 ){
+                    sql_fmt += '; update tbl_customer set is_lp = if(is_lp < 1, 1, is_lp + 1) where is_del = 0 and id = ' + relusts[0].cust_id + ';';
+                }
+                
+                console.log("sql: ", tools.format_object(sql_fmt, req));
+
+                mysql_conn.query(
+                    tools.format_object(sql_fmt, req),
+                    function (n_err, n_results, n_fields){
+                        if(n_err){
+                            console.log("err: ", n_err);
+                            resp.result = ErrorCode.db_sel_failed;
+                            resp.result_string = "Select failed: " + err;
+                        }
+                        else{
+                            resp.result = 0;
+                            resp.result_string = "OK";
+                        }
+                        console.log("result: ", n_results);
+                        mysql_conn.end();
+                        dao_obj.render_resp(resp, ctx);
+                    });
+            }
+        }
+    );
+    return  true;
+}
+
 
 // dbop: list
 Tbl_lp.prototype._dbop_cmd_list = function(sql_fmt, req, resp, ctx){
@@ -417,12 +653,12 @@ Tbl_lp.prototype._dbop_cmd_get_update_info = function(sql_fmt, req, resp, ctx){
 // dbop: get_create_info
 Tbl_lp.prototype._dbop_cmd_get_create_info = function(sql_fmt, req, resp, ctx){
     var dao_obj = this;
+    /*console.log("sql: ", tools.format_object(sql_fmt, req));
     var mysql_conn = require("../mysql_conn").create_short();
     mysql_conn.query(
         tools.format_object(sql_fmt, req),
         function (err, results, fields){
             if(err) {
-                console.log("sql: ", tools.format_object(sql_fmt, req));
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
                 resp.result_string = "Select failed: " + err;
@@ -435,7 +671,11 @@ Tbl_lp.prototype._dbop_cmd_get_create_info = function(sql_fmt, req, resp, ctx){
             mysql_conn.end();
             dao_obj.render_resp(resp, ctx);
         }
-    );
+    );*/
+    resp.result = 0;
+    resp.result_string = "OK";
+    resp.data = dao_tools._get_create_info(dao_obj._get_tbl_info());
+    dao_obj.render_resp(resp, ctx);
     return  true;
 }
 

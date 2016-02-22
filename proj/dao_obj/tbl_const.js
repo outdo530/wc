@@ -40,12 +40,6 @@ exports.ship_class_2 = {
      ],
 };
 
-exports.ship_class_3 = {
-    items: [
-        {key: 1, show_as: '未定义'},
-        {key: 2, show_as: '未定义'},
-    ],
-};
 
 
 exports.lp_type = {
@@ -71,6 +65,7 @@ exports.value_instead = function(args){
         vins += ' when ' + args.items[i].key + ' then "' + args.items[i].show_as + '" ';
     }
     vins += ' else "' + args.items[args.items.length-1].show_as + '" end ';
+    //vins += ' end ';
     return vins;
 };
 
@@ -84,7 +79,7 @@ exports.op_type_select = function(args){
 
 exports.show_type_select = function(args){
     return  {
-        op_type: 'select',
+        op_type: 'show_select',
         op_args: args ,
     };
 }
