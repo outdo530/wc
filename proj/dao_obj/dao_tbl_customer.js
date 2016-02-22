@@ -24,12 +24,12 @@ function Tbl_customer(){
                 is_col:1, is_list:1, is_to_set:1 , is_detail:1, op: tbl_const.op_type_text(),             },
 	        addr: { key: 'addr',  key_text: '地址', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_list:1, is_to_set:1   , is_detail:1, op: tbl_const.op_type_text(),  },
-	        is_buyer: { key: 'is_buyer',  key_text: '是否买家', key_type: 'label', value_def: 0, value_type: 'text',
-                is_col:1, is_list:1, is_detail:1, is_to_set:1 , op: tbl_const.show_type_select(tbl_const.yes_no),   },
-	        is_seller: { key: 'is_seller',  key_text: '是否卖家', key_type: 'label', value_def: 0, value_type: 'text',
-                is_col:1, is_list:1 , is_detail:1, is_to_set:1 , op: tbl_const.show_type_select(tbl_const.yes_no), },
-	        is_lp: { key: 'is_lp',  key_text: '是否LP', key_type: 'label', value_def: 0, value_type: 'text',
-                is_col:1, is_list:1, is_detail:1, is_to_set:1 , op: tbl_const.show_type_select(tbl_const.yes_no), },
+	        is_buyer: { key: 'is_buyer',  key_text: '是否买家', key_type: 'label', value_def: 0, value_type: 'number',
+                is_col:1, is_list:1, is_detail:1, is_to_set:1 ,   },
+	        is_seller: { key: 'is_seller',  key_text: '是否卖家', key_type: 'label', value_def: 0, value_type: 'number',
+                is_col:1, is_list:1 , is_detail:1, is_to_set:1 , },
+	        is_lp: { key: 'is_lp',  key_text: '是否LP', key_type: 'label', value_def: 0, value_type: 'number',
+                is_col:1, is_list:1, is_detail:1, is_to_set:1 , },
 	        remark: { key: 'remark',  key_text: '备注', key_type: 'label', value_def: '', value_type: 'text',
                 is_col: 1, is_to_set: 1,    },
 	        crt_ts: { key: 'crt_ts',  key_text: '创建时间', key_type: 'label', value_def: '', value_type: 'text',
@@ -403,7 +403,7 @@ Tbl_customer.prototype._dbop_cmd_get_update_info = function(sql_fmt, req, resp, 
 // dbop: get_create_info
 Tbl_customer.prototype._dbop_cmd_get_create_info = function(sql_fmt, req, resp, ctx){
     var dao_obj = this;
-    console.log("sql: ", tools.format_object(sql_fmt, req));
+    /*console.log("sql: ", tools.format_object(sql_fmt, req));
     var mysql_conn = require("../mysql_conn").create_short();
     mysql_conn.query(
         tools.format_object(sql_fmt, req),
@@ -421,7 +421,11 @@ Tbl_customer.prototype._dbop_cmd_get_create_info = function(sql_fmt, req, resp, 
             mysql_conn.end();
             dao_obj.render_resp(resp, ctx);
         }
-    );
+    );*/
+    resp.result = 0;
+    resp.result_string = "OK";
+    resp.data = dao_tools._get_create_info(dao_obj._get_tbl_info());
+    dao_obj.render_resp(resp, ctx);
     return  true;
 }
 

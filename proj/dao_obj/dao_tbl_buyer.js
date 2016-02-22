@@ -662,12 +662,12 @@ Tbl_buyer.prototype._dbop_cmd_get_update_info = function(sql_fmt, req, resp, ctx
 // dbop: get_create_info
 Tbl_buyer.prototype._dbop_cmd_get_create_info = function(sql_fmt, req, resp, ctx){
     var dao_obj = this;
+    /*console.log("sql: ", tools.format_object(sql_fmt, req));
     var mysql_conn = require("../mysql_conn").create_short();
     mysql_conn.query(
         tools.format_object(sql_fmt, req),
         function (err, results, fields){
             if(err) {
-                console.log("sql: ", tools.format_object(sql_fmt, req));
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
                 resp.result_string = "Select failed: " + err;
@@ -680,7 +680,11 @@ Tbl_buyer.prototype._dbop_cmd_get_create_info = function(sql_fmt, req, resp, ctx
             mysql_conn.end();
             dao_obj.render_resp(resp, ctx);
         }
-    );
+    );*/
+    resp.result = 0;
+    resp.result_string = "OK";
+    resp.data = dao_tools._get_create_info(dao_obj._get_tbl_info());
+    dao_obj.render_resp(resp, ctx);
     return  true;
 }
 
