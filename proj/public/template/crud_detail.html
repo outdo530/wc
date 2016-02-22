@@ -11,9 +11,9 @@
             <tbody >
               <tr ng-repeat="item in crud_detail.content">
                 <td align="right" > <span class="label label-default">{{item[0].key}}</span>    </td>
-                <td >               <input readonly="true" disabled="true" type="{{item[1].type}}" ng-model="item[1].key"/>    </td>
-                <td align="right">  <span class="label label-default">{{item[2].key}}</span>    </td>
-                <td >               <input readonly="true" disabled="true" type="{{item[3].type}}" ng-model="item[3].key"/>    </td>
+                <td >    <input readonly="true" disabled="true" type="{{item[1].type}}" ng-model="item[1].key" style="width:301px;height:60px" />    </td>
+                <td align="right" > <span class="label label-default">{{item[2].key}}</span>    </td>
+                <td>                <input readonly="true" disabled="true" type="{{item[3].type}}" ng-model="item[3].key"  style="width:301px;height:60px" />    </td>
               </tr>
             </tbody>
           </table>
