@@ -11,9 +11,25 @@
             <tbody >
               <tr ng-repeat="item in crud_detail.content">
                 <td align="right" > <span class="label label-default">{{item[0].key}}</span>    </td>
-                <td >    <input readonly="true" disabled="true" type="{{item[1].type}}" ng-model="item[1].key" style="width:301px;height:60px" />    </td>
+                <td ng-switch="item[1].op_type">    
+                    <p ng-switch-when="select">
+                        <select disabled="true" ng-model="item[1].key" ng-options="item.key as item.show_as for item in item[1].op_args.items" style="width:301px;height:60px" >
+                        </select>
+                    </p>
+                    <p ng-switch-default="">
+                        <input readonly="true" disabled="true" type="{{item[1].type}}" ng-model="item[1].key" style="width:301px;height:60px" />    
+                    </p>
+                </td>
                 <td align="right" > <span class="label label-default">{{item[2].key}}</span>    </td>
-                <td>                <input readonly="true" disabled="true" type="{{item[3].type}}" ng-model="item[3].key"  style="width:301px;height:60px" />    </td>
+                <td ng-switch="item[3].op_type">
+                    <p ng-switch-when="select">
+                        <select disabled="true" ng-model="item[3].key" ng-options="item.key as item.show_as for item in item[3].op_args.items" style="width:301px;height:60px" >
+                        </select>
+                    </p>
+                    <p ng-switch-default="">
+                        <input readonly="true" disabled="true" type="{{item[3].type}}" ng-model="item[3].key"  style="width:301px;height:60px" />    
+                    </p>
+                </td>
               </tr>
             </tbody>
           </table>

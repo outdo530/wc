@@ -303,7 +303,9 @@ function ctrl_update(sub_url, $scope, $routeParams, $http, ngDialog){
                 .then(
                     function (val){
                         console.log("dialog --> confirm value : " + val);
-                        ref_item.key = parseInt(val);
+                        if(val != null) 
+                            ref_item.key = parseInt(val);
+                        
                     },
                     function (reason){
                         console.log(" cancel reason : " + reason);
