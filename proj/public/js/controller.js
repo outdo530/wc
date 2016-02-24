@@ -152,22 +152,28 @@ function __on_search($scope, $location, search){
     }
 }
 
-function __on_prepage(crud, sub_url, $scope, $http, cb_list_or_search){
+function __on_prepage(crud, sub_url, $scope, $http, cb_list_or_search, cruds, $location, set_cb_event){
     if(crud.page.cur > 1){
         crud.page.cur--;
         if(cb_list_or_search != null)
-            cb_list_or_search(sub_url, $scope, $http, crud.page.cur, null);
+            cb_list_or_search(sub_url, $scope, $http, crud.page.cur, function(cruds){
+                if(set_cb_event != null)
+                    set_cb_event($scope, sub_url, cruds, $http, $location, cb_list_or_search);
+            });
     }
     else{
         debug(fn_pre, "Reached the first page!");
         alert("到达第一页了");
     }
 }
-function __on_nextpage(crud, sub_url, $scope, $http, cb_list_or_search){
+function __on_nextpage(crud, sub_url, $scope, $http, cb_list_or_search, cruds, $location, set_cb_event){
     if(crud.page.cur < crud.page.total){
         crud.page.cur++;
         if(cb_list_or_search != null)
-            cb_list_or_search(sub_url, $scope, $http, crud.page.cur, null);
+            cb_list_or_search(sub_url, $scope, $http, crud.page.cur, function(cruds){
+                if(set_cb_event != null)
+                    set_cb_event($scope, sub_url, cruds, $http, $location, cb_list_or_search);
+            });
     }
     else{
         debug(fn_pre, "Reached the last page!");
@@ -215,12 +221,13 @@ function __on_search_or_list_it($scope, sub_url, cruds, $http, $location, cb_lis
         __on_search($scope, $location, search);
     }
     $scope.on_prepage = function(crud){
-        __on_prepage(crud, sub_url, $scope, $http, cb_list_or_search);
+        __on_prepage(crud, sub_url, $scope, $http, cb_list_or_search, cruds, $location, __on_search_or_list_it);
     }
     $scope.on_nextpage = function(crud){
-        __on_nextpage(crud, sub_url, $scope, $http, cb_list_or_search);
+        __on_nextpage(crud, sub_url, $scope, $http, cb_list_or_search, cruds, $location, __on_search_or_list_it);
     }
 }
+
 
 function ctrl_list(sub_url, $scope, $http, $location, $routeParams){
     debug(fn_pre , "crudListCtrl--OK");
