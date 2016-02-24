@@ -22,6 +22,7 @@ insert_mapping("/dao_tbl_customer", "./dao_obj/dao_tbl_customer.js");
 insert_mapping("/dao_tbl_buyer", "./dao_obj/dao_tbl_buyer.js");
 insert_mapping("/dao_tbl_seller", "./dao_obj/dao_tbl_seller.js");
 insert_mapping("/dao_tbl_lp", "./dao_obj/dao_tbl_lp.js");
+insert_mapping("/dao_tbl_user__customer", "./dao_obj/dao_tbl_user__customer.js");
 
 
 console.log(mapping)

@@ -188,7 +188,7 @@ Tbl_func.prototype.cmd_get_board = function(req, resp, ctx){
     if(this.check_field(req, ctx, "start",      true, 0) == false) return false;
     if(this.check_field(req, ctx, "cnt",        true, 1) == false) return false;
 
-	var sql_fmt = "select * from tbl_func where is_del = 0 and is_navy = 0 order by title asc limit {start}, {cnt};";
+	var sql_fmt = "select * from tbl_func where is_del = 0 and is_navy = 0 order by id asc limit {start}, {cnt};";
 	return this._dbop_get_board(sql_fmt, req, resp, ctx);
 }
 
