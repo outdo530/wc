@@ -4,7 +4,7 @@ var test_util = require("./test_util");
 var util = require("util");
 var inherits = require("util").inherits;
 
-var tbl = 'dao_tbl_customer';
+var tbl = 'dao_tbl_user__customer';
 
 var host = "127.0.0.1";  // localhost
 var port = 3000;

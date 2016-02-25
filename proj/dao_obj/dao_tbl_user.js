@@ -34,7 +34,7 @@ function Tbl_user(){
                 is_col:1, is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_text(), },
 	        user_type: { key: 'user_type',  key_text: '用户类型', key_type: 'label', value_def: '', value_type: 'text', 
                 is_col:1, is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_text(), },
-	        sign_id: { key: 'sign_id',  key_text: '登录ID', key_type: 'label', value_def: '', value_type: 'text', 
+	        sign_id: { key: 'sign_id',  key_text: '登录用户名', key_type: 'label', value_def: '', value_type: 'text', 
                 is_col:1, is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_text(), },
 	        nick_nm: { key: 'nick_nm',  key_text: '昵称', key_type: 'label', value_def: '', value_type: 'text', 
                 is_col:1, is_to_set:1,   is_list:1, is_detail:1, op: tbl_const.op_type_text(),},
@@ -109,7 +109,7 @@ Tbl_user.prototype.add = function(req, resp, ctx){
     if(this.check_field(req, ctx, "enter_date",'入司日期',       true, 0) == false) return false;
     if(this.check_field(req, ctx, "left_date",'离司日期',       true, 0) == false) return false;
     if(this.check_field(req, ctx, "user_type",'用户类型',       true, 0) == false) return false;
-    if(this.check_field(req, ctx, "sign_id",'登录ID',        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "sign_id",'登录用户名',        true, 0) == false) return false;
     if(this.check_field(req, ctx, "nick_nm",'昵称',       true, 4,32) == false) return false;
 //    if(this.check_field(req, ctx, "password",'密码',       true, 6,32) == false) return false;
 
@@ -141,7 +141,7 @@ Tbl_user.prototype.update = function(req, resp, ctx){
     if(this.check_field(req, ctx, "enter_date",'入司日期',       true, 0) == false) return false;
     if(this.check_field(req, ctx, "left_date",'离司日期',       true, 0) == false) return false;
     if(this.check_field(req, ctx, "user_type",'用户类型',       true, 0) == false) return false;
-    if(this.check_field(req, ctx, "sign_id",'登录ID',        true, 0) == false) return false;
+    if(this.check_field(req, ctx, "sign_id",'登录用户名',        true, 0) == false) return false;
     if(this.check_field(req, ctx, "nick_nm",'昵称',       true, 4,32) == false) return false;
 //    if(this.check_field(req, ctx, "password",'密码',       true, 6,32) == false) return false;
 

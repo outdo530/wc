@@ -12,7 +12,7 @@ var url = "/" + tbl;
 
 req = [
 	// and route 
-	{'cmd':'add', nm:''},
+	{'cmd':'add', user_id:''},
 	{'cmd':'add', nm:''},
 	{'cmd':'add', nm:''},
 	{'cmd':'add', nm:''},

@@ -44,7 +44,7 @@ function Tbl_buyer(){
 	        is_del: { tbl:'a.', key: 'is_del',  key_text: '已删除?', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, },
 
- 	        cust_id: { tbl:'a.', key: 'cust_id',  key_text: '客户id', key_type: 'label', value_def: null, value_type: 'number',
+ 	        cust_id: { tbl:'a.', key: 'cust_id',  key_text: '客户编号', key_type: 'label', value_def: null, value_type: 'number',
                 is_col:1, is_to_set:1, is_detail:1, is_list:1, op: tbl_const.op_type_dialog('/dao_tbl_'+Tbl_buyer.tbl_name2) },
 	        id2: { tbl:'b.', key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number',
                 is_col:1,      },
@@ -126,7 +126,7 @@ Tbl_buyer.prototype.add = function(req, resp, ctx){
     if(this.check_field(req, ctx, "fund_require",'融资需求',       true, 1,64) == false) return false;
     if(this.check_field(req, ctx, "can_to_lp",'是否能LP',       true, 0) == false) return false;
     if(this.check_field(req, ctx, "reason_to_lp", 'LP原因',      true, 1,1024) == false) return false;
-    if(this.check_field(req, ctx, "cust_id", '客户ID',      true, 1) == false) return false;
+    if(this.check_field(req, ctx, "cust_id", '客户编号',      true, 1) == false) return false;
     
     var sql_fmt = dao_tools._get_add_sql(this._get_tbl_info());
     return this._dbop_insert(sql_fmt, req, resp, ctx);
@@ -152,7 +152,7 @@ Tbl_buyer.prototype.update = function(req, resp, ctx){
     if(this.check_field(req, ctx, "fund_require",'融资需求',       true, 1,64) == false) return false;
     if(this.check_field(req, ctx, "can_to_lp",'是否能LP',       true, 0) == false) return false;
     if(this.check_field(req, ctx, "reason_to_lp", 'LP原因',      true, 0,1024) == false) return false;
-    if(this.check_field(req, ctx, "cust_id", '客户ID',      true, 1) == false) return false;
+    if(this.check_field(req, ctx, "cust_id", '客户编号',      true, 1) == false) return false;
     
     var sql_fmt = dao_tools._get_update_sql(this._get_tbl_info());
     return this._dbop_update(sql_fmt, req, resp, ctx);
@@ -310,7 +310,7 @@ Tbl_buyer.prototype._dbop_insert = function(sql_fmt, req, resp, ctx){
             if(err) {
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
-                resp.result_string = "验证客户编号出错: " + err;
+                resp.result_string = '验证"客户编号"出错: ' + err;
                 mysql_conn.end();
                 dao_obj.render_resp(resp, ctx);
             }
@@ -368,7 +368,7 @@ Tbl_buyer.prototype._dbop_update = function(sql_fmt, req, resp, ctx){
             if(err) {
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
-                resp.result_string = "验证客户编号出错: " + err;
+                resp.result_string = '验证"客户编号"出错: ' + err;
                 mysql_conn.end();
                 dao_obj.render_resp(resp, ctx);
             }
@@ -435,7 +435,7 @@ Tbl_buyer.prototype._dbop_remove = function(sql_fmt, req, resp, ctx){
             if(err) {
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
-                resp.result_string = "验证客户编号出错: " + err;
+                resp.result_string = '验证"客户编号"出错: ' + err;
                 mysql_conn.end();
                 dao_obj.render_resp(resp, ctx);
             }
@@ -485,7 +485,7 @@ Tbl_buyer.prototype._dbop_recover = function(sql_fmt, req, resp, ctx){
             if(err) {
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
-                resp.result_string = "验证客户编号出错: " + err;
+                resp.result_string = '验证"客户编号"出错: ' + err;
                 mysql_conn.end();
                 dao_obj.render_resp(resp, ctx);
             }

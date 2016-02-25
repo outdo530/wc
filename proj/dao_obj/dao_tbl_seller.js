@@ -42,7 +42,7 @@ function Tbl_seller(){
 	        is_del: { tbl:'a.', key: 'is_del',  key_text: '已删除?', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, },
 
- 	        cust_id: { tbl:'a.', key: 'cust_id',  key_text: '客户id', key_type: 'label', value_def: null, value_type: 'number',
+ 	        cust_id: { tbl:'a.', key: 'cust_id',  key_text: '客户编号', key_type: 'label', value_def: null, value_type: 'number',
                 is_col:1, is_to_set:1, is_detail:1, is_list:1, op: tbl_const.op_type_dialog('/dao_tbl_'+Tbl_seller.tbl_name2) },
 	        id2: { tbl:'b.', key: 'id', key_text: '编号', key_type: 'label', value_def: 0, value_type: 'number',
                 is_col:1,      },
@@ -121,7 +121,7 @@ Tbl_seller.prototype.add = function(req, resp, ctx){
     if(this.check_field(req, ctx, "class_1", '一级分类',      true, 1) == false) return false;
     if(this.check_field(req, ctx, "class_2", '二级分类',      true, 1) == false) return false;
     if(this.check_field(req, ctx, "class_3", '三级分类',      true, 1,512) == false) return false;
-    if(this.check_field(req, ctx, "cust_id",'客户ID',       true, 1) == false) return false;
+    if(this.check_field(req, ctx, "cust_id",'客户编号',       true, 1) == false) return false;
      
     var sql_fmt = dao_tools._get_add_sql(this._get_tbl_info());
     return this._dbop_insert(sql_fmt, req, resp, ctx);
@@ -145,7 +145,7 @@ Tbl_seller.prototype.update = function(req, resp, ctx){
     if(this.check_field(req, ctx, "class_1", '一级分类',      true, 1) == false) return false;
     if(this.check_field(req, ctx, "class_2", '二级分类',      true, 1) == false) return false;
     if(this.check_field(req, ctx, "class_3", '三级分类',      true, 1,512) == false) return false;
-    if(this.check_field(req, ctx, "cust_id",'客户ID',       true, 1) == false) return false;
+    if(this.check_field(req, ctx, "cust_id",'客户编号',       true, 1) == false) return false;
  
 
     var sql_fmt = dao_tools._get_update_sql(this._get_tbl_info());

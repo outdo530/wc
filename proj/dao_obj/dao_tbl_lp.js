@@ -39,7 +39,7 @@ function Tbl_lp(){
 	        is_del: { tbl: 'a.', key: 'is_del',  key_text: '已删除?', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, },
 
- 	        cust_id: { tbl:'a.', key: 'cust_id',  key_text: '客户id', key_type: 'label', value_def: null, value_type: 'number',
+ 	        cust_id: { tbl:'a.', key: 'cust_id',  key_text: '客户编号', key_type: 'label', value_def: null, value_type: 'number',
                 is_col:1, is_to_set:1, is_detail:1, is_list:1, op: tbl_const.op_type_dialog('/dao_tbl_'+Tbl_lp.tbl_name2) },
 	        id2: { tbl:'b.', key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number',
                 is_col:1,      },
@@ -117,7 +117,7 @@ Tbl_lp.prototype.add = function(req, resp, ctx){
     if(this.check_field(req, ctx, "risk_prefer_desc",'风险偏好描述',       true, 1,1024) == false) return false;
     if(this.check_field(req, ctx, "expect_of_contrib",'出资期望',       true, 1,64) == false) return false;
     if(this.check_field(req, ctx, "reward_of_contrib",'期望回报描述',       true, 1,512) == false) return false;
-    if(this.check_field(req, ctx, "cust_id",'客户ID',       true, 1) == false) return false;
+    if(this.check_field(req, ctx, "cust_id",'客户编号',       true, 1) == false) return false;
     
 
     var sql_fmt = dao_tools._get_add_sql(this._get_tbl_info());
@@ -141,7 +141,7 @@ Tbl_lp.prototype.update = function(req, resp, ctx){
     if(this.check_field(req, ctx, "risk_prefer_desc",'风险偏好描述',       true, 1,1024) == false) return false;
     if(this.check_field(req, ctx, "expect_of_contrib",'出资期望',       true, 1,64) == false) return false;
     if(this.check_field(req, ctx, "reward_of_contrib",'期望回报描述',       true, 1,512) == false) return false;
-    if(this.check_field(req, ctx, "cust_id",'客户ID',       true, 1) == false) return false;
+    if(this.check_field(req, ctx, "cust_id",'客户编号',       true, 1) == false) return false;
 
     var sql_fmt = dao_tools._get_update_sql(this._get_tbl_info());
     return this._dbop_update(sql_fmt, req, resp, ctx);
