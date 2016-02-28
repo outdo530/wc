@@ -32,9 +32,9 @@ function Tbl_user__customer(){
                 is_col:1, is_to_set:1, is_detail:1, is_list:1, },
             content: { tbl:'a.', key: 'content',  key_text: '拜访日志', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_text_area(), },
-	        start_dt: { tbl:'a.', key: 'start_dt',  key_text: '开始时间', key_type: 'label', value_def: '', value_type: 'datetime-local',
+	        start_dt: { tbl:'a.', key: 'start_dt',  key_text: '开始时间', key_type: 'label', value_def: new Date(), value_type: 'text',//'datetime-local'
                 is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_text(), },
-	        end_dt: { tbl:'a.', key: 'end_dt',  key_text: '结束时间', key_type: 'label', value_def: '', value_type: 'datetime-local',
+	        end_dt: { tbl:'a.', key: 'end_dt',  key_text: '结束时间', key_type: 'label', value_def: new Date(), value_type: 'text',
                 is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_text(), },
 	        remark: { tbl:'a.', key: 'remark',  key_text: '备注', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1,  },
