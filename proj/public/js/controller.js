@@ -398,36 +398,6 @@ function ctrl_select(sub_url, $scope, $http, $location, $routeParams){
     });
 }
 
-/* filter test
-function test(array_obj, key){
-    if(key != null){
-        var ret = new Array();
-        for(var obj in array_obj){
-            if(array_obj[obj].key.toString().indexOf(key) == 0){
-                ret.push(array_obj[obj]);
-            }
-        }
-        return ret;
-    }
-    return array_obj;
-}
-
-var array_obj =  new Array(
-                  { key: 1001, show_as: '四大国有银行' },
-                  { key: 1002, show_as: '股份制商业银行' },
-                  { key: 1003, show_as: '地方性银行' },
-                  { key: 1004, show_as: '民营银行' },
-                  { key: 2001, show_as: '信达资管' },
-                  { key: 2002, show_as: '华融资管' },
-                  { key: 2003, show_as: '长城资管' },
-                  { key: 2004, show_as: '东方资管' },
-                  { key: 3001, show_as: '银监会所属租赁公司' },
-                  { key: 3002, show_as: '非银监会所属租赁公司' },
-                  { key: 4001, show_as: '其他' } 
-                  );
-test(array_obj, null);
-test(array_obj, "1");
-*/
 
 /*********** controls   end ********************************/
 myapp.filter("filter_from_key", function(){
