@@ -14,23 +14,22 @@ function Tbl_user__customer(){
 
         tbl_name: 'tbl_'+Tbl_user__customer.tbl_name,
         tbl_alias: ' a',
-        tbl_name2: 'tbl_'+Tbl_user__customer.tbl_name2,
-        tbl_alias2: ' b',
-        join_condition: '(a.user_id = b.id) ',
+        //tbl_name2: 'tbl_'+Tbl_user__customer.tbl_name2,
+        //tbl_alias2: ' b',
+        //join_condition: '(a.user_id = b.id) ',
+        // select a.visitor_type, a.visitor_id, b.ship_type 
+        // from tbl_user__customer a, tbl_buyer b, tbl_customer c
+        // where b.id = a.visitor_id an/d c.id = b.cust_id;
 
         struct : {
 	        id: { tbl: 'a.', key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number',
                 is_col:1, is_view:1, },
-	        visitor_type: { tbl:'a.', key: 'visitor_type',  key_text: '事由类型', key_type: 'label', value_def: 0, value_type: 'number',
-                is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_text(),    },
+	        visitor_type: { tbl:'a.', key: 'visitor_type',  key_text: '事由类型', key_type: 'label', value_def: null, value_type: 'number',
+                is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_select(tbl_const.visitor_type),    },
 	        visitor_id: { tbl:'a.', key: 'visitor_id',  key_text: '事由编号', key_type: 'label', value_def: null, value_type: 'number',
                 is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_text(),  },
-            cust_id: { tbl:'a.', key: 'cust_id',  key_text: '客户编号', key_type: 'label', value_def: null, value_type: 'number',
-                is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_text(),  },
-            user_id: { tbl:'a.', key: 'user_id',  key_text: '员工编号', key_type: 'label', value_def: null, value_type: 'number',
-                is_col:1, is_to_set:1, is_detail:1, is_list:1, op: tbl_const.op_type_dialog('/dao_tbl_'+Tbl_user__customer.tbl_name2), },
-            real_nm: { tbl:'b.', key: 'real_nm',  key_text: '员工', key_type: 'label', value_def: '', value_type: 'text',
-                is_col:1, is_list:1, is_detail:1, },
+            user_id: { tbl:'a.', key: 'user_id',  key_text: '员工编号', key_type: 'label', value_def: 1, value_type: 'text',
+                is_col:1, is_to_set:1, is_detail:1, is_list:1, },
             content: { tbl:'a.', key: 'content',  key_text: '拜访日志', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_text_area(), },
 	        start_dt: { tbl:'a.', key: 'start_dt',  key_text: '开始时间', key_type: 'label', value_def: '', value_type: 'text',
@@ -38,7 +37,7 @@ function Tbl_user__customer(){
 	        end_dt: { tbl:'a.', key: 'end_dt',  key_text: '结束时间', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_text(), },
 	        remark: { tbl:'a.', key: 'remark',  key_text: '备注', key_type: 'label', value_def: '', value_type: 'text',
-                is_col:1, is_to_set:1, },
+                is_col:1,  },
 	        crt_ts: { tbl:'a.', key: 'crt_ts',  key_text: '创建时间', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, },
 	        upd_ts: { tbl:'a.', key: 'upd_ts',  key_text: '修改时间', key_type: 'label', value_def: '', value_type: 'text',
@@ -103,10 +102,9 @@ Tbl_user__customer.prototype._get_tbl_info = function(){
 // cmd: add
 Tbl_user__customer.prototype.add = function(req, resp, ctx){
     console.log( "Tbl_user__customer: add");
-    if(this.check_field(req, ctx, "user_id",'员工编号',       true, 1) == false) return false;
-    if(this.check_field(req, ctx, "cust_id",'客户编号',       true, 1) == false) return false;
-    if(this.check_field(req, ctx, "visitor_type",'事由类型',       true, 0) == false) return false;
+    if(this.check_field(req, ctx, "visitor_type",'事由类型',       true, 1,4) == false) return false;
     if(this.check_field(req, ctx, "visitor_id",'事由编号',       true, 1) == false) return false;
+    if(this.check_field(req, ctx, "user_id",'员工编号',       true, 0) == false) return false;
     if(this.check_field(req, ctx, "start_dt",'开始时间',       true, 0,64) == false) return false;
     if(this.check_field(req, ctx, "end_dt",'结束时间',       true, 0,64) == false) return false;
     if(this.check_field(req, ctx, "content", '拜访日志',      true, 1,1024) == false) return false;
@@ -128,10 +126,9 @@ Tbl_user__customer.prototype.is_exist = function(req, resp, ctx){
 Tbl_user__customer.prototype.update = function(req, resp, ctx){
     console.log( "Tbl_user__customer: update");
     if(this.check_field(req, ctx, "id",'编号',        true, 1) == false) return false;
-    if(this.check_field(req, ctx, "user_id",'员工编号',       true, 1) == false) return false;
-    if(this.check_field(req, ctx, "cust_id",'客户编号',       true, 1) == false) return false;
-    if(this.check_field(req, ctx, "visitor_type",'事由类型',       true, 0) == false) return false;
+    if(this.check_field(req, ctx, "visitor_type",'事由类型',       true, 1,4) == false) return false;
     if(this.check_field(req, ctx, "visitor_id",'事由编号',       true, 1) == false) return false;
+    if(this.check_field(req, ctx, "user_id",'员工编号',       true, 0) == false) return false;
     if(this.check_field(req, ctx, "start_dt",'开始时间',       true, 0,64) == false) return false;
     if(this.check_field(req, ctx, "end_dt",'结束时间',       true, 0,64) == false) return false;
     if(this.check_field(req, ctx, "content", '拜访日志',      true, 1,1024) == false) return false;
@@ -280,8 +277,13 @@ Tbl_user__customer.prototype.cmd_get_create_info = function(req, resp, ctx){
 // dbop: insert
 Tbl_user__customer.prototype._dbop_insert = function(sql_fmt, req, resp, ctx){
 
-    var sql_fmt_cust_id = 'select id from tbl_user'
-        + ' where is_del = 0 and id = {user_id}; ';
+    
+    var sql_fmt_cust_id = 'select id from '
+        + (req.visitor_type == 1 ? 'tbl_buyer'
+        : req.visitor_type == 2 ? 'tbl_seller'
+        : req.visitor_type == 3 ? 'tbl_lp'
+        : 'tbl_customer')
+        + ' where is_del = 0 and id = {visitor_id}; ';
     console.log("sql: ", tools.format_object(sql_fmt_cust_id, req));
 
     var dao_obj = this;
@@ -292,7 +294,7 @@ Tbl_user__customer.prototype._dbop_insert = function(sql_fmt, req, resp, ctx){
             if(err) {
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
-                resp.result_string = "验证客户编号出错: " + err;
+                resp.result_string = '验证"事由编号"出错: ' + err;
                 mysql_conn.end();
                 dao_obj.render_resp(resp, ctx);
             }
@@ -300,12 +302,12 @@ Tbl_user__customer.prototype._dbop_insert = function(sql_fmt, req, resp, ctx){
                 console.log("results: ", results);
 
                 if( results.length == 1 ){
-                    //sql_fmt += '; update tbl_customer set is_buyer = if(is_buyer < 1, 1, is_buyer + 1) where is_del = 0 and id = {cust_id};';
+                    //sql_fmt += '; update tbl_user__customer set user_id = 1 where is_del = 0 and id = {id} and user_id != 1;';
                 }
                 else{
-                    console.log("err: ", '"员工编号"不存在');
+                    console.log("err: ", '"事由编号"不存在');
                     resp.result = ErrorCode.db_sel_failed;
-                    resp.result_string = '"员工编号"不存在';
+                    resp.result_string = '"事由编号"不存在';
                     mysql_conn.end();
                     dao_obj.render_resp(resp, ctx);
                     return true;
@@ -338,8 +340,12 @@ Tbl_user__customer.prototype._dbop_insert = function(sql_fmt, req, resp, ctx){
 // dbop: update
 Tbl_user__customer.prototype._dbop_update = function(sql_fmt, req, resp, ctx){
 
-    var sql_fmt_cust_id = 'select id from tbl_user'
-        + ' where is_del = 0 and id = {user_id}; ';
+    var sql_fmt_cust_id = 'select id from '
+        + (req.visitor_type == 1 ? 'tbl_buyer'
+        : req.visitor_type == 2 ? 'tbl_seller'
+        : req.visitor_type == 3 ? 'tbl_lp'
+        : 'tbl_customer')
+        + ' where is_del = 0 and id = {visitor_id}; ';
     console.log("sql: ", tools.format_object(sql_fmt_cust_id, req));
 
     var dao_obj = this;
@@ -350,7 +356,7 @@ Tbl_user__customer.prototype._dbop_update = function(sql_fmt, req, resp, ctx){
             if(err) {
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
-                resp.result_string = "验证客户编号出错: " + err;
+                resp.result_string = '验证"事由编号"出错: ' + err;
                 mysql_conn.end();
                 dao_obj.render_resp(resp, ctx);
             }
@@ -361,9 +367,9 @@ Tbl_user__customer.prototype._dbop_update = function(sql_fmt, req, resp, ctx){
                     //sql_fmt += '; update tbl_customer set is_buyer = 1 where is_del = 0 and id = {cust_id} and is_buyer < 1;';
                 }
                 else{
-                    console.log("err: ", '"员工编号"不存在');
+                    console.log("err: ", '"事由编号"不存在');
                     resp.result = ErrorCode.db_sel_failed;
-                    resp.result_string = '"员工编号"不存在';
+                    resp.result_string = '"事由编号"不存在';
                     mysql_conn.end();
                     dao_obj.render_resp(resp, ctx);
                     return true;

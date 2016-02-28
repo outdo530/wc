@@ -25,6 +25,7 @@ exports.ship_class_1 = {
 };
 
 exports.ship_class_2 = {
+    filter_ref_xy: {x: 1, y: 3},
     items: [
         {key: 1001, show_as: '四大国有银行'},
         {key: 1002, show_as: '股份制商业银行'},
@@ -51,21 +52,22 @@ exports.lp_type = {
     ],
 };
 
-exports.visit_type = {
+exports.visitor_type = {
     items: [
-        {key: 1, show_as: '买方'},
-        {key: 2, show_as: '卖方'},
-        {key: 3, show_as: 'LP'},
+        {key: 1, show_as: '买方', url: 'dao_tbl_buyer'},
+        {key: 2, show_as: '卖方', url: 'dao_tbl_seller'},
+        {key: 3, show_as: 'LP', url: 'dao_tbl_lp'},
+        {key: 4, show_as: '客户', url: 'dao_tbl_customer'},
     ],
 };
 
 exports.value_instead = function(args){
     var vins = '';
-    for(var i=0; i< args.items.length-1; i++){
+    for(var i=0; i< args.items.length; i++){
         vins += ' when ' + args.items[i].key + ' then "' + args.items[i].show_as + '" ';
     }
-    vins += ' else "' + args.items[args.items.length-1].show_as + '" end ';
-    //vins += ' end ';
+    //vins += ' else "' + args.items[args.items.length-1].show_as + '" end ';
+    vins += ' end ';
     return vins;
 };
 

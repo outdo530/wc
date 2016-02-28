@@ -6,7 +6,8 @@ var tbl_const = require("./tbl_const");
 exports._get_set_sql = function(info){
     var sql_fmt = 'set ';
     for(var elem in info.struct){
-        if(info.struct[elem].is_to_set == 1 && info.struct[elem].op!=null && info.struct[elem].op.editable==1){
+        //if(info.struct[elem].is_to_set == 1 && info.struct[elem].op!=null && info.struct[elem].op.editable==1){
+        if(info.struct[elem].is_to_set == 1 ){
             sql_fmt += info.struct[elem].key + ' = ';
             switch(info.struct[elem].value_type)
             {

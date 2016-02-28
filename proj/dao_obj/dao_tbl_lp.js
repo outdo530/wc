@@ -31,7 +31,7 @@ function Tbl_lp(){
 	        reward_of_contrib: { tbl: 'a.', key: 'reward_of_contrib',  key_text: '期望回报描述', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_to_set:1,   is_list:1, is_detail:1, op: tbl_const.op_type_text(),},
 	        remark: { tbl: 'a.', key: 'remark',  key_text: '备注', key_type: 'label', value_def: '', value_type: 'text',
-                is_col:1, is_to_set:1, },
+                is_col:1,  },
 	        crt_ts: { tbl: 'a.', key: 'crt_ts',  key_text: '创建时间', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, },
 	        upd_ts: { tbl: 'a.', key: 'upd_ts',  key_text: '修改时间', key_type: 'label', value_def: '', value_type: 'text',

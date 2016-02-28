@@ -14,9 +14,9 @@ function Tbl_user(){
         struct : {
 	        id: { key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number', 
                 is_col:1, is_view:1, },
-	        epm_no: { key: 'emp_no',  key_text: '雇员号', key_type: 'label', value_def: '', value_type: 'text', 
+	        epm_no: { key: 'emp_no',  key_text: '工号', key_type: 'label', value_def: '', value_type: 'text', 
                 is_col:1, is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_text(), },
-	        real_nm: { key: 'real_nm',  key_text: '真实姓名', key_type: 'label', value_def: '', value_type: 'text', 
+	        real_nm: { key: 'real_nm',  key_text: '姓名', key_type: 'label', value_def: '', value_type: 'text', 
                 is_col:1, is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_text(),},
 	        gender: { key: 'gender',  key_text: '性别', key_type: 'label', value_def: null, value_type: 'number', 
                 is_col:1, is_to_set:1,  is_list:1, is_detail:1, op: tbl_const.op_type_select(tbl_const.gender),},
@@ -99,12 +99,12 @@ Tbl_user.prototype.add = function(req, resp, ctx){
     console.log( "Tbl_user: add");
     //if(this.check_field(req, ctx, "id",'编号',        true, 0) == false) return false;
 
-    if(this.check_field(req, ctx, "emp_no",'雇员号',       true, 0) == false) return false;
-    if(this.check_field(req, ctx, "real_nm",'真实姓名',       true, 2,64) == false) return false;
+    if(this.check_field(req, ctx, "emp_no",'工号',       true, 1,32) == false) return false;
+    if(this.check_field(req, ctx, "real_nm",'姓名',       true, 2,64) == false) return false;
     if(this.check_field(req, ctx, "gender",'性别',       true, 0) == false) return false;
     if(this.check_field(req, ctx, "email",'邮件地址',       true, 5,64) == false) return false;
     if(this.check_field(req, ctx, "mobile",'手机',       true, 11,32) == false) return false;
-    if(this.check_field(req, ctx, "fix_phone",'固话',        true, 5,32) == false) return false;
+    if(this.check_field(req, ctx, "fix_phone",'固话',        true, 1,32) == false) return false;
     if(this.check_field(req, ctx, "id_card_no",'身份证',      true, 15,18) == false) return false;
     if(this.check_field(req, ctx, "enter_date",'入司日期',       true, 0) == false) return false;
     if(this.check_field(req, ctx, "left_date",'离司日期',       true, 0) == false) return false;
@@ -131,12 +131,12 @@ Tbl_user.prototype.update = function(req, resp, ctx){
     console.log( "Tbl_user: update");
     if(this.check_field(req, ctx, "id",'编号',        true, 0) == false) return false;
 
-    if(this.check_field(req, ctx, "emp_no",'雇员号',       true, 0) == false) return false;
-    if(this.check_field(req, ctx, "real_nm",'真实姓名',       true, 2,64) == false) return false;
+    if(this.check_field(req, ctx, "emp_no",'工号',       true, 1,32) == false) return false;
+    if(this.check_field(req, ctx, "real_nm",'姓名',       true, 2,64) == false) return false;
     if(this.check_field(req, ctx, "gender",'性别',       true, 0) == false) return false;
     if(this.check_field(req, ctx, "email",'邮件地址',       true, 5,64) == false) return false;
     if(this.check_field(req, ctx, "mobile",'手机',       true, 11,32) == false) return false;
-    if(this.check_field(req, ctx, "fix_phone",'固话',        true, 5,32) == false) return false;
+    if(this.check_field(req, ctx, "fix_phone",'固话',        true, 1,32) == false) return false;
     if(this.check_field(req, ctx, "id_card_no",'身份证',      true, 15,18) == false) return false;
     if(this.check_field(req, ctx, "enter_date",'入司日期',       true, 0) == false) return false;
     if(this.check_field(req, ctx, "left_date",'离司日期',       true, 0) == false) return false;
