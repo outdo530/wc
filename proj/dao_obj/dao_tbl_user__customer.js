@@ -19,9 +19,9 @@ function Tbl_user__customer(){
         //join_condition: '(a.user_id = b.id) ',
         // select a.visitor_type, a.visitor_id, b.ship_type 
         // from tbl_user__customer a, tbl_buyer b, tbl_customer c
-        // where b.id = a.visitor_id an/d c.id = b.cust_id;
+        // where b.id = a.visitor_id an c.id = b.cust_id;
 
-        struct : {
+        struct :{ 
 	        id: { tbl: 'a.', key: 'id', key_text: '编号', key_type: 'label', value_def: null, value_type: 'number',
                 is_col:1, is_view:1, },
 	        visitor_type: { tbl:'a.', key: 'visitor_type',  key_text: '事由类型', key_type: 'label', value_def: null, value_type: 'number',
@@ -32,9 +32,9 @@ function Tbl_user__customer(){
                 is_col:1, is_to_set:1, is_detail:1, is_list:1, },
             content: { tbl:'a.', key: 'content',  key_text: '拜访日志', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_text_area(), },
-	        start_dt: { tbl:'a.', key: 'start_dt',  key_text: '开始时间', key_type: 'label', value_def: '', value_type: 'text',
+	        start_dt: { tbl:'a.', key: 'start_dt',  key_text: '开始时间', key_type: 'label', value_def: '', value_type: 'datetime-local',
                 is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_text(), },
-	        end_dt: { tbl:'a.', key: 'end_dt',  key_text: '结束时间', key_type: 'label', value_def: '', value_type: 'text',
+	        end_dt: { tbl:'a.', key: 'end_dt',  key_text: '结束时间', key_type: 'label', value_def: '', value_type: 'datetime-local',
                 is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_text(), },
 	        remark: { tbl:'a.', key: 'remark',  key_text: '备注', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1,  },
