@@ -104,13 +104,13 @@ function __reset_input_box(content){
             if(item.editable == 1){
                 var tp = item.type;
                 if(tp == "number"){
-                    content[i][v].key = 0;
+                    item.key = 0;
                 }
                 else if(tp == "text"){
-                    content[i][v].key = "";
+                    item.key = "";
                 }
                 else if(tp == "datetime-local"){
-                    content[i][v].key = new Date();
+                    item.key = new Date();
                     //"yyyy-MM-ddTHH:mm:ss"
                 }
                 else if(tp == "label"){
