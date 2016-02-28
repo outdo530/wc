@@ -2,7 +2,7 @@
  * todo-list:
  * OK 2016.01.07 - 1. split the controls and functions
  * OK 2016.01.09 - 2. title navy :   create,detail,update -> add : parent_url = "#" + Tbl_area.url.list
- * 3. prompt some op-success msg after creating or updating data
+ * OK 3. prompt some op-success msg after creating or updating data
  * OK 4. Error Page 
  * OK 5. dialog confirm
  * 6. Cookie login 
@@ -100,18 +100,25 @@ function __reset_input_box(content){
     for(var i = 0;  i < content_len; i++){
         var len = content[i].length;
         for(var v =0;  v < len; v++){
-            var tp = content[i][v].type;
-            if(tp == "number"){
-                content[i][v].key = 0;
-            }
-            else if(tp == "text"){
-                content[i][v].key = "";
-            }
-            else if(tp == "label"){
-                // silence
-            }
-            else{
-                error(fn_pre, "ERROR:can not find the type of the input box!!!!, type:" + tp);
+            var item = content[i][v];
+            if(item.editable == 1){
+                var tp = item.type;
+                if(tp == "number"){
+                    content[i][v].key = 0;
+                }
+                else if(tp == "text"){
+                    content[i][v].key = "";
+                }
+                else if(tp == "datetime-local"){
+                    content[i][v].key = new Date();
+                    //"yyyy-MM-ddTHH:mm:ss"
+                }
+                else if(tp == "label"){
+                    // silence
+                }
+                else{
+                    error(fn_pre, "ERROR:can not find the type of the input box!!!!, type:" + tp);
+                }
             }
         }
     }
