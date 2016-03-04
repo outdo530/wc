@@ -20,10 +20,10 @@ function Tbl_user__customer(){
             'tbl_lp b, tbl_customer c ',
             'tbl_customer c '        ],
         join_condition: [
-            ' a.is_del = 0 and b.is_del = 0 and c.is_del = 0 and (a.visitor_id = b.id and b.cust_id = c.id) ',
-            ' a.is_del = 0 and b.is_del = 0 and c.is_del = 0 and (a.visitor_id = b.id and b.cust_id = c.id) ',
-            ' a.is_del = 0 and b.is_del = 0 and c.is_del = 0 and (a.visitor_id = b.id and b.cust_id = c.id) ',
-            ' a.is_del = 0 and c.is_del = 0 and (a.visitor_id = c.id) ',
+            ' b.is_del = 0 and c.is_del = 0 and ( b.id ={visitor_id} and c.id = b.cust_id) ',
+            ' b.is_del = 0 and c.is_del = 0 and ( b.id = {visitor_id} and c.id = b.cust_id) ',
+            ' b.is_del = 0 and c.is_del = 0 and ( b.id = {visitor_id} and c.id = b.cust_id) ',
+            ' c.is_del = 0 and c.id = {visitor_id} ',
         ],
         // select a.visitor_type, a.visitor_id, b.ship_type 
         // from tbl_user__customer a, tbl_buyer b, tbl_customer c
@@ -150,6 +150,7 @@ function Tbl_user__customer(){
     this._tab["cmd_get_detail"]    = this.cmd_get_detail;
     this._tab["cmd_get_update_info"]    = this.cmd_get_update_info;
     this._tab["cmd_get_create_info"]    = this.cmd_get_create_info;
+    this._tab["cmd_get_detail_info"]    = this.cmd_get_detail_info;
 }
 inherits(Tbl_user__customer, Dao);
 
@@ -319,7 +320,7 @@ Tbl_user__customer.prototype.cmd_get_detail = function(req, resp, ctx){
     console.log( "Tbl_user__customer: cmd_get_detail");
     if(this.check_field(req, ctx, "id",'编号',        true, 1) == false) return false;
 
-    var sql_fmt = "";// dao_tools2._get_detail_sql(this._get_tbl_info());
+    var sql_fmt = dao_tools2._get_detail_sql(this._get_tbl_info());
     return this._dbop_cmd_get_detail(sql_fmt, req, resp, ctx);
 }
 
@@ -328,7 +329,7 @@ Tbl_user__customer.prototype.cmd_get_update_info = function(req, resp, ctx){
     console.log( "Tbl_user__customer: cmd_get_update_info");
     if(this.check_field(req, ctx, "id",'编号',        true, 1) == false) return false;
 
-    var sql_fmt = "";//dao_tools2._get_update_info_sql(this._get_tbl_info());
+    var sql_fmt = dao_tools2._get_update_info_sql(this._get_tbl_info());
     return this._dbop_cmd_get_update_info(sql_fmt, req, resp, ctx);
 }
 
@@ -336,8 +337,18 @@ Tbl_user__customer.prototype.cmd_get_update_info = function(req, resp, ctx){
 Tbl_user__customer.prototype.cmd_get_create_info = function(req, resp, ctx){
     console.log( "Tbl_user__customer: cmd_get_create_info");
 
-    var sql_fmt = "";//dao_tools2._get_create_info_sql(this._get_tbl_info());
+    var sql_fmt = "";
     return this._dbop_cmd_get_create_info(sql_fmt, req, resp, ctx);
+}
+
+// cmd: get_detail_info
+Tbl_user__customer.prototype.cmd_get_detail_info = function(req, resp, ctx){
+    console.log( "Tbl_user__customer: cmd_get_detail_info");
+    if(this.check_field(req, ctx, "visitor_type",'事由类型',       true, 1,4) == false) return false;
+    if(this.check_field(req, ctx, "visitor_id",'事由编号',       true, 1) == false) return false;
+ 
+    var sql_fmt = dao_tools2._get_detail_info_sql(this._get_tbl_info());
+    return this._dbop_cmd_get_detail_info(sql_fmt, req, resp, ctx);
 }
 
 
@@ -559,128 +570,9 @@ Tbl_user__customer.prototype._dbop_cmd_search = function(sql_fmt, req, resp, ctx
 
 // dbop: get_detail
 Tbl_user__customer.prototype._dbop_cmd_get_detail = function(sql_fmt, req, resp, ctx){
-    var sql_fmt_cust_id = 'select visitor_type from tbl_user__customer '
-        + ' where is_del = 0 and id = {id}; ';
-    console.log("sql: ", tools.format_object(sql_fmt_cust_id, req));
+    console.log("sql: ", tools.format_object(sql_fmt, req));
 
     var dao_obj = this;
-    var mysql_conn = require("../mysql_conn").create_short();
-    mysql_conn.query(
-        tools.format_object(sql_fmt_cust_id, req),
-        function (err, results, fields){
-            if(err) {
-                console.log("err: ", err);
-                resp.result = ErrorCode.db_sel_failed;
-                resp.result_string = '获取"事由类型"出错: ' + err;
-                mysql_conn.end();
-                dao_obj.render_resp(resp, ctx);
-            }
-            else{
-                console.log("results: ", results);
-
-                if( results.length == 1 ){
-                    sql_fmt = dao_tools2._get_detail_sql(dao_obj._get_tbl_info(), results[0].visitor_type);
-
-                    //sql_fmt += '; update tbl_customer set is_buyer = 1 where is_del = 0 and id = {cust_id} and is_buyer < 1;';
-                }
-                else{
-                    console.log("err: ", '"拜访日志"不存在');
-                    resp.result = ErrorCode.db_sel_failed;
-                    resp.result_string = '"拜访日志"不存在';
-                    mysql_conn.end();
-                    dao_obj.render_resp(resp, ctx);
-                    return true;
-                }
-
-                console.log("sql: ", tools.format_object(sql_fmt, req));
-
-                mysql_conn.query(
-                    tools.format_object(sql_fmt, req),
-                    function (n_err, n_results, n_fields){
-                        if(n_err){
-                            console.log("err: ", n_err);
-                            resp.result = ErrorCode.db_sel_failed;
-                            resp.result_string = "Select failed: " + err;
-                        }
-                        else{
-                            resp.result = 0;
-                            resp.result_string = "OK";
-                            resp.data = dao_tools2._get_detail(dao_obj._get_tbl_info(), n_results[0]);
-                        }
-                        console.log("result: ", n_results);
-                        mysql_conn.end();
-                        dao_obj.render_resp(resp, ctx);
-                    });
-            }
-        }
-    );
-    return  true;
-}
-
-// dbop: get_update_info
-Tbl_user__customer.prototype._dbop_cmd_get_update_info = function(sql_fmt, req, resp, ctx){
-    var sql_fmt_cust_id = 'select visitor_type from tbl_user__customer '
-        + ' where is_del = 0 and id = {id}; ';
-    console.log("sql: ", tools.format_object(sql_fmt_cust_id, req));
-
-    var dao_obj = this;
-    var mysql_conn = require("../mysql_conn").create_short();
-    mysql_conn.query(
-        tools.format_object(sql_fmt_cust_id, req),
-        function (err, results, fields){
-            if(err) {
-                console.log("err: ", err);
-                resp.result = ErrorCode.db_sel_failed;
-                resp.result_string = '获取"事由类型"出错: ' + err;
-                mysql_conn.end();
-                dao_obj.render_resp(resp, ctx);
-            }
-            else{
-                console.log("results: ", results);
-
-                if( results.length == 1 ){
-                    sql_fmt = dao_tools2._get_update_info_sql(dao_obj._get_tbl_info(), results[0].visitor_type);
-
-                    //sql_fmt += '; update tbl_customer set is_buyer = 1 where is_del = 0 and id = {cust_id} and is_buyer < 1;';
-                }
-                else{
-                    console.log("err: ", '"拜访日志"不存在');
-                    resp.result = ErrorCode.db_sel_failed;
-                    resp.result_string = '"拜访日志"不存在';
-                    mysql_conn.end();
-                    dao_obj.render_resp(resp, ctx);
-                    return true;
-                }
-
-                console.log("sql: ", tools.format_object(sql_fmt, req));
-
-                mysql_conn.query(
-                    tools.format_object(sql_fmt, req),
-                    function (n_err, n_results, n_fields){
-                        if(n_err){
-                            console.log("err: ", n_err);
-                            resp.result = ErrorCode.db_sel_failed;
-                            resp.result_string = "Select failed: " + err;
-                        }
-                        else{
-                            resp.result = 0;
-                            resp.result_string = "OK";
-                            resp.data = dao_tools2._get_update_info(dao_obj._get_tbl_info(), n_results[0]);
-                        }
-                        console.log("result: ", n_results);
-                        mysql_conn.end();
-                        dao_obj.render_resp(resp, ctx);
-                    });
-            }
-        }
-    );
-    return  true;
-}
-
-// dbop: get_create_info
-Tbl_user__customer.prototype._dbop_cmd_get_create_info = function(sql_fmt, req, resp, ctx){
-    var dao_obj = this;
-    /*console.log("sql: ", tools.format_object(sql_fmt, req));
     var mysql_conn = require("../mysql_conn").create_short();
     mysql_conn.query(
         tools.format_object(sql_fmt, req),
@@ -688,17 +580,156 @@ Tbl_user__customer.prototype._dbop_cmd_get_create_info = function(sql_fmt, req, 
             if(err) {
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
-                resp.result_string = "Select failed: " + err;
+                resp.result_string = '获取"事由类型"出错: ' + err;
+                mysql_conn.end();
+                dao_obj.render_resp(resp, ctx);
+            }
+            else{
+                console.log("results: ", results);
+
+                if( results.length == 1 ){
+                    req["visitor_id"] = results[0].visitor_id;
+                    sql_fmt = dao_tools2._get_detail_info_sql(dao_obj._get_tbl_info(), results[0].visitor_type);
+                }
+                else{
+                    console.log("err: ", '"拜访日志"不存在');
+                    resp.result = ErrorCode.db_sel_failed;
+                    resp.result_string = '"拜访日志"不存在';
+                    mysql_conn.end();
+                    dao_obj.render_resp(resp, ctx);
+                    return true;
+                }
+
+                console.log("sql: ", tools.format_object(sql_fmt, req));
+
+                mysql_conn.query(
+                    tools.format_object(sql_fmt, req),
+                    function (n_err, n_results, n_fields){
+                        if(n_err){
+                            console.log("err: ", n_err);
+                            resp.result = ErrorCode.db_sel_failed;
+                            resp.result_string = "Select failed: " + err;
+                        }
+                        else if(n_results.length!=1){
+                            console.log("err: ", '"拜访日志"不存在');
+                            resp.result = ErrorCode.db_sel_failed;
+                            resp.result_string = '"拜访日志"不存在';
+                        }
+                        else{
+                            resp.result = 0;
+                            resp.result_string = "OK";
+                            resp.data = dao_tools2._get_detail(dao_obj._get_tbl_info(), results[0], n_results[0]);
+                        }
+                        console.log("result: ", n_results);
+                        mysql_conn.end();
+                        dao_obj.render_resp(resp, ctx);
+                    });
+            }
+        }
+    );
+    return  true;
+}
+
+// dbop: get_detail_info
+Tbl_user__customer.prototype._dbop_cmd_get_detail_info = function(sql_fmt, req, resp, ctx){
+    console.log("sql: ", tools.format_object(sql_fmt, req));
+
+    var dao_obj = this;
+    var mysql_conn = require("../mysql_conn").create_short();
+    mysql_conn.query(
+        tools.format_object(sql_fmt, req),
+        function (err, results, fields){
+            if(err) {
+                console.log("err: ", err);
+                resp.result = ErrorCode.db_sel_failed;
+                resp.result_string = '获取"事由类型"出错: ' + err;
+            }
+            else if(results.length != 1){
+                console.log("err: ", '"拜访日志"不存在');
+                resp.result = ErrorCode.db_sel_failed;
+                resp.result_string = '"拜访日志"不存在';
             }
             else{
                 resp.result = 0;
                 resp.result_string = "OK";
-                resp.data = dao_tools2._get_create_info(dao_obj._get_tbl_info());
+                resp.data2 = dao_tools2._get_detail_info(dao_obj._get_tbl_info(), results[0], req["visitor_type"]);
             }
+            console.log("result: ", results);
             mysql_conn.end();
             dao_obj.render_resp(resp, ctx);
         }
-    );*/
+    );
+    return  true;
+}
+
+// dbop: get_update_info
+Tbl_user__customer.prototype._dbop_cmd_get_update_info = function(sql_fmt, req, resp, ctx){
+    console.log("sql: ", tools.format_object(sql_fmt, req));
+
+    var dao_obj = this;
+    var mysql_conn = require("../mysql_conn").create_short();
+    mysql_conn.query(
+        tools.format_object(sql_fmt, req),
+        function (err, results, fields){
+            if(err) {
+                console.log("err: ", err);
+                resp.result = ErrorCode.db_sel_failed;
+                resp.result_string = '获取"事由类型"出错: ' + err;
+                mysql_conn.end();
+                dao_obj.render_resp(resp, ctx);
+            }
+            else{
+                console.log("results: ", results);
+
+                if( results.length == 1 ){
+                    req['visitor_id'] = results[0].visitor_id;
+                    sql_fmt = dao_tools2._get_detail_info_sql(dao_obj._get_tbl_info(), results[0].visitor_type);
+                }
+                else{
+                    console.log("err: ", '"拜访日志"不存在');
+                    resp.result = ErrorCode.db_sel_failed;
+                    resp.result_string = '"拜访日志"不存在';
+                    mysql_conn.end();
+                    dao_obj.render_resp(resp, ctx);
+                    return true;
+                }
+
+                console.log("sql: ", tools.format_object(sql_fmt, req));
+
+                mysql_conn.query(
+                    tools.format_object(sql_fmt, req),
+                    function (n_err, n_results, n_fields){
+                        if(n_err){
+                            console.log("err: ", n_err);
+                            resp.result = ErrorCode.db_sel_failed;
+                            resp.result_string = "Select failed: " + err;
+                        }
+                        else if(n_results.length!=1){
+                            console.log("err: ", '"拜访日志"不存在');
+                            resp.result = ErrorCode.db_sel_failed;
+                            resp.result_string = '"拜访日志"不存在';
+                        }
+                        else{
+                            resp.result = 0;
+                            resp.result_string = "OK";
+                            resp.data = dao_tools2._get_update_info(dao_obj._get_tbl_info(), results[0]);
+                            resp.data2 = dao_tools2._get_detail_info(dao_obj._get_tbl_info(), n_results[0], results[0].visitor_type);
+                        }
+                        console.log("result: ", n_results);
+                        mysql_conn.end();
+                        dao_obj.render_resp(resp, ctx);
+                    });
+            }
+        }
+    );
+    return  true;
+}
+
+
+
+// dbop: get_create_info
+Tbl_user__customer.prototype._dbop_cmd_get_create_info = function(sql_fmt, req, resp, ctx){
+    var dao_obj = this;
     resp.result = 0;
     resp.result_string = "OK";
     resp.data = dao_tools2._get_create_info(dao_obj._get_tbl_info());
