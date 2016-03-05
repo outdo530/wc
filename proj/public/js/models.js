@@ -52,7 +52,7 @@ var m_route = {
 		//user__customer 
         {id: 38, url: '/user__customer_list',    templateUrl: 'template/crud_list.html',     controller:'crudListCtrl_user_customer'   },
         {id: 39, url: '/user__customer_detail/:crud_id',   templateUrl: 'template/crud_detail.html',   controller:'crudDetailCtrl_user_customer' },
-        {id: 40, url: '/user__customer_update/:crud_id',   templateUrl: 'template/crud_update.html',   controller:'crudUpdateCtrl_user_customer' },
+        {id: 40, url: '/user__customer_update/:crud_id',   templateUrl: 'template/crud_update_visit_log.html',   controller:'crudUpdateCtrl_user_customer' },
         {id: 41, url: '/user__customer_create',            templateUrl: 'template/crud_create.html',   controller:'crudCreateCtrl_user_customer' },
         {id: 42, url: '/user__customer_list/:search',      templateUrl: 'template/crud_list.html',     controller:'crudListCtrl_user_customer' },
         {id: 43, url: '/user__customer_select',            templateUrl: 'template/crud_select.html',   controller:'crudSelectCtrl_user_customer' },

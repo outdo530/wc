@@ -1,0 +1,83 @@
+<div class="container-fluid theme-showcase">
+
+    <div class="page-header">
+        <h1>&nbsp;<a ng-href='#/boards'>功能列表</a>&gt;&nbsp;<a ng-href='{{crud_update.parent.url}}'>{{crud_update.parent.title}}</a>&gt;&nbsp;{{crud_update.title}}</h1>
+        
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            
+            <button type="button" class="btn btn-sm btn-success" ng-click="on_confirm(crud_update)">Confirm Change</button>
+            <button type="button" class="btn btn-sm btn-default" ng-click="on_reset(crud_update)">Reset</button>
+            <button type="button" class="btn btn-sm btn-danger" ng-click="on_cancel(crud_update)">Cancel Change</button>
+
+            <table class="table table-bordered">
+                <tbody >
+                    <tr ng-repeat="item in crud_update.content">
+
+                        <td align="right" > <span class="label label-default">{{item[0].key}}</span>    </td>
+                        <td ng-switch="item[1].op_type">               
+                            <p ng-switch-when="select">
+                               <select ng-model="item[1].key" 
+                                    ng-options='item.key as item.key+ " -- " + item.show_as for item in (item[1].op_args.items | filter_from_key: ( item[1].op_args.filter_ref_xy == null) ? null : crud_update.content[item[1].op_args.filter_ref_xy.x][item[1].op_args.filter_ref_xy.y].key)'>
+                                </select>
+                            </p>
+                            <p ng-switch-when="dialog">
+                                <input type="{{item[1].type}}" ng-model="item[1].key" ng-readonly="item[1].editable != 1" ng-disabled="item[1].editable != 1" style="width:120px;" />  
+                                <button type="button" class="btn btn-sm btn-default" ng-click="click_to_open(crud_update, item[1])">Select</button>
+                            </p>
+                            <p ng-switch-default="">
+                                <input type="{{item[1].type}}" ng-model="item[1].key" ng-readonly="item[1].editable != 1" ng-disabled="item[1].editable != 1" style="width:271px;" />  
+                            </p>
+                        </td>
+
+                        <td align="right">  <span class="label label-default">{{item[2].key}}</span>    </td>
+                        <td ng-switch="item[3].op_type">               
+                            <p ng-switch-when="select">
+                                <select ng-model="item[3].key" 
+                                    ng-options='item.key as item.key+ " -- " + item.show_as for item in (item[3].op_args.items | filter_from_key: ( item[3].op_args.filter_ref_xy == null) ? null : crud_update.content[item[3].op_args.filter_ref_xy.x][item[3].op_args.filter_ref_xy.y].key)'>
+                                </select>
+                            </p>
+                            <p ng-switch-when="dialog">
+                                <input type="{{item[3].type}}" ng-model="item[3].key" ng-readonly="item[3].editable != 1" ng-disabled="item[3].editable != 1" style="width:120px;" />  
+                                <button type="button" class="btn btn-sm btn-default" ng-click="click_to_open(crud_update, item[3])">Select</button>
+                            </p>
+                            <p ng-switch-default="">
+                                <input type="{{item[3].type}}" ng-model="item[3].key" ng-readonly="item[3].editable != 1" ng-disabled="item[3].editable != 1" style="width:271px;" />  
+                            </p>
+                        </td>
+                    </tr>
+                    <tr><td align="right" > <span class="label label-success">拜访事由信息</span></td></tr>
+                    <tr ng-repeat="item in crud_update.content_detail">
+
+                        <td align="right" > <span class="label label-default">{{item[0].key}}</span>    </td>
+                        <td ng-switch="item[1].op_type">               
+                            <p ng-switch-when="select">
+                               <select ng-model="item[1].key" 
+                                    ng-options='item.key as item.key+ " -- " + item.show_as for item in (item[1].op_args.items)' disabled="disabled">
+                                </select>
+                            </p>
+                            <p ng-switch-default="">
+                                <input type="{{item[1].type}}" ng-model="item[1].key" ng-readonly="item[1].editable != 1" ng-disabled="item[1].editable != 1" style="width:271px;" />  
+                            </p>
+                        </td>
+
+                        <td align="right">  <span class="label label-default">{{item[2].key}}</span>    </td>
+                        <td ng-switch="item[3].op_type">               
+                            <p ng-switch-when="select">
+                                <select ng-model="item[3].key" 
+                                    ng-options='item.key as item.key+ " -- " + item.show_as for item in (item[3].op_args.items)' disabled="disabled">
+                                </select>
+                            </p>
+                            <p ng-switch-default="">
+                                <input type="{{item[3].type}}" ng-model="item[3].key" ng-readonly="item[3].editable != 1" ng-disabled="item[3].editable != 1" style="width:271px;" />  
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div> <!--/.col-md-8-->
+    </div> <!--/.row -->
+</div>

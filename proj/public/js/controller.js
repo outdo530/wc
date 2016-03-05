@@ -14,7 +14,8 @@ var fn_pre = 'controller.js-->'
 
 
 function __format_page_info(page){
-    return String.format("第{0}页，共{1}页，{2}条/页", page.cur, page.total, page.size);
+    //return String.format("第{0}页，共{1}页，{2}条/页", page.cur, page.total, page.size);
+    return String.format("第{0}页，共{1}页", page.cur, page.total);
 }
 function __login_get_func_list($http, user_info, $location, cb ){
     cb($location);
@@ -571,7 +572,81 @@ function($scope, $routeParams, $http){
 }]);
 myapp.controller('crudUpdateCtrl_user_customer', ['$scope', '$routeParams', '$http', 'ngDialog', 
 function($scope, $routeParams, $http, ngDialog){
-     ctrl_update("/dao_tbl_user__customer", $scope, $routeParams, $http, ngDialog);
+    // ctrl_update("/dao_tbl_user__customer", $scope, $routeParams, $http, ngDialog);
+    var sub_url = "/dao_tbl_user__customer"
+    debug(fn_pre , "crudUpdateCtrl--OK");
+
+    var crud_id =  $routeParams["crud_id"];
+    debug(fn_pre , "update-->crud id is : " + crud_id);
+
+    var req = {
+        cmd : 'cmd_get_update_info',
+        id :crud_id,
+    };
+    __http_req($http, sub_url, req
+    , function(rsp){
+        $scope.crud_update = rsp.data; 
+        $scope.on_confirm = function(crud){
+            debug(fn_pre, "crudUpdateCtrl-on_confirm");
+            __http_req($http, sub_url, __gen_req_from_info('update', crud)
+            , function(rsp){
+                console.log("update OK");
+                alert("update OK!");
+            });
+        }
+        $scope.on_cancel = function(crud){
+             window.history.back();
+        }
+        $scope.on_reset = function(crud){
+            __reset_input_box(crud.content);
+        }
+        $scope.click_to_open = function(crud, item){
+            
+            var req = { cmd : 'cmd_list',   page : {'cur' : 1,} };
+            //get the sub_url for  visit type ######
+            var ref_obj = $scope.crud_update.content[0][3];
+            var sub_url = ref_obj.op_args.items[ref_obj.key-1].url;
+            $scope.sub_url = sub_url
+
+            var ref_item = item;
+            __http_req($http, sub_url, req
+            , function(rsp){
+                $scope.cruds = rsp.data;
+                $scope.page_str = __format_page_info($scope.cruds.page);
+                
+                ngDialog.openConfirm(  { 
+                        template: 'template/crud_select.html',
+                        className : 'ngdialog-theme-default custom-width',
+                        controller : 'dialog_tbl_user__customer',
+                        scope : $scope,
+                    }
+                )
+                .then(
+                    function (val){
+                        console.log("dialog --> confirm value : " + val);
+                        if(val != null) {
+                            ref_item.key = parseInt(val);
+
+                            //TODO:  send a http_req to get the $scope.crud_update.content_detail
+                            console.log("send http_req to get sub detail  ");
+                            var req = {
+                                cmd:'cmd_list', 
+                                sub_url: sub_url,
+                                key: ref_obj.key,
+                                index : ref_item.key,
+                                //detail:$scope.crud_update.content_detail,
+                            }
+                            console.log(req);
+                            //TODO:????
+                        }
+                    },
+                    function (reason){
+                        console.log(" cancel reason : " + reason);
+                    }
+                );
+            });//__http_req
+        } // $scope.click_to_open
+    });// __http_req
 }]);
 myapp.controller('crudCreateCtrl_user_customer', ['$scope', '$http', 'ngDialog', 
 function ($scope, $http, ngDialog){
@@ -580,6 +655,10 @@ function ($scope, $http, ngDialog){
 myapp.controller('crudSelectCtrl_user_customer', ['$scope', '$http', '$location', '$routeParams',
 function ($scope, $http, $location, $routeParams){
     ctrl_select("/dao_tbl_user__customer", $scope, $http, $location, $routeParams);
+}]);
+myapp.controller('dialog_tbl_user__customer', ['$scope', '$http', '$location', '$routeParams',
+function ($scope, $http, $location, $routeParams){
+    ctrl_select($scope.sub_url, $scope, $http, $location, $routeParams);
 }]);
 
 
