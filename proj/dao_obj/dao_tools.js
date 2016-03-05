@@ -118,13 +118,13 @@ exports._get_detail_select_sql = function(info){
     var sql_fmt = 'select ';
     for(var elem in info.struct){
         if(info.struct[elem].is_col==1 && (info.struct[elem].is_view==1 || info.struct[elem].is_detail==1 )){
-            if( info.struct[elem].op == null || info.struct[elem].op['op_type'] != 'show_select' ){
+            //if( info.struct[elem].op == null || info.struct[elem].op['op_type'] != 'show_select' ){
                 sql_fmt += ( info.tbl_name2 != null ? info.struct[elem].tbl : '' ) + info.struct[elem].key;
-            }
-            else{
-                sql_fmt += '( case ' + ( info.tbl_name2 != null ? info.struct[elem].tbl : '' ) + info.struct[elem].key
-                    + tbl_const.value_instead(info.struct[elem].op.op_args) + ' ) as ' + info.struct[elem].key;
-            }
+            //}
+            //else{
+            //    sql_fmt += '( case ' + ( info.tbl_name2 != null ? info.struct[elem].tbl : '' ) + info.struct[elem].key
+            //        + tbl_const.value_instead(info.struct[elem].op.op_args) + ' ) as ' + info.struct[elem].key;
+           // }
             sql_fmt += ', ';
         }
     }

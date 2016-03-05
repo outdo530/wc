@@ -119,13 +119,13 @@ exports._get_detail_select_sql = function(info){
     var struct = info.struct;
     for(var elem in struct){
         if(struct[elem].is_col==1 && (struct[elem].is_view==1 || struct[elem].is_detail==1 )){
-            if( struct[elem].op == null || struct[elem].op['op_type'] != 'show_select' ){
+            //if( struct[elem].op == null || struct[elem].op['op_type'] != 'show_select' ){
                 sql_fmt += struct[elem].key;
-            }
-            else{
-                sql_fmt += '( case ' + struct[elem].key
-                    + tbl_const.value_instead(struct[elem].op.op_args) + ' ) as ' + struct[elem].key;
-            }
+            //}
+            //else{
+           //     sql_fmt += '( case ' + struct[elem].key
+           //         + tbl_const.value_instead(struct[elem].op.op_args) + ' ) as ' + struct[elem].key;
+           // }
             sql_fmt += ', ';
         }
     }
@@ -420,17 +420,19 @@ exports._get_update_info = function(info, res){
     };
     return data;
 }
+
 // data: get_detail_info
 exports._get_detail_info = function(info, res, visitor_type){
     var data = {};
     //data[info.struct['id'].key] = res[info.struct['id'].key];
     //data['title'] = info.titles.update;
-    data['content'] = this._get_detail_info_content(info, res, visitor_type);
+    //data['content'] = this._get_detail_info_content(info, res, visitor_type);
     //data['parent'] = {
     //	url: info.url.list,
 	//    title: info.title,
     //};
-    return data;
+    //return data;
+    return this._get_detail_info_content(info, res, visitor_type);
 }
 
 

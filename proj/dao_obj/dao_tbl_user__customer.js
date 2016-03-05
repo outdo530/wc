@@ -35,7 +35,7 @@ function Tbl_user__customer(){
 	        visitor_type: { tbl:'a.', key: 'visitor_type',  key_text: '事由类型', key_type: 'label', value_def: 4, value_type: 'number',
                 is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_select(tbl_const.visitor_type),    },
 	        visitor_id: { tbl:'a.', key: 'visitor_id',  key_text: '事由编号', key_type: 'label', value_def: null, value_type: 'number',
-                is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_text(),  },
+                is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_dialog("/tbl_customer"),  },
             user_id: { tbl:'a.', key: 'user_id',  key_text: '员工编号', key_type: 'label', value_def: 1, value_type: 'text',
                 is_col:1, is_to_set:1, is_detail:1, is_list:1, },
             content: { tbl:'a.', key: 'content',  key_text: '拜访日志', key_type: 'label', value_def: '', value_type: 'text',
@@ -652,7 +652,9 @@ Tbl_user__customer.prototype._dbop_cmd_get_detail_info = function(sql_fmt, req, 
             else{
                 resp.result = 0;
                 resp.result_string = "OK";
-                resp.data2 = dao_tools2._get_detail_info(dao_obj._get_tbl_info(), results[0], req["visitor_type"]);
+                resp.data = {
+                    content_detail: dao_tools2._get_detail_info(dao_obj._get_tbl_info(), results[0], req["visitor_type"])
+                };
             }
             console.log("result: ", results);
             mysql_conn.end();
@@ -713,7 +715,7 @@ Tbl_user__customer.prototype._dbop_cmd_get_update_info = function(sql_fmt, req, 
                             resp.result = 0;
                             resp.result_string = "OK";
                             resp.data = dao_tools2._get_update_info(dao_obj._get_tbl_info(), results[0]);
-                            resp.data2 = dao_tools2._get_detail_info(dao_obj._get_tbl_info(), n_results[0], results[0].visitor_type);
+                            resp.data["content_detail"] = dao_tools2._get_detail_info(dao_obj._get_tbl_info(), n_results[0], results[0].visitor_type);
                         }
                         console.log("result: ", n_results);
                         mysql_conn.end();

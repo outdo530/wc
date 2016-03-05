@@ -81,7 +81,7 @@ exports.op_type_select = function(args){
 
 exports.show_type_select = function(args){
     return  {
-        op_type: 'show_select',
+        op_type: 'select',
         op_args: args ,
     };
 }
