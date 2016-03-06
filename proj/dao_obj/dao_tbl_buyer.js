@@ -293,6 +293,36 @@ Tbl_buyer.prototype.cmd_get_create_info = function(req, resp, ctx){
     return this._dbop_cmd_get_create_info(sql_fmt, req, resp, ctx);
 }
 
+// dbop: multi sql
+Tbl_buyer.prototype._dbop_multi_sql = function(sql_fmts, i, resp, ctx){
+    var dao_obj = this;
+    if(i >= sql_fmts.length){
+        dao_obj.render_resp(resp, ctx);
+        return true;
+    }
+    console.log("id: " + i);
+    console.log("sql: " + sql_fmts[i]);
+    var mysql_conn = require("../mysql_conn").create_short();
+    mysql_conn.query(
+        sql_fmts[i],
+        function (err, results, fields){
+            if(err) {
+                console.log('数据库操作出错: ', err);
+                resp.result = ErrorCode.db_sel_failed;
+                resp.result_string = '数据库操作出错: ' + err;
+            }
+            else{
+                resp.result = 0;
+                resp.result_string = "OK";
+                console.log("result: ", results);
+                i++;
+                dao_obj._dbop_multi_sql(sql_fmts, i, resp, ctx);
+            }
+            mysql_conn.end();
+        }
+    );
+    return  true;
+}
 
 
 // dbop: insert
@@ -317,8 +347,14 @@ Tbl_buyer.prototype._dbop_insert = function(sql_fmt, req, resp, ctx){
             else{
                 console.log("results: ", results);
 
+                var sql_fmts = [];
                 if( results.length == 1 ){
-                    //test// sql_fmt += '; update tbl_customer set is_buyer = if(is_buyer < 1, 1, is_buyer + 1) where is_del = 0 and id = {cust_id};';
+                    sql_fmts = [
+                        tools.format_object(sql_fmt, req),
+                        tools.format_object(
+                            'update tbl_customer set is_buyer = if(is_buyer < 1, 1, is_buyer + 1) where is_del = 0 and id = {cust_id};',
+                            req)
+                    ];
                 }
                 else{
                     console.log("err: ", '"客户编号"不存在');
@@ -328,25 +364,7 @@ Tbl_buyer.prototype._dbop_insert = function(sql_fmt, req, resp, ctx){
                     dao_obj.render_resp(resp, ctx);
                     return true;
                 }
-
-                console.log("sql: ", tools.format_object(sql_fmt, req));
-
-                mysql_conn.query(
-                    tools.format_object(sql_fmt, req),
-                    function (n_err, n_results, n_fields){
-                        if(n_err){
-                            console.log("err: ", n_err);
-                            resp.result = ErrorCode.db_ins_failed;
-                            resp.result_string = '创建失败: ' + n_err;
-                        }
-                        else{
-                            resp.result = 0;
-                            resp.result_string = "OK";
-                        }
-                        console.log("result: ", n_results);
-                        mysql_conn.end();
-                        dao_obj.render_resp(resp, ctx);
-                    });
+                dao_obj._dbop_multi_sql(sql_fmts, 0, resp, ctx);
             }
         }
     );
@@ -375,16 +393,25 @@ Tbl_buyer.prototype._dbop_update = function(sql_fmt, req, resp, ctx){
             else{
                 console.log("results: ", results);
 
+                var sql_fmts = [];
                 if( results.length == 2 ){
-                   //test// sql_fmt = 'update tbl_customer set is_buyer = if( is_buyer < 1, 0, is_buyer - 1 ) where is_del = 0 and id = ' + results[0].cust_id + '; '
-                   //test//          + sql_fmt
-                   //test//          + '; update tbl_customer set is_buyer = if(is_buyer < 1, 1, is_buyer + 1) where is_del = 0 and id = {cust_id};';
+                    sql_fmts = [
+                        tools.format_object('update tbl_customer set is_buyer = if( is_buyer < 1, 0, is_buyer - 1 ) where is_del = 0 and id = ' + results[0].cust_id,req),
+                        tools.format_object(sql_fmt,req),
+                        tools.format_object('update tbl_customer set is_buyer = if(is_buyer < 1, 1, is_buyer + 1) where is_del = 0 and id = {cust_id}',req)
+                    ];
                 }
                 else if( results.length == 1 && results[0].cust_id == results[0].id && results[0].cust_id == req.cust_id ){
-                    //test// sql_fmt += '; update tbl_customer set is_buyer = 1 where is_del = 0 and id = {cust_id} and is_buyer < 1;';
+                    sql_fmts = [
+                        tools.format_object(sql_fmt,req),
+                        tools.format_object('update tbl_customer set is_buyer = 1 where is_del = 0 and id = {cust_id} and is_buyer < 1;',req)
+                    ];
                 }
                 else if( results.length == 1 && results[0].cust_id != results[0].id && results[0].cust_id != req.cust_id ){
-                    //test// sql_fmt += '; update tbl_customer set is_buyer = if(is_buyer < 1, 1, is_buyer + 1) where is_del = 0 and id = {cust_id};';
+                    sql_fmts = [
+                        tools.format_object(sql_fmt,req),
+                        tools.format_object('update tbl_customer set is_buyer = if(is_buyer < 1, 1, is_buyer + 1) where is_del = 0 and id = {cust_id};',req)
+                    ];
                 }
                 else{
                     console.log("err: ", '"客户编号"不存在');
@@ -394,25 +421,7 @@ Tbl_buyer.prototype._dbop_update = function(sql_fmt, req, resp, ctx){
                     dao_obj.render_resp(resp, ctx);
                     return true;
                 }
-
-                console.log("sql: ", tools.format_object(sql_fmt, req));
-
-                mysql_conn.query(
-                    tools.format_object(sql_fmt, req),
-                    function (n_err, n_results, n_fields){
-                        if(n_err){
-                            console.log("err: ", n_err);
-                            resp.result = ErrorCode.db_upd_failed;
-                            resp.result_string = '更新失败: ' + n_err;
-                        }
-                        else{
-                            resp.result = 0;
-                            resp.result_string = "OK";
-                        }
-                        console.log("result: ", n_results);
-                        mysql_conn.end();
-                        dao_obj.render_resp(resp, ctx);
-                    });
+                dao_obj._dbop_multi_sql(sql_fmts, 0, resp, ctx);
             }
         }
     );
@@ -442,8 +451,12 @@ Tbl_buyer.prototype._dbop_remove = function(sql_fmt, req, resp, ctx){
             else{
                 console.log("results: ", results);
 
+                var sql_fmts = [];
                 if( results.length == 1 ){
-                    //test// sql_fmt += '; update tbl_customer set is_buyer = if(is_buyer <= 1, 0, is_buyer - 1) where is_del = 0 and id = ' + results[0].cust_id + ';';
+                    sql_fmts = [
+                        tools.format_object(sql_fmt,req),
+                        tools.format_object('update tbl_customer set is_buyer = if(is_buyer <= 1, 0, is_buyer - 1) where is_del = 0 and id = ' + results[0].cust_id,req)
+                    ];
                 }
                 else{
                     console.log("err: ", '"买方"不存在');
@@ -454,24 +467,7 @@ Tbl_buyer.prototype._dbop_remove = function(sql_fmt, req, resp, ctx){
                     return true;
                 }
 
-                console.log("sql: ", tools.format_object(sql_fmt, req));
-
-                mysql_conn.query(
-                    tools.format_object(sql_fmt, req),
-                    function (n_err, n_results, n_fields){
-                        if(n_err){
-                            console.log("err: ", n_err);
-                            resp.result = ErrorCode.db_del_failed;
-                            resp.result_string = '删除失败: ' + n_err;
-                        }
-                        else{
-                            resp.result = 0;
-                            resp.result_string = "OK";
-                        }
-                        console.log("result: ", n_results);
-                        mysql_conn.end();
-                        dao_obj.render_resp(resp, ctx);
-                    });
+                dao_obj._dbop_multi_sql(sql_fmts, 0, resp, ctx);
             }
         }
     );
@@ -501,8 +497,12 @@ Tbl_buyer.prototype._dbop_recover = function(sql_fmt, req, resp, ctx){
             else{
                 console.log("results: ", results);
 
+                var sql_fmts = [];
                 if( results.length == 1 ){
-                    //test// sql_fmt += '; update tbl_customer set is_buyer = if(is_buyer < 1, 1, is_buyer + 1) where is_del = 0 and id = ' + relusts[0].cust_id + ';';
+                    sql_fmts = [
+                        tools.format_object(sql_fmt,req),
+                        tools.format_object('update tbl_customer set is_buyer = if(is_buyer < 1, 1, is_buyer + 1) where is_del = 0 and id = ' + relusts[0].cust_id,req)
+                    ];
                 }
                 else{
                     console.log("err: ", '"买方"不存在');
@@ -512,25 +512,7 @@ Tbl_buyer.prototype._dbop_recover = function(sql_fmt, req, resp, ctx){
                     dao_obj.render_resp(resp, ctx);
                     return true;
                 }
-
-                console.log("sql: ", tools.format_object(sql_fmt, req));
-
-                mysql_conn.query(
-                    tools.format_object(sql_fmt, req),
-                    function (n_err, n_results, n_fields){
-                        if(n_err){
-                            console.log("err: ", n_err);
-                            resp.result = ErrorCode.db_sel_failed;
-                            resp.result_string = '恢复失败: ' + n_err;
-                        }
-                        else{
-                            resp.result = 0;
-                            resp.result_string = "OK";
-                        }
-                        console.log("result: ", n_results);
-                        mysql_conn.end();
-                        dao_obj.render_resp(resp, ctx);
-                    });
+                dao_obj._dbop_multi_sql(sql_fmts, 0, resp, ctx);
             }
         }
     );
