@@ -26,25 +26,7 @@ Date.prototype.Format = function(fmt)
   return fmt;   
 }
 
-Date.prototype.toString = function()   
-{ //author: meizz
-    var fmt = "yyyy-MM-dd hh:mm:ss";
-  var o = { 
-    "M+" : this.getMonth()+1,                 //月份   
-    "d+" : this.getDate(),                    //日   
-    "h+" : this.getHours(),                   //小时   
-    "m+" : this.getMinutes(),                 //分   
-    "s+" : this.getSeconds(),                 //秒   
-    "q+" : Math.floor((this.getMonth()+3)/3), //季度   
-    "S"  : this.getMilliseconds()             //毫秒   
-  };
-  if(/(y+)/.test(fmt))   
-    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));   
-  for(var k in o)   
-    if(new RegExp("("+ k +")").test(fmt))   
-  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
-  return fmt;   
-}  
+Date.prototype.toString = function()   {  return this.Format("yyyy-MM-dd hh:mm:ss");   }  
 
 // get base sql:
 
@@ -433,6 +415,11 @@ exports._get_detail_content = function(info, res1, res2){
 
 // data: get_list_data
 exports._get_list_data = function(info, res, cur, total){
+    for(var i in res){
+        res[i]["start_dt"] = (res[i]["start_dt"]).toString();
+        res[i]["end_dt"] = (res[i]["end_dt"]).toString();
+    }
+
     var data = {
         title :  info.titles.list,
         list_title : this._get_list_title(info), 
@@ -450,7 +437,12 @@ exports._get_list_data = function(info, res, cur, total){
 
 // data: get_search_data
 exports._get_search_data = function(info, res, cur, total){
-    var data = {
+    for(var i in res){
+        res[i]["start_dt"] = (res[i]["start_dt"]).toString();
+        res[i]["end_dt"] = (res[i]["end_dt"]).toString();
+    }
+
+     var data = {
         title :  info.titles.search,
         list_title : this._get_list_title(info), 
         list_key : this._get_list_key(info), 
