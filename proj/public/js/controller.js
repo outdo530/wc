@@ -650,7 +650,77 @@ function($scope, $routeParams, $http, ngDialog){
 }]);
 myapp.controller('crudCreateCtrl_user_customer', ['$scope', '$http', 'ngDialog', 
 function ($scope, $http, ngDialog){
-    ctrl_create("/dao_tbl_user__customer", $scope, $http, ngDialog);
+    debug(fn_pre , "crudCreateCtrl--OK");
+
+    var url = "/dao_tbl_user__customer";
+    var req = {
+        cmd : 'cmd_get_create_info',
+    }
+    __http_req($http, url, req
+    , function(rsp){
+        var parent_url = url;
+        $scope.crud_create = rsp.data;
+        console.log(rsp.data);
+        $scope.on_create = function(crud){
+            debug(fn_pre, "on_confirm");
+            console.log(crud);
+            __http_req($http, url, __gen_req_from_info('add', crud)
+            , function(rsp){
+                console.log("create OK");
+                alert("create OK!");
+            });
+        }
+        $scope.on_cancel = function(crud){
+             window.history.back();
+        }
+        $scope.on_reset = function(crud){
+            __reset_input_box(crud.content);
+        }
+        $scope.click_to_open = function(crud, item){
+            var req = { cmd : 'cmd_list',   page : {'cur' : 1,} };
+
+            //get the sub_url from the ref item --- 
+            var ref_obj = $scope.crud_create.content[0][3];
+            var sub_url = ref_obj.op_args.items[ref_obj.key-1].url;
+            $scope.sub_url = sub_url // save the sub_url for dialog_tbl_user_customer  to get the dialog select UI
+
+            var ref_item = item;
+            var parent_scope = $scope;
+            __http_req($http, sub_url, req
+            , function(rsp){
+                $scope.cruds = rsp.data;
+                $scope.page_str = __format_page_info($scope.cruds.page);
+                ngDialog.openConfirm(  { 
+                        template: 'template/crud_select.html',
+                        className : 'ngdialog-theme-default custom-width',
+                        controller : 'dialog_tbl_user__customer',
+                        scope : $scope,
+                    }
+                )
+                .then(
+                    function (val){
+                        console.log(" confirm value : " + val);
+                        if(val != null) {
+                            ref_item.key = parseInt(val);
+                            //get the result
+                            var req = {
+                                cmd:'cmd_get_detail_info', 
+                                visitor_type: ref_obj.key,
+                                visitor_id: ref_item.key,
+                            };
+                            console.log("parent_url " + parent_url)
+                            __http_req($http, parent_url, req, function(rsp){
+                                parent_scope.crud_create.content_detail = rsp.data.content_detail;
+                            });
+                        }
+                    },
+                    function (reason){
+                        console.log(" cancel reason : " + reason);
+                    }
+                );
+            });//__http_req
+    } // $scope.click_to_open
+    });
 }]);
 myapp.controller('crudSelectCtrl_user_customer', ['$scope', '$http', '$location', '$routeParams',
 function ($scope, $http, $location, $routeParams){
