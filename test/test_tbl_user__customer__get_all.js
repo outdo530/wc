@@ -7,7 +7,7 @@ var inherits = require("util").inherits;
 var tbl = 'dao_tbl_user__customer';
 
 var host = "127.0.0.1";  // localhost
-var port = 3000;
+var port = 30000;
 var url = "/" + tbl;
 
 req = [
@@ -16,6 +16,7 @@ req = [
     { cmd:'cmd_get_detail', id:0, },
     { cmd:'cmd_get_update_info', id:0 },
     { cmd:'cmd_get_create_info', },
+    { cmd:'cmd_get_detail_info', visitor_type:1, visitor_id:1 },
 ];
 
 
