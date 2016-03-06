@@ -20,7 +20,8 @@
                         <td ng-switch="item[1].op_type">               
                             <p ng-switch-when="select" >
                                 <select ng-model="item[1].key" 
-                                    ng-options='item.key as item.key+ " -- " + item.show_as for item in (item[1].op_args.items | filter_from_key: ( item[1].op_args.filter_ref_xy == null) ? null : crud_create.content[item[1].op_args.filter_ref_xy.x][item[1].op_args.filter_ref_xy.y].key)'>
+                                    ng-options='item.key as item.key+ " -- " + item.show_as for item in (item[1].op_args.items | filter_from_key: ( item[1].op_args.filter_ref_xy == null) ? null : crud_create.content[item[1].op_args.filter_ref_xy.x][item[1].op_args.filter_ref_xy.y].key)'
+                                    ng-change="select_on_changed(crud_create, item[1]);">
                                 </select>
                             </p>
                             <p ng-switch-when="dialog">
@@ -37,7 +38,8 @@
                         <td ng-switch="item[3].op_type">               
                             <p ng-switch-when="select">
                                 <select ng-model="item[3].key" 
-                                    ng-options='item.key as item.key+ " -- " + item.show_as for item in (item[3].op_args.items | filter_from_key: ( item[3].op_args.filter_ref_xy == null) ? null : crud_create.content[item[3].op_args.filter_ref_xy.x][item[3].op_args.filter_ref_xy.y].key)'>
+                                    ng-options='item.key as item.key+ " -- " + item.show_as for item in (item[3].op_args.items | filter_from_key: ( item[3].op_args.filter_ref_xy == null) ? null : crud_create.content[item[3].op_args.filter_ref_xy.x][item[3].op_args.filter_ref_xy.y].key)'
+                                   ng-change="select_on_changed(crud_create, item[3]);" >
                                 </select>
                             </p>
                             <p ng-switch-when="dialog">

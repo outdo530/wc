@@ -58,7 +58,6 @@ function ____get_list(sub_url, $scope, $http, cur, cb){
     , function(rsp){
         $scope.cruds = rsp.data;
         $scope.page_str = __format_page_info($scope.cruds.page);
-        console.log(rsp.data);
         if(cb != null) cb(rsp.data);
     });
 }
@@ -86,7 +85,6 @@ function ____delete_seq_list(sub_url, cruds, vid, $http){
     __http_req($http, sub_url, req
     , function(rsp){
         console.log("delete the seq OK");
-        console.log(cruds);
         for(var con in cruds.content){
             if( cruds.content[con].id = vid){
                 cruds.content.splice(con, 1);
@@ -339,10 +337,8 @@ function ctrl_create(sub_url, $scope, $http, ngDialog){
     __http_req($http, sub_url, req
     , function(rsp){
         $scope.crud_create = rsp.data;
-        console.log(rsp.data);
         $scope.on_create = function(crud){
             debug(fn_pre, "on_confirm");
-            console.log(crud);
             __http_req($http, sub_url, __gen_req_from_info('add', crud)
             , function(rsp){
                 console.log("create OK");
@@ -601,6 +597,11 @@ function($scope, $routeParams, $http, ngDialog){
         $scope.on_reset = function(crud){
             __reset_input_box(crud.content);
         }
+        $scope.select_on_changed = function(crud, item){
+            console.log("select_on_changed:");
+            crud.content_detail = null;
+            crud.content[1][1].key = null;
+        }
         $scope.click_to_open = function(crud, item){
             
             var req = { cmd : 'cmd_list',   page : {'cur' : 1,} };
@@ -660,10 +661,8 @@ function ($scope, $http, ngDialog){
     , function(rsp){
         var parent_url = url;
         $scope.crud_create = rsp.data;
-        console.log(rsp.data);
         $scope.on_create = function(crud){
             debug(fn_pre, "on_confirm");
-            console.log(crud);
             __http_req($http, url, __gen_req_from_info('add', crud)
             , function(rsp){
                 console.log("create OK");
@@ -675,6 +674,11 @@ function ($scope, $http, ngDialog){
         }
         $scope.on_reset = function(crud){
             __reset_input_box(crud.content);
+        }
+        $scope.select_on_changed = function(crud, item){
+            console.log("select_on_changed:");
+            crud.content_detail = null;
+            crud.content[1][1].key = null;
         }
         $scope.click_to_open = function(crud, item){
             var req = { cmd : 'cmd_list',   page : {'cur' : 1,} };
