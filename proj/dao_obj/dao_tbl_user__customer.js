@@ -35,7 +35,7 @@ function Tbl_user__customer(){
 	        visitor_type: { tbl:'a.', key: 'visitor_type',  key_text: '事由类型', key_type: 'label', value_def: 4, value_type: 'number',
                 is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_select(tbl_const.visitor_type),    },
 	        visitor_id: { tbl:'a.', key: 'visitor_id',  key_text: '事由编号', key_type: 'label', value_def: null, value_type: 'number',
-                is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_dialog("/tbl_customer"),  },
+                is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_dialog("/dao_tbl_customer"),  },
             user_id: { tbl:'a.', key: 'user_id',  key_text: '员工编号', key_type: 'label', value_def: 1, value_type: 'text',
                 is_col:1, is_to_set:1, is_detail:1, is_list:1, },
             content: { tbl:'a.', key: 'content',  key_text: '拜访日志', key_type: 'label', value_def: '', value_type: 'text',
