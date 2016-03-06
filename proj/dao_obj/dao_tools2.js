@@ -138,8 +138,10 @@ exports._get_detail_select_sql = function(info){
 
 // get detail info select sql 
 exports._get_detail_info_select_sql = function(info, visitor_type){
+    if( info == null || visitor_type == null || parseInt(visitor_type) < 1 || parseInt(visitor_type) >4 ) return "";
+    var n = parseInt(visitor_type) - 1;
     var sql_fmt = 'select ';
-    var struct = info.visitor_struct[visitor_type-1];
+    var struct = info.visitor_struct[n];
     for(var elem in struct){
         if(struct[elem].is_col==1 && (struct[elem].is_view==1 || struct[elem].is_detail==1 )){
                 sql_fmt += struct[elem].tbl + struct[elem].key;
@@ -148,8 +150,8 @@ exports._get_detail_info_select_sql = function(info, visitor_type){
     }
     
     sql_fmt = sql_fmt.substr(0, sql_fmt.length-2);
-    sql_fmt += ' from '+ info.tbl_visitor_name[visitor_type-1];
-    sql_fmt += ' where ' + info.join_condition[visitor_type-1];
+    sql_fmt += ' from '+ info.tbl_visitor_name[n];
+    sql_fmt += ' where ' + info.join_condition[n];
     return sql_fmt;
 }
 

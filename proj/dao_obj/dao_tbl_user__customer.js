@@ -347,7 +347,7 @@ Tbl_user__customer.prototype.cmd_get_detail_info = function(req, resp, ctx){
     if(this.check_field(req, ctx, "visitor_type",'事由类型',       true, 1,4) == false) return false;
     if(this.check_field(req, ctx, "visitor_id",'事由编号',       true, 1) == false) return false;
  
-    var sql_fmt = dao_tools2._get_detail_info_sql(this._get_tbl_info());
+    var sql_fmt = dao_tools2._get_detail_info_sql(this._get_tbl_info(), req["visitor_type"]);
     return this._dbop_cmd_get_detail_info(sql_fmt, req, resp, ctx);
 }
 
