@@ -318,7 +318,7 @@ Tbl_buyer.prototype._dbop_insert = function(sql_fmt, req, resp, ctx){
                 console.log("results: ", results);
 
                 if( results.length == 1 ){
-                    sql_fmt += '; update tbl_customer set is_buyer = if(is_buyer < 1, 1, is_buyer + 1) where is_del = 0 and id = {cust_id};';
+                    //test// sql_fmt += '; update tbl_customer set is_buyer = if(is_buyer < 1, 1, is_buyer + 1) where is_del = 0 and id = {cust_id};';
                 }
                 else{
                     console.log("err: ", '"客户编号"不存在');
@@ -376,15 +376,15 @@ Tbl_buyer.prototype._dbop_update = function(sql_fmt, req, resp, ctx){
                 console.log("results: ", results);
 
                 if( results.length == 2 ){
-                   sql_fmt = 'update tbl_customer set is_buyer = if( is_buyer < 1, 0, is_buyer - 1 ) where is_del = 0 and id = ' + results[0].cust_id + '; '
-                            + sql_fmt
-                            + '; update tbl_customer set is_buyer = if(is_buyer < 1, 1, is_buyer + 1) where is_del = 0 and id = {cust_id};';
+                   //test// sql_fmt = 'update tbl_customer set is_buyer = if( is_buyer < 1, 0, is_buyer - 1 ) where is_del = 0 and id = ' + results[0].cust_id + '; '
+                   //test//          + sql_fmt
+                   //test//          + '; update tbl_customer set is_buyer = if(is_buyer < 1, 1, is_buyer + 1) where is_del = 0 and id = {cust_id};';
                 }
                 else if( results.length == 1 && results[0].cust_id == results[0].id && results[0].cust_id == req.cust_id ){
-                    sql_fmt += '; update tbl_customer set is_buyer = 1 where is_del = 0 and id = {cust_id} and is_buyer < 1;';
+                    //test// sql_fmt += '; update tbl_customer set is_buyer = 1 where is_del = 0 and id = {cust_id} and is_buyer < 1;';
                 }
                 else if( results.length == 1 && results[0].cust_id != results[0].id && results[0].cust_id != req.cust_id ){
-                    sql_fmt += '; update tbl_customer set is_buyer = if(is_buyer < 1, 1, is_buyer + 1) where is_del = 0 and id = {cust_id};';
+                    //test// sql_fmt += '; update tbl_customer set is_buyer = if(is_buyer < 1, 1, is_buyer + 1) where is_del = 0 and id = {cust_id};';
                 }
                 else{
                     console.log("err: ", '"客户编号"不存在');
@@ -443,7 +443,7 @@ Tbl_buyer.prototype._dbop_remove = function(sql_fmt, req, resp, ctx){
                 console.log("results: ", results);
 
                 if( results.length == 1 ){
-                    sql_fmt += '; update tbl_customer set is_buyer = if(is_buyer <= 1, 0, is_buyer - 1) where is_del = 0 and id = ' + results[0].cust_id + ';';
+                    //test// sql_fmt += '; update tbl_customer set is_buyer = if(is_buyer <= 1, 0, is_buyer - 1) where is_del = 0 and id = ' + results[0].cust_id + ';';
                 }
                 else{
                     console.log("err: ", '"买方"不存在');
@@ -502,7 +502,7 @@ Tbl_buyer.prototype._dbop_recover = function(sql_fmt, req, resp, ctx){
                 console.log("results: ", results);
 
                 if( results.length == 1 ){
-                    sql_fmt += '; update tbl_customer set is_buyer = if(is_buyer < 1, 1, is_buyer + 1) where is_del = 0 and id = ' + relusts[0].cust_id + ';';
+                    //test// sql_fmt += '; update tbl_customer set is_buyer = if(is_buyer < 1, 1, is_buyer + 1) where is_del = 0 and id = ' + relusts[0].cust_id + ';';
                 }
                 else{
                     console.log("err: ", '"买方"不存在');
