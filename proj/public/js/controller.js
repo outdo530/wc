@@ -53,6 +53,18 @@ function __error_info(prefix, rsp){
     alert('错误:' + rsp.result_string); //TODO: to a diaglog
     console.log("Error Info: ------------- end")
 }
+
+function __handle_date_modify(content){
+    for( var i in content){
+        for(var j in content[i]){
+            if(content[i][j].type == "datetime-local"){
+                content[i][j].key = new Date(content[i][j].key);
+                //content[i][j].key = new Date('2015-02-19 13:44:34.103');
+            }
+        }
+    }
+}
+
 function __http_req($http, sub_url, req, cb){
     $http.post(base_url + sub_url, req)
     .success( function(data, status, headers, config){
@@ -289,6 +301,7 @@ function ctrl_detail(sub_url, $scope, $routeParams, $http){
     };
     __http_req($http, sub_url, req
     , function(rsp){
+        __handle_date_modify(rsp.data.content);
         $scope.crud_detail = rsp.data;
     });
 }
@@ -597,16 +610,6 @@ function($scope, $routeParams, $http){
 
 
 
-function __handle_date(content){
-    for( var i in content){
-        for(var j in content[i]){
-            if(content[i][j].type == "datetime-local"){
-                content[i][j].key = new Date(content[i][j].key);
-                //content[i][j].key = new Date('2015-02-19 13:44:34.103');
-            }
-        }
-    }
-}
 
 myapp.controller('crudUpdateCtrl_user_customer', ['$scope', '$routeParams', '$http', 'ngDialog', 
 function($scope, $routeParams, $http, ngDialog){
@@ -625,8 +628,8 @@ function($scope, $routeParams, $http, ngDialog){
     , function(rsp){
         var parent_url = url;
 
+        __handle_date_modify(rsp.data.content);
         $scope.crud_update = rsp.data;
-        __handle_date($scope.crud_update.content);
 
         $scope.on_confirm = function(crud){
             debug(fn_pre, "crudUpdateCtrl-on_confirm");
@@ -705,7 +708,10 @@ function ($scope, $http, ngDialog){
     __http_req($http, url, req
     , function(rsp){
         var parent_url = url;
+
+        __handle_date_modify(rsp.data.content);
         $scope.crud_create = rsp.data;
+
         $scope.on_create = function(crud){
             debug(fn_pre, "on_confirm");
             __http_req($http, url, __gen_req_from_info('add', crud)
