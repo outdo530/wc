@@ -266,7 +266,6 @@ Tbl_customer.prototype.cmd_get_create_info = function(req, resp, ctx){
 Tbl_customer.prototype._dbop_cmd_list = function(sql_fmt, req, resp, ctx){
 
     var sql_fmt_content = sql_fmt + " limit {start}, {cnt};";
-    console.log("sql: ", tools.format_object(sql_fmt_content, req));
 
     var dao_obj = this;
     var mysql_conn = require("../mysql_conn").create_short();
@@ -274,15 +273,16 @@ Tbl_customer.prototype._dbop_cmd_list = function(sql_fmt, req, resp, ctx){
         tools.format_object(sql_fmt_content, req),
         function (err, results, fields){
             if(err) {
+                console.log("sql: ", tools.format_object(sql_fmt_content, req));
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
-                resp.result_string = "Select failed: " + err;
+                resp.result_string = "列表出错: " + err;
                 mysql_conn.end();
                 dao_obj.render_resp(resp, ctx);
             }
             else{
                 var sql_fmt_count = "select count(1) cnt from ({sql}) v_list_area";
-                console.log("sql: ", tools.format_object(sql_fmt_count, {sql: tools.format_object(sql_fmt, req)}));
+                console.log(tools.format_object(sql_fmt_count, {sql: tools.format_object(sql_fmt, req)}));
                 mysql_conn.query(
                     tools.format_object(sql_fmt_count, {sql: tools.format_object(sql_fmt, req)}),
                     function (n_err, n_results, n_fields){
@@ -290,13 +290,14 @@ Tbl_customer.prototype._dbop_cmd_list = function(sql_fmt, req, resp, ctx){
                             console.log("sql: ", tools.format_object(sql_fmt_count, {sql: tools.format_object(sql_fmt, req)}));
                             console.log("err: ", n_err);
                             resp.result = ErrorCode.db_sel_failed;
-                            resp.result_string = "Select failed: " + err;
+                            resp.result_string = "获取数据出错: " + n_err;
                         }
                         else{
                             resp.result = 0;
                             resp.result_string = "OK";
                             resp.data = dao_tools._get_list_data(dao_obj._get_tbl_info(), results, req.page.cur, n_results[0].cnt);
                         }
+                        //console.log("result: ", results);
                         mysql_conn.end();
                         dao_obj.render_resp(resp, ctx);
                     });
@@ -312,21 +313,21 @@ Tbl_customer.prototype._dbop_cmd_search = function(sql_fmt, req, resp, ctx){
     var sql_fmt_content = sql_fmt + " limit {start}, {cnt};";
 
     var dao_obj = this;
-    console.log("sql: ", tools.format_object(sql_fmt_content, req));
     var mysql_conn = require("../mysql_conn").create_short();
     mysql_conn.query(
         tools.format_object(sql_fmt_content, req),
         function (err, results, fields){
             if(err) {
+                console.log("sql: ", tools.format_object(sql_fmt_content, req));
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
-                resp.result_string = "Select failed: " + err;
+                resp.result_string = "搜索出错: " + err;
                 mysql_conn.end();
                 dao_obj.render_resp(resp, ctx);
             }
             else{
                 var sql_fmt_count = "select count(1) cnt from ({sql}) v_list_area";
-                console.log("sql: ", tools.format_object(sql_fmt_count, {sql: tools.format_object(sql_fmt, req)}));
+                console.log(tools.format_object(sql_fmt_count, {sql: tools.format_object(sql_fmt, req)}));
                 mysql_conn.query(
                     tools.format_object(sql_fmt_count, {sql: tools.format_object(sql_fmt, req)}),
                     function (n_err, n_results, n_fields){
@@ -334,13 +335,14 @@ Tbl_customer.prototype._dbop_cmd_search = function(sql_fmt, req, resp, ctx){
                             console.log("sql: ", tools.format_object(sql_fmt_count, {sql: tools.format_object(sql_fmt, req)}));
                             console.log("err: ", n_err);
                             resp.result = ErrorCode.db_sel_failed;
-                            resp.result_string = "Select failed: " + err;
+                            resp.result_string = "获取数据出错: " + n_err;
                         }
                         else{
                             resp.result = 0;
                             resp.result_string = "OK";
                             resp.data = dao_tools._get_search_data(dao_obj._get_tbl_info(), results, req.page.cur, n_results[0].cnt);
                         }
+                        //console.log("result: ", results);
                         mysql_conn.end();
                         dao_obj.render_resp(resp, ctx);
                     });
@@ -353,15 +355,15 @@ Tbl_customer.prototype._dbop_cmd_search = function(sql_fmt, req, resp, ctx){
 // dbop: get_detail
 Tbl_customer.prototype._dbop_cmd_get_detail = function(sql_fmt, req, resp, ctx){
     var dao_obj = this;
-    console.log("sql: ", tools.format_object(sql_fmt, req));
     var mysql_conn = require("../mysql_conn").create_short();
     mysql_conn.query(
         tools.format_object(sql_fmt, req),
         function (err, results, fields){
             if(err) {
+                console.log("sql: ", tools.format_object(sql_fmt, req));
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
-                resp.result_string = "Select failed: " + err;
+                resp.result_string = "获取数据出错: " + err;
             }
             else{
                 resp.result = 0;
@@ -378,15 +380,15 @@ Tbl_customer.prototype._dbop_cmd_get_detail = function(sql_fmt, req, resp, ctx){
 // dbop: get_update_info
 Tbl_customer.prototype._dbop_cmd_get_update_info = function(sql_fmt, req, resp, ctx){
     var dao_obj = this;
-    console.log("sql: ", tools.format_object(sql_fmt, req));
     var mysql_conn = require("../mysql_conn").create_short();
     mysql_conn.query(
         tools.format_object(sql_fmt, req),
         function (err, results, fields){
             if(err) {
+                console.log("sql: ", tools.format_object(sql_fmt, req));
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
-                resp.result_string = "Select failed: " + err;
+                resp.result_string = "获取数据出错: " + err;
             }
             else{
                 resp.result = 0;
@@ -403,25 +405,6 @@ Tbl_customer.prototype._dbop_cmd_get_update_info = function(sql_fmt, req, resp, 
 // dbop: get_create_info
 Tbl_customer.prototype._dbop_cmd_get_create_info = function(sql_fmt, req, resp, ctx){
     var dao_obj = this;
-    /*console.log("sql: ", tools.format_object(sql_fmt, req));
-    var mysql_conn = require("../mysql_conn").create_short();
-    mysql_conn.query(
-        tools.format_object(sql_fmt, req),
-        function (err, results, fields){
-            if(err) {
-                console.log("err: ", err);
-                resp.result = ErrorCode.db_sel_failed;
-                resp.result_string = "Select failed: " + err;
-            }
-            else{
-                resp.result = 0;
-                resp.result_string = "OK";
-                resp.data = dao_tools._get_create_info(dao_obj._get_tbl_info());
-            }
-            mysql_conn.end();
-            dao_obj.render_resp(resp, ctx);
-        }
-    );*/
     resp.result = 0;
     resp.result_string = "OK";
     resp.data = dao_tools._get_create_info(dao_obj._get_tbl_info());

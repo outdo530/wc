@@ -304,7 +304,7 @@ Tbl_user.prototype._dbop_cmd_list = function(sql_fmt, req, resp, ctx){
                 console.log("sql: ", tools.format_object(sql_fmt_content, req));
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
-                resp.result_string = "Select failed: " + err;
+                resp.result_string = "列表出错: " + err;
                 mysql_conn.end();
                 dao_obj.render_resp(resp, ctx);
             }
@@ -318,14 +318,14 @@ Tbl_user.prototype._dbop_cmd_list = function(sql_fmt, req, resp, ctx){
                             console.log("sql: ", tools.format_object(sql_fmt_count, {sql: tools.format_object(sql_fmt, req)}));
                             console.log("err: ", n_err);
                             resp.result = ErrorCode.db_sel_failed;
-                            resp.result_string = "Select failed: " + err;
+                            resp.result_string = "获取数据出错: " + n_err;
                         }
                         else{
                             resp.result = 0;
                             resp.result_string = "OK";
                             resp.data = dao_tools._get_list_data(dao_obj._get_tbl_info(), results, req.page.cur, n_results[0].cnt);
                         }
-                        console.log("result: ", results);
+                        //console.log("result: ", results);
                         mysql_conn.end();
                         dao_obj.render_resp(resp, ctx);
                     });
@@ -349,7 +349,7 @@ Tbl_user.prototype._dbop_cmd_search = function(sql_fmt, req, resp, ctx){
                 console.log("sql: ", tools.format_object(sql_fmt_content, req));
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
-                resp.result_string = "Select failed: " + err;
+                resp.result_string = "搜索出错: " + err;
                 mysql_conn.end();
                 dao_obj.render_resp(resp, ctx);
             }
@@ -363,14 +363,14 @@ Tbl_user.prototype._dbop_cmd_search = function(sql_fmt, req, resp, ctx){
                             console.log("sql: ", tools.format_object(sql_fmt_count, {sql: tools.format_object(sql_fmt, req)}));
                             console.log("err: ", n_err);
                             resp.result = ErrorCode.db_sel_failed;
-                            resp.result_string = "Select failed: " + err;
+                            resp.result_string = "获取数据出错: " + n_err;
                         }
                         else{
                             resp.result = 0;
                             resp.result_string = "OK";
                             resp.data = dao_tools._get_search_data(dao_obj._get_tbl_info(), results, req.page.cur, n_results[0].cnt);
                         }
-                        console.log("result: ", results);
+                        //console.log("result: ", results);
                         mysql_conn.end();
                         dao_obj.render_resp(resp, ctx);
                     });
@@ -391,7 +391,7 @@ Tbl_user.prototype._dbop_cmd_get_detail = function(sql_fmt, req, resp, ctx){
                 console.log("sql: ", tools.format_object(sql_fmt, req));
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
-                resp.result_string = "Select failed: " + err;
+                resp.result_string = "获取数据出错: " + err;
             }
             else{
                 resp.result = 0;
@@ -416,7 +416,7 @@ Tbl_user.prototype._dbop_cmd_get_update_info = function(sql_fmt, req, resp, ctx)
                 console.log("sql: ", tools.format_object(sql_fmt, req));
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
-                resp.result_string = "Select failed: " + err;
+                resp.result_string = "获取数据出错: " + err;
             }
             else{
                 resp.result = 0;
@@ -441,7 +441,7 @@ Tbl_user.prototype._dbop_cmd_get_create_info = function(sql_fmt, req, resp, ctx)
             if(err) {
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
-                resp.result_string = "Select failed: " + err;
+                resp.result_string = "获取数据出错: " + err;
             }
             else{
                 resp.result = 0;
@@ -495,7 +495,7 @@ Tbl_user.prototype._dbop_insert_unique= function(sql_fmt_is_exist, sql_fmt, req,
             if(err) { 
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_ins_failed;
-                resp.result_string = "Judge failed: " + err;
+                resp.result_string = "验证出错: " + err;
 	        mysql_conn.end();
 	        dao_obj.render_resp(resp, ctx);
             }
@@ -508,7 +508,7 @@ Tbl_user.prototype._dbop_insert_unique= function(sql_fmt_is_exist, sql_fmt, req,
  		            if(err) { 
 		                console.log("err: ", err);
 		                resp.result = ErrorCode.db_ins_failed;
-		                resp.result_string = "Insert failed: " + err;
+		                resp.result_string = "创建失败: " + err;
 			    }
 			    else{
                 		console.log( "new record row id : " +  results.insertId);
@@ -527,7 +527,7 @@ Tbl_user.prototype._dbop_insert_unique= function(sql_fmt_is_exist, sql_fmt, req,
 		}
 		else{
 	            resp.result = 0;
-                    resp.result_string = "Insert failed: already exist";
+                    resp.result_string = "创建失败，记录已存在";
 	            mysql_conn.end();
 	            dao_obj.render_resp(resp, ctx);
 		}

@@ -27,9 +27,9 @@ function Tbl_seller(){
                 is_col:1, is_to_set:1, is_detail:1, op: tbl_const.op_type_text(), },
 	        bad_property_desc: { tbl: 'a.', key: 'bad_property_desc',  key_text: '船舶不良资产描述', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_to_set:1, is_detail:1, op: tbl_const.op_type_text(), },
-	        class_1: { tbl: 'a.', key: 'class_1',  key_text: '一级分类', key_type: 'label', value_def: null, value_type: 'number',
+	        class_1: { tbl: 'a.', key: 'class_1',  key_text: '一级分类', key_type: 'label', value_def: 1, value_type: 'number',
                 is_col:1, is_to_set:1, is_detail:1, is_list:1, op: tbl_const.op_type_select(tbl_const.ship_class_1),},
-	        class_2: { tbl: 'a.', key: 'class_2',  key_text: '二级分类', key_type: 'label', value_def: null, value_type: 'number',
+	        class_2: { tbl: 'a.', key: 'class_2',  key_text: '二级分类', key_type: 'label', value_def: 1001, value_type: 'number',
                 is_col:1, is_to_set:1, is_detail:1, is_list:1, op: tbl_const.op_type_select(tbl_const.ship_class_2),},
 	        class_3: { tbl: 'a.', key: 'class_3',  key_text: '三级分类', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_text(),},
@@ -331,7 +331,7 @@ Tbl_seller.prototype._dbop_insert = function(sql_fmt, req, resp, ctx){
                         if(n_err){
                             console.log("err: ", n_err);
                             resp.result = ErrorCode.db_ins_failed;
-                            resp.result_string = '增加"卖方"失败: ' + n_err;
+                            resp.result_string = '创建失败: ' + n_err;
                         }
                         else{
                             resp.result = 0;
@@ -397,7 +397,7 @@ Tbl_seller.prototype._dbop_update = function(sql_fmt, req, resp, ctx){
                         if(n_err){
                             console.log("err: ", n_err);
                             resp.result = ErrorCode.db_upd_failed;
-                            resp.result_string = '更新"卖方"失败: ' + n_err;
+                            resp.result_string = '更新失败: ' + n_err;
                         }
                         else{
                             resp.result = 0;
@@ -456,7 +456,7 @@ Tbl_seller.prototype._dbop_remove = function(sql_fmt, req, resp, ctx){
                         if(n_err){
                             console.log("err: ", n_err);
                             resp.result = ErrorCode.db_del_failed;
-                            resp.result_string = '删除"卖方"失败: ' + n_err;
+                            resp.result_string = '删除失败: ' + n_err;
                         }
                         else{
                             resp.result = 0;
@@ -515,7 +515,7 @@ Tbl_seller.prototype._dbop_recover = function(sql_fmt, req, resp, ctx){
                         if(n_err){
                             console.log("err: ", n_err);
                             resp.result = ErrorCode.db_sel_failed;
-                            resp.result_string = '恢复"卖方"失败: ' + n_err;
+                            resp.result_string = '恢复失败: ' + n_err;
                         }
                         else{
                             resp.result = 0;
@@ -546,7 +546,7 @@ Tbl_seller.prototype._dbop_cmd_list = function(sql_fmt, req, resp, ctx){
                 console.log("sql: ", tools.format_object(sql_fmt_content, req));
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
-                resp.result_string = "获取列表出错: " + err;
+                resp.result_string = "列表出错: " + err;
                 mysql_conn.end();
                 dao_obj.render_resp(resp, ctx);
             }
@@ -560,7 +560,7 @@ Tbl_seller.prototype._dbop_cmd_list = function(sql_fmt, req, resp, ctx){
                             console.log("sql: ", tools.format_object(sql_fmt_count, {sql: tools.format_object(sql_fmt, req)}));
                             console.log("err: ", n_err);
                             resp.result = ErrorCode.db_sel_failed;
-                            resp.result_string = "获取列表长度出错: " + n_err;
+                            resp.result_string = "获取数据出错: " + n_err;
                         }
                         else{
                             resp.result = 0;
@@ -605,7 +605,7 @@ Tbl_seller.prototype._dbop_cmd_search = function(sql_fmt, req, resp, ctx){
                             console.log("sql: ", tools.format_object(sql_fmt_count, {sql: tools.format_object(sql_fmt, req)}));
                             console.log("err: ", n_err);
                             resp.result = ErrorCode.db_sel_failed;
-                            resp.result_string = "获取搜索结果长度出错: " + n_err;
+                            resp.result_string = "获取数据出错: " + n_err;
                         }
                         else{
                             resp.result = 0;
@@ -633,7 +633,7 @@ Tbl_seller.prototype._dbop_cmd_get_detail = function(sql_fmt, req, resp, ctx){
                 console.log("sql: ", tools.format_object(sql_fmt, req));
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
-                resp.result_string = "获取详情出错: " + err;
+                resp.result_string = "获取数据出错: " + err;
             }
             else{
                 resp.result = 0;
@@ -658,7 +658,7 @@ Tbl_seller.prototype._dbop_cmd_get_update_info = function(sql_fmt, req, resp, ct
                 console.log("sql: ", tools.format_object(sql_fmt, req));
                 console.log("err: ", err);
                 resp.result = ErrorCode.db_sel_failed;
-                resp.result_string = "获取更新信息出错: " + err;
+                resp.result_string = "获取数据出错: " + err;
             }
             else{
                 resp.result = 0;
