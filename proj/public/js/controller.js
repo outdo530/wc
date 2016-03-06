@@ -573,7 +573,7 @@ function($scope, $routeParams, $http){
 myapp.controller('crudUpdateCtrl_user_customer', ['$scope', '$routeParams', '$http', 'ngDialog', 
 function($scope, $routeParams, $http, ngDialog){
     // ctrl_update("/dao_tbl_user__customer", $scope, $routeParams, $http, ngDialog);
-    var sub_url = "/dao_tbl_user__customer"
+    var url = "/dao_tbl_user__customer"
     debug(fn_pre , "crudUpdateCtrl--OK");
 
     var crud_id =  $routeParams["crud_id"];
@@ -583,12 +583,13 @@ function($scope, $routeParams, $http, ngDialog){
         cmd : 'cmd_get_update_info',
         id :crud_id,
     };
-    __http_req($http, sub_url, req
+    __http_req($http, url, req
     , function(rsp){
+        var parent_url = url;
         $scope.crud_update = rsp.data; 
         $scope.on_confirm = function(crud){
             debug(fn_pre, "crudUpdateCtrl-on_confirm");
-            __http_req($http, sub_url, __gen_req_from_info('update', crud)
+            __http_req($http, url, __gen_req_from_info('update', crud)
             , function(rsp){
                 console.log("update OK");
                 alert("update OK!");
@@ -609,11 +610,12 @@ function($scope, $routeParams, $http, ngDialog){
             $scope.sub_url = sub_url
 
             var ref_item = item;
+            var parent_scope = $scope; //save the root scope to change detail
             __http_req($http, sub_url, req
             , function(rsp){
-                $scope.cruds = rsp.data;
+                $scope.cruds = rsp.data; //scope is the dialog info from backend
                 $scope.page_str = __format_page_info($scope.cruds.page);
-                
+                var p_scope = parent_scope;
                 ngDialog.openConfirm(  { 
                         template: 'template/crud_select.html',
                         className : 'ngdialog-theme-default custom-width',
@@ -626,18 +628,16 @@ function($scope, $routeParams, $http, ngDialog){
                         console.log("dialog --> confirm value : " + val);
                         if(val != null) {
                             ref_item.key = parseInt(val);
-
-                            //TODO:  send a http_req to get the $scope.crud_update.content_detail
-                            console.log("send http_req to get sub detail  ");
+                            //get the result
                             var req = {
-                                cmd:'cmd_list', 
-                                sub_url: sub_url,
-                                key: ref_obj.key,
-                                index : ref_item.key,
-                                //detail:$scope.crud_update.content_detail,
-                            }
-                            console.log(req);
-                            //TODO:????
+                                cmd:'cmd_get_detail_info', 
+                                visitor_type: ref_obj.key,
+                                visitor_id: ref_item.key,
+                            };
+                            console.log("parent_url " + parent_url)
+                            __http_req($http, parent_url, req, function(rsp){
+                                p_scope.crud_update.content_detail = rsp.data.content_detail;
+                            });
                         }
                     },
                     function (reason){
