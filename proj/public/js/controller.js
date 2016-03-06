@@ -13,6 +13,30 @@
 var fn_pre = 'controller.js-->'
 
 
+Date.prototype.Format = function(fmt)   
+{ //author: meizz   
+  var o = {   
+    "M+" : this.getMonth()+1,                 
+    "d+" : this.getDate(),                    
+    "h+" : this.getHours(),                   
+    "m+" : this.getMinutes(),                 
+    "s+" : this.getSeconds(),                 
+    "q+" : Math.floor((this.getMonth()+3)/3), 
+    "S"  : this.getMilliseconds()             
+  };   
+  if(/(y+)/.test(fmt))   
+    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));   
+  for(var k in o)   
+    if(new RegExp("("+ k +")").test(fmt))   
+  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
+  return fmt;   
+}  
+Date.prototype.toString = function(){
+    return this.Format('yyyy-MM-dd hh:mm:ss')
+}
+
+
+
 function __format_page_info(page){
     //return String.format("第{0}页，共{1}页，{2}条/页", page.cur, page.total, page.size);
     return String.format("第{0}页，共{1}页", page.cur, page.total);
@@ -110,7 +134,6 @@ function __reset_input_box(content){
                 }
                 else if(tp == "datetime-local"){
                     item.key = new Date();
-                    //"yyyy-MM-ddTHH:mm:ss"
                 }
                 else if(tp == "label"){
                     // silence
@@ -132,7 +155,9 @@ function __gen_req_from_info(op_cmd, crud){
             if(it % 2 != 0){
                 var key = crud.content[con][it].col_nm;
                 var val = crud.content[con][it].key;
-                if(key != null) req[key] = val
+                if(key != null){ 
+                    req[key] = (typeof(val) != "undefined" && val != null) ? val.toString() : val;
+                }
             }
         }
     }
@@ -385,6 +410,9 @@ function ctrl_select(sub_url, $scope, $http, $location, $routeParams){
     debug_obj($routeParams);
 
     ____get_list(sub_url, $scope, $http, 1, function(cruds){
+        //special for select_list_title 
+        cruds.list_title = cruds.list_title.slice(0, cruds.list_title.length-2);
+
         $scope.on_delete_seq = function(crud){
             __on_delete_seq(sub_url, cruds, crud, $http);
         }
@@ -566,6 +594,20 @@ myapp.controller('crudDetailCtrl_user_customer', ['$scope', '$routeParams', '$ht
 function($scope, $routeParams, $http){
     ctrl_detail("/dao_tbl_user__customer", $scope, $routeParams, $http);
 }]);
+
+
+
+function __handle_date(content){
+    for( var i in content){
+        for(var j in content[i]){
+            if(content[i][j].type == "datetime-local"){
+                content[i][j].key = new Date(content[i][j].key);
+                //content[i][j].key = new Date('2015-02-19 13:44:34.103');
+            }
+        }
+    }
+}
+
 myapp.controller('crudUpdateCtrl_user_customer', ['$scope', '$routeParams', '$http', 'ngDialog', 
 function($scope, $routeParams, $http, ngDialog){
     // ctrl_update("/dao_tbl_user__customer", $scope, $routeParams, $http, ngDialog);
@@ -582,7 +624,10 @@ function($scope, $routeParams, $http, ngDialog){
     __http_req($http, url, req
     , function(rsp){
         var parent_url = url;
-        $scope.crud_update = rsp.data; 
+
+        $scope.crud_update = rsp.data;
+        __handle_date($scope.crud_update.content);
+
         $scope.on_confirm = function(crud){
             debug(fn_pre, "crudUpdateCtrl-on_confirm");
             __http_req($http, url, __gen_req_from_info('update', crud)
@@ -680,6 +725,7 @@ function ($scope, $http, ngDialog){
             crud.content_detail = null;
             crud.content[1][1].key = null;
         }
+        //console.log(new Date());
         $scope.click_to_open = function(crud, item){
             var req = { cmd : 'cmd_list',   page : {'cur' : 1,} };
 
