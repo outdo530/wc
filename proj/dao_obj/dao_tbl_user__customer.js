@@ -1,5 +1,10 @@
 var inherits = require("util").inherits;
+var ErrorCode = require("../error_code");
+var tools = require("../tools");
+
 var tbl_const = require("./tbl_const");
+var dao_tools2 = require("./dao_tools2");
+
 var Dao = require("../dao");
 function Tbl_user__customer(){
     Dao.call(this);
@@ -40,9 +45,9 @@ function Tbl_user__customer(){
                 is_col:1, is_to_set:1, is_detail:1, is_list:1, },
             content: { tbl:'a.', key: 'content',  key_text: '拜访日志', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_text_area(), },
-	        start_dt: { tbl:'a.', key: 'start_dt',  key_text: '开始时间', key_type: 'label', value_def: new Date(), value_type: 'datetime-local',//'datetime-local'
+	        start_dt: { tbl:'a.', key: 'start_dt',  key_text: '开始时间', key_type: 'label', value_def: new Date().Format("yyyy-MM-dd hh:mm:ss"), value_type: 'datetime-local',//'datetime-local'
                 is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_text(), },
-	        end_dt: { tbl:'a.', key: 'end_dt',  key_text: '结束时间', key_type: 'label', value_def: new Date(), value_type: 'datetime-local',
+	        end_dt: { tbl:'a.', key: 'end_dt',  key_text: '结束时间', key_type: 'label', value_def: new Date().Format("yyyy-MM-dd hh:mm:ss"), value_type: 'datetime-local',
                 is_col:1, is_to_set:1,  is_detail:1, is_list:1, op: tbl_const.op_type_text(), },
 	        remark: { tbl:'a.', key: 'remark',  key_text: '备注', key_type: 'label', value_def: '', value_type: 'text',
                 is_col:1,  },
@@ -154,11 +159,6 @@ function Tbl_user__customer(){
 }
 inherits(Tbl_user__customer, Dao);
 
-var util = require("util");
-var ErrorCode = require("../error_code");
-var tools = require("../tools");
-var dao_tools2 = require("./dao_tools2");
-
 // get tbl info
 Tbl_user__customer.prototype._get_tbl_info = function(){
     return Tbl_user__customer.info;
@@ -174,10 +174,13 @@ Tbl_user__customer.prototype.add = function(req, resp, ctx){
     if(this.check_field(req, ctx, "visitor_type",'事由类型',       true, 1,4) == false) return false;
     if(this.check_field(req, ctx, "visitor_id",'事由编号',       true, 1) == false) return false;
     if(this.check_field(req, ctx, "user_id",'员工编号',       true, 0) == false) return false;
-    if(this.check_field(req, ctx, "start_dt",'开始时间',       true, 0,64) == false) return false;
-    if(this.check_field(req, ctx, "end_dt",'结束时间',       true, 0,64) == false) return false;
+    if(this.check_field(req, ctx, "start_dt",'开始时间',       true, 1,64) == false) return false;
+    if(this.check_field(req, ctx, "end_dt",'结束时间',       true, 1,64) == false) return false;
     if(this.check_field(req, ctx, "content", '拜访日志',      true, 1,1024) == false) return false;
     
+    req["start_dt"] = new Date(req["start_dt"]).Format("yyyy-MM-dd hh:mm:ss");
+    req["end_dt"] = new Date(req["end_dt"]).Format("yyyy-MM-dd hh:mm:ss");
+
     var sql_fmt = dao_tools2._get_add_sql(this._get_tbl_info());
     return this._dbop_insert(sql_fmt, req, resp, ctx);
 }
@@ -190,30 +193,6 @@ Tbl_user__customer.prototype.is_exist = function(req, resp, ctx){
     var sql_fmt = dao_tools2._get_is_exist_sql(this._get_tbl_info());
     return this._dbop_is_exist(sql_fmt, req, resp, ctx);
 }
-// 对Date的扩展，将 Date 转化为指定格式的String   
-// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，   
-// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)   
-// 例子：   
-// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423   
-// (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18   
-Date.prototype.Format = function(fmt)   
-{ //author: meizz
-  var o = { 
-    "M+" : this.getMonth()+1,                 //月份   
-    "d+" : this.getDate(),                    //日   
-    "h+" : this.getHours(),                   //小时   
-    "m+" : this.getMinutes(),                 //分   
-    "s+" : this.getSeconds(),                 //秒   
-    "q+" : Math.floor((this.getMonth()+3)/3), //季度   
-    "S"  : this.getMilliseconds()             //毫秒   
-  };
-  if(/(y+)/.test(fmt))   
-    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));   
-  for(var k in o)   
-    if(new RegExp("("+ k +")").test(fmt))   
-  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
-  return fmt;   
-}  
 
 // cmd: update
 Tbl_user__customer.prototype.update = function(req, resp, ctx){

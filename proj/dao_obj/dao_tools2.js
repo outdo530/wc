@@ -1,5 +1,51 @@
 var util = require("util");
 var tbl_const = require("./tbl_const");
+
+// 对Date的扩展，将 Date 转化为指定格式的String   
+// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，   
+// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)   
+// 例子：   
+// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423   
+// (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18   
+Date.prototype.Format = function(fmt)   
+{ //author: meizz
+  var o = { 
+    "M+" : this.getMonth()+1,                 //月份   
+    "d+" : this.getDate(),                    //日   
+    "h+" : this.getHours(),                   //小时   
+    "m+" : this.getMinutes(),                 //分   
+    "s+" : this.getSeconds(),                 //秒   
+    "q+" : Math.floor((this.getMonth()+3)/3), //季度   
+    "S"  : this.getMilliseconds()             //毫秒   
+  };
+  if(/(y+)/.test(fmt))   
+    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));   
+  for(var k in o)   
+    if(new RegExp("("+ k +")").test(fmt))   
+  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
+  return fmt;   
+}
+
+Date.prototype.toString = function()   
+{ //author: meizz
+    var fmt = "yyyy-MM-dd hh:mm:ss";
+  var o = { 
+    "M+" : this.getMonth()+1,                 //月份   
+    "d+" : this.getDate(),                    //日   
+    "h+" : this.getHours(),                   //小时   
+    "m+" : this.getMinutes(),                 //分   
+    "s+" : this.getSeconds(),                 //秒   
+    "q+" : Math.floor((this.getMonth()+3)/3), //季度   
+    "S"  : this.getMilliseconds()             //毫秒   
+  };
+  if(/(y+)/.test(fmt))   
+    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));   
+  for(var k in o)   
+    if(new RegExp("("+ k +")").test(fmt))   
+  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
+  return fmt;   
+}  
+
 // get base sql:
 
 // sql: get_set_sql
@@ -235,9 +281,11 @@ exports._get_content = function(info, res){
             data[i][k++] = { key: struct[elem].key_text, type: struct[elem].key_type };
             data[i][k] = {
                 key: ( struct[elem].value_type == 'number'
-                             ? (res == null ? struct[elem].value_def : parseInt(res[struct[elem].key]))
-                             : (res == null || struct[elem].is_col!=1 ? struct[elem].value_def : res[struct[elem].key]) ),
+                     ? (res == null ? struct[elem].value_def : parseInt(res[struct[elem].key]))
+                     : (res == null || struct[elem].is_col!=1 ? struct[elem].value_def : res[struct[elem].key]) ),
                 type: struct[elem].value_type,
+                //vt: typeof(res == null ? struct[elem].value_def : res[struct[elem].key]),
+
             };
             if(struct[elem].value_type == 'number'){
                 data[i][k]['min'] = 0;
@@ -275,6 +323,7 @@ exports._get_detail_info_content = function(info, res, visitor_type){
                              ? (res == null ? struct[elem].value_def : parseInt(res[struct[elem].key]))
                              : (res == null || struct[elem].is_col!=1 ? struct[elem].value_def : res[struct[elem].key]) ),
                 type: struct[elem].value_type,
+                //vt: typeof(res == null ? struct[elem].value_def : res[struct[elem].key]),
             };
             if(struct[elem].value_type == 'number'){
                 data[i][k]['min'] = 0;
@@ -311,10 +360,27 @@ exports._get_detail_content = function(info, res1, res2){
             data[i][k++] = { key: struct[elem].key_text, type: struct[elem].key_type };
             data[i][k] = {
                 key: ( struct[elem].value_type == 'number'
-                             ? (res == null ? struct[elem].value_def : parseInt(res[struct[elem].key]))
-                             : (res == null || struct[elem].is_col!=1 ? struct[elem].value_def : res[struct[elem].key]) ),
+                     ? (res == null ? struct[elem].value_def : parseInt(res[struct[elem].key]))
+                     //: struct[elem].value_type == 'datetime-local'
+                     //? new Date(res == null ? struct[elem].value_def : res[struct[elem].key]).Format('yyyy-MM-dd hh:mm:ss')
+                     : (res == null || struct[elem].is_col!=1 ? struct[elem].value_def : res[struct[elem].key]) ),
                 type: struct[elem].value_type,
+                //vt: typeof(res == null ? struct[elem].value_def : res[struct[elem].key]),
             };
+
+/*
+            switch(struct[elem].value_type){
+            case 'number':
+                data[i][k]['key'] = res == null ? struct[elem].value_def : parseInt(res[struct[elem].key]);
+                break;
+            case 'datetime-local':
+                data[i][k]['key'] = new Date(res == null ? struct[elem].value_def : res[struct[elem].key]).Format("yyyy-MM-dd hh:mm:ss");
+                break;
+            default:
+                data[i][k]['key'] = (res == null || struct[elem].is_col!=1) ? struct[elem].value_def : res[struct[elem].key] ;
+            }
+            data[i][k]['type'] = struct[elem].value_type;
+*/
             if(struct[elem].value_type == 'number'){
                 data[i][k]['min'] = 0;
                 data[i][k]['max'] = 100000000;
@@ -343,6 +409,8 @@ exports._get_detail_content = function(info, res1, res2){
                              ? (res == null ? struct[elem].value_def : parseInt(res[struct[elem].key]))
                              : (res == null || struct[elem].is_col!=1 ? struct[elem].value_def : res[struct[elem].key]) ),
                 type: struct[elem].value_type,
+                //vt: typeof(res == null ? struct[elem].value_def : res[struct[elem].key]),
+
             };
             if(struct[elem].value_type == 'number'){
                 data[i][k]['min'] = 0;
